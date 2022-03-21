@@ -33,7 +33,7 @@ Put all Continuous Integration related stuff here.
 [![ubuntu](https://github.com/harou24/IRC_SERVER/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/harou24/IRC_SERVER/actions/workflows/ubuntu.yml)
 
 
-# WorkFlow
+# Workflow
 Put all working methodologies, coding conventions here.
 
 ## Team Workflow
