@@ -1,7 +1,4 @@
-# IRC_SERVER
-This repo contains a cpp boilerplate ready to use with catch2 unitesting framework. It uses Cmake which is managed with a Makefile.
-
-# How to run
+## How to run
 
 Build the project and run the program :
 ```
@@ -18,15 +15,15 @@ Clean everything :
 make clean
 ```
 
-# CI
+## CI
 [![macOS](https://github.com/harou24/IRC_SERVER/actions/workflows/macos.yml/badge.svg)](https://github.com/harou24/IRC_SERVER/actions/workflows/macos.yml)
 [![ubuntu](https://github.com/harou24/IRC_SERVER/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/harou24/IRC_SERVER/actions/workflows/ubuntu.yml)
 
-# Resources
+## Resources
 
 Put all your resources here.
 
-## Design Pattern
+### Design Pattern
 
 https://www.dre.vanderbilt.edu/~schmidt/PDF/OOCP-tutorial4.pdf
 
