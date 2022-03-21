@@ -6,7 +6,7 @@ This repo contains a cpp boilerplate ready to use with catch2 unitesting framewo
 Build the project and run the program :
 ```
 make
-cd build
+cd build/apps
 ./helloWorld.out
 ```
 Run unitests : 
