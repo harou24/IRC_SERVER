@@ -1,3 +1,11 @@
+# ft_irc
+
+Internet Relay Chat implementation in c++
+<p align="center">
+<img src="https://www.marineterrein.nl/wp-content/uploads/2019/09/highres_482360765-830x466.jpeg"  width=35% height=35%>
+</p>
+
+
 ## How to run
 
 Build the project and run the program :
@@ -15,16 +23,27 @@ Clean everything :
 make clean
 ```
 
-## CI
+
+# CI
+Put all Continuous Integration related stuff here.
+
+## Unit Tests
+
 [![macOS](https://github.com/harou24/IRC_SERVER/actions/workflows/macos.yml/badge.svg)](https://github.com/harou24/IRC_SERVER/actions/workflows/macos.yml)
 [![ubuntu](https://github.com/harou24/IRC_SERVER/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/harou24/IRC_SERVER/actions/workflows/ubuntu.yml)
 
-## Resources
 
+# WorkFlow
+Put all working methodologies, coding conventions here.
+
+## Team Workflow
+https://docs.github.com/en/get-started/quickstart/github-flow
+
+
+# Resources
 Put all your resources here.
 
-### Design Pattern
-
+### Design Patterns for Network Programming in C++
 https://www.dre.vanderbilt.edu/~schmidt/PDF/OOCP-tutorial4.pdf
 
 https://vichargrave.github.io/programming/tcp-ip-network-programming-design-patterns-in-cpp/
