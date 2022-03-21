@@ -19,8 +19,8 @@ make clean
 ```
 
 # CI
-[![macOS](https://github.com/harou24/cpp_boilerplate/actions/workflows/macos.yml/badge.svg)](https://github.com/harou24/cpp_boilerplate/actions/workflows/macos.yml)
-[![ubuntu](https://github.com/harou24/cpp_boilerplate/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/harou24/cpp_boilerplate/actions/workflows/ubuntu.yml)
+[![macOS](https://github.com/harou24/IRC_SERVER/actions/workflows/macos.yml/badge.svg)](https://github.com/harou24/IRC_SERVER/actions/workflows/macos.yml)
+[![ubuntu](https://github.com/harou24/IRC_SERVER/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/harou24/IRC_SERVER/actions/workflows/ubuntu.yml)
 
 # Resources
 
