@@ -1,0 +1,27 @@
+name: macOS
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Compilation
+        run: |
+          cmake .
+          make clean
+          make
+      - name: make.sh
+        run: |
+          make
+          make test
+          make clean
