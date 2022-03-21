@@ -29,6 +29,8 @@ Put all Continuous Integration related stuff here.
 
 ## Unit Tests
 
+https://github.com/catchorg/Catch2
+
 [![macOS](https://github.com/harou24/IRC_SERVER/actions/workflows/macos.yml/badge.svg)](https://github.com/harou24/IRC_SERVER/actions/workflows/macos.yml)
 [![ubuntu](https://github.com/harou24/IRC_SERVER/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/harou24/IRC_SERVER/actions/workflows/ubuntu.yml)
 
