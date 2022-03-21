@@ -29,8 +29,6 @@ Put all Continuous Integration related stuff here.
 
 ## Unit Tests
 
-https://github.com/catchorg/Catch2
-
 [![macOS](https://github.com/harou24/IRC_SERVER/actions/workflows/macos.yml/badge.svg)](https://github.com/harou24/IRC_SERVER/actions/workflows/macos.yml)
 [![ubuntu](https://github.com/harou24/IRC_SERVER/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/harou24/IRC_SERVER/actions/workflows/ubuntu.yml)
 
@@ -44,6 +42,9 @@ https://docs.github.com/en/get-started/quickstart/github-flow
 
 # Resources
 Put all your resources here.
+
+### Unit Testing framework
+https://github.com/catchorg/Catch2
 
 ### Design Patterns for Network Programming in C++
 https://www.dre.vanderbilt.edu/~schmidt/PDF/OOCP-tutorial4.pdf
