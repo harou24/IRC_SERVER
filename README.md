@@ -1,7 +1,7 @@
-# About
+# IRC_SERVER
 This repo contains a cpp boilerplate ready to use with catch2 unitesting framework. It uses Cmake which is managed with a Makefile.
 
-# How to use
+# How to run
 
 Build the project and run the program :
 ```
@@ -22,7 +22,5 @@ make clean
 [![macOS](https://github.com/harou24/cpp_boilerplate/actions/workflows/macos.yml/badge.svg)](https://github.com/harou24/cpp_boilerplate/actions/workflows/macos.yml)
 [![ubuntu](https://github.com/harou24/cpp_boilerplate/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/harou24/cpp_boilerplate/actions/workflows/ubuntu.yml)
 
-# Links
-
-https://github.com/catchorg/Catch2
+# Ressources
 
