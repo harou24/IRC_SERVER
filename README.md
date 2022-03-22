@@ -46,6 +46,12 @@ Put all your resources here.
 ### Unit Testing framework
 https://github.com/catchorg/Catch2
 
+### Guidance on how to implement the IRC server
+https://www.cs.cmu.edu/~srini/15-441/S10/project1/project1.pdf
+
+### Example IRC Communications
+http://chi.cs.uchicago.edu/chirc/irc_examples.html
+
 ### Design Patterns for Network Programming in C++
 https://www.dre.vanderbilt.edu/~schmidt/PDF/OOCP-tutorial4.pdf
 
@@ -55,3 +61,5 @@ https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.54.4271&rep=rep1&type=
 
 ### Introduction to Sockets Programming in C using TCP/IP
 https://www.csd.uoc.gr/~hy556/material/tutorials/cs556-3rd-tutorial.pdf
+
+http://index-of.es/Programming/C/TCP%20IP%20Sockets%20in%20C,%20Second%20Edition%20Practical%20Guide%20for%20Programmers.pdf
