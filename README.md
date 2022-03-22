@@ -66,3 +66,7 @@ https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.54.4271&rep=rep1&type=
 https://www.csd.uoc.gr/~hy556/material/tutorials/cs556-3rd-tutorial.pdf
 
 http://index-of.es/Programming/C/TCP%20IP%20Sockets%20in%20C,%20Second%20Edition%20Practical%20Guide%20for%20Programmers.pdf
+
+### IRSSI
+
+https://edunham.net/2015/02/16/automating_irssi.html
