@@ -52,3 +52,6 @@ https://www.dre.vanderbilt.edu/~schmidt/PDF/OOCP-tutorial4.pdf
 https://vichargrave.github.io/programming/tcp-ip-network-programming-design-patterns-in-cpp/
 
 https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.54.4271&rep=rep1&type=pdf
+
+### Introduction to Sockets Programming in C using TCP/IP
+https://www.csd.uoc.gr/~hy556/material/tutorials/cs556-3rd-tutorial.pdf
