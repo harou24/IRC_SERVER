@@ -52,6 +52,9 @@ https://www.cs.cmu.edu/~srini/15-441/S10/project1/project1.pdf
 ### Example IRC Communications
 http://chi.cs.uchicago.edu/chirc/irc_examples.html
 
+### Internet Relay Chat Protocol
+https://datatracker.ietf.org/doc/html/rfc1459
+
 ### Design Patterns for Network Programming in C++
 https://www.dre.vanderbilt.edu/~schmidt/PDF/OOCP-tutorial4.pdf
 
