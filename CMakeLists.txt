@@ -13,7 +13,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -g -fsanitize=addr
 # include header files
 include_directories(include)
 
-# example library
 add_library(helloWorld src/hello_world.cpp)
 
 # add programs
