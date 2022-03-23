@@ -1,2 +1,2 @@
-add_executable(helloWorld.out say_hello.cpp)
-target_link_libraries(helloWorld.out PRIVATE helloWorld)
+add_executable(parser.out parser.cpp)
+target_link_libraries(parser.out PRIVATE ft_irc)
