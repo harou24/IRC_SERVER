@@ -1,20 +1,34 @@
 #include "TcpStream.hpp"
-#include <arpa/inet.h>
 
 TcpStream::TcpStream(){}
 
 TcpStream::TcpStream(int sd, struct sockaddr_in* address){
-    char    dst[INET_ADDRSTRLEN];
-    inet_ntop(AF_INET, (struct in_addr*)(address->sin_addr.s_addr), dst, INET_ADDRSTRLEN);
-    _mPeerIP = dst;
-
+    _mPeerIP = inet_ntoa(address->sin_addr);//converts host address in byte order to string
+    _mPeerPort = ntohs(address->sin_port);//converst network byte order to host byte order
+    _mSd = sd; 
 }
 
-TcpStream::TcpStream(const TcpStream& src){}
+TcpStream::TcpStream(const TcpStream& src){
+    _mPeerPort = src.getPeerPort();
+    _mPeerIP = src.getPeerIP();
+    _mSd = src._mSd;
+}
 
-TcpStream::~TcpStream(){}
+TcpStream::~TcpStream(){
+    close(_mSd);
+}
 
-std::string     TcpStream::getPeerIP(){return _mPeerIP;}
+ssize_t         TcpStream::send(std::string buffer, size_t len){
+    return write(getSd(), buffer.c_str(), len);
+}
 
-int             TcpStream::getPeerPort(){return _mPeerPort;}
+ssize_t         TcpStream::receive(std::string buffer, size_t len){
+    return read(getSd(), (void*)buffer.c_str(), len);
+}
+
+std::string     TcpStream::getPeerIP()const {return _mPeerIP;}
+
+int             TcpStream::getPeerPort()const {return _mPeerPort;}
+
+int             TcpStream::getSd()const {return _mSd;}
 

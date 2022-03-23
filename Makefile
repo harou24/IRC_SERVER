@@ -1,4 +1,4 @@
-NAME = helloWorld
+NAME = serverclient
 
 BUILD_D = build
 
