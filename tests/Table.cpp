@@ -2,10 +2,9 @@
 
 #include <iostream>
 
-#include "hello_world.hpp"
+#include "Table.hpp"
 
 TEST_CASE("Class instantiates")
 {
-    HelloWorld h;
-    h.printHello();
+   Table t;
 }

@@ -1,2 +1,2 @@
-add_executable(helloWorld.out say_hello.cpp)
-target_link_libraries(helloWorld.out PRIVATE helloWorld)
+add_executable(table.out Table.cpp)
+target_link_libraries(table.out PRIVATE ft_irc)
