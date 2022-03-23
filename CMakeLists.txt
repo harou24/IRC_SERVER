@@ -12,10 +12,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -g -fsanitize=addr
 
 # include header files
 include_directories(include)
-include_directories(src/utils)
+include_directories(src/utils/Table)
 
 # example library
-add_library(ft_irc src/utils/Table.cpp)
+add_library(ft_irc src/utils/Table/Row.cpp
+                    src/utils/Table/Table.cpp)
 
 # add programs
 add_subdirectory(apps)
