@@ -4,7 +4,6 @@ BUILD_D = build
 
 all: $(NAME)
 
-
 $(NAME): $(BUILD_D)
 
 
@@ -23,3 +22,7 @@ test:
 			@cmake --build build
 			@ctest --output-on-failure --test-dir build 
 			
+re: clean all
+
+.PHONY = clean re $(NAME)
+
