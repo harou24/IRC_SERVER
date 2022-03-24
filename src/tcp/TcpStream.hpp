@@ -6,15 +6,13 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-// class TcpConnector;s
-
 class TcpStream
 {
     public:
         ~TcpStream();
 
         ssize_t         send(std::string buffer, size_t len);
-        ssize_t         receive(std::string buffer, size_t len);
+        ssize_t         receive(char* buffer, size_t len);
 
         std::string     getPeerIP() const;
         int             getPeerPort() const;

@@ -1,5 +1,5 @@
 #include "TcpStream.hpp"
-
+#include <iostream>
 TcpStream::TcpStream(){}
 
 TcpStream::TcpStream(int sd, struct sockaddr_in* address){
@@ -22,8 +22,8 @@ ssize_t         TcpStream::send(std::string buffer, size_t len){
     return write(getSd(), buffer.c_str(), len);
 }
 
-ssize_t         TcpStream::receive(std::string buffer, size_t len){
-    return read(getSd(), (void*)buffer.c_str(), len);
+ssize_t         TcpStream::receive(char *buffer, size_t len){
+    return read(getSd(), buffer, len);
 }
 
 std::string     TcpStream::getPeerIP()const {return _mPeerIP;}
