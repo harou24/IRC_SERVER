@@ -20,9 +20,11 @@ int     main(void)
 
     TcpConnector    test;
 
-    TcpStream       *a = test.connect(PORT, "1.1.1.1");
-    std::cout << a->getPeerIP() << std::endl;
-    std::cout << a->getPeerPort() << std::endl;
+    TcpStream       *a = test.connect(PORT, "127.0.0.1");
+    if (a){
+        std::cout << a->getPeerIP() << std::endl;
+        std::cout << a->getPeerPort() << std::endl;
+    }
 
     return 0;
 }
