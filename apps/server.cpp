@@ -8,19 +8,36 @@
 
 #define PORT 8080
 
-int     main(void)
-{
-    TcpAcceptor     server(PORT, "127.0.0.1");
-    TcpStream       *stream = NULL;
+void    validArguments(int argc){
+    if (argc != 3){
+        std::cout << "usage: server <port> <ip-addres>\n";
+        exit(1);
+    }
+}
 
+void    printException(std::exception &e){
+    std::cout << e.what() << std::endl;
+    std::cout << std::strerror(errno) << std::endl;
+    exit(1);
+}
+
+void    setupServer(TcpAcceptor &server){
     try{
         server.start();
     }
     catch(std::exception &e){
-        std::cout << e.what() << std::endl;
-        std::cout << std::strerror(errno) << std::endl;
-        return 0;
+        printException(e);
     }
+}
+
+int     main(int argc, char **argv)
+{
+    validArguments(argc);
+
+    TcpAcceptor     server(atoi(argv[1]), argv[2]);
+    TcpStream       *stream = NULL;
+
+    setupServer(server);
     while (1){
         try{
             stream = server.accept();
@@ -36,9 +53,7 @@ int     main(void)
             }
         }
         catch(std::exception &e){
-            std::cout << e.what() << std::endl;
-            std::cout << std::strerror(errno) << std::endl;
-            return 0;
+            printException(e);
         }
     }
     return 0;

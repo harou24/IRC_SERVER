@@ -1,4 +1,4 @@
-add_executable(server.out server.cpp)
-add_executable(client.out client.cpp)
-target_link_libraries(server.out PRIVATE ft_irc)
-target_link_libraries(client.out PRIVATE ft_irc)
+add_executable(echo_server server.cpp)
+add_executable(echo_client client.cpp)
+target_link_libraries(echo_server PRIVATE ft_irc)
+target_link_libraries(echo_client PRIVATE ft_irc)
