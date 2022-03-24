@@ -4,6 +4,7 @@
 #include "TcpStream.hpp"
 #include <netdb.h>
 #include <cstring>
+#include <stdexcept>
 
 class TcpConnector{
     public:

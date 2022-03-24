@@ -3,6 +3,7 @@
 
 #include "TcpStream.hpp"
 #include <cstring>
+#include <stdexcept>
 
 class TcpAcceptor{
     public:
