@@ -8,7 +8,7 @@ project(serverclient LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 98)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -g -fsanitize=address")
 
 # include header files
 include_directories(include)
@@ -21,6 +21,6 @@ add_library(ft_irc src/tcp/TcpConnector.cpp src/tcp/TcpAcceptor.cpp src/tcp/TcpS
 add_subdirectory(apps)
 
 # for unitests
-# include(CTest)
-# include(FetchContent)
-# add_subdirectory(tests)
+include(CTest)
+include(FetchContent)
+add_subdirectory(tests)
