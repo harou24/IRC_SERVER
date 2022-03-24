@@ -16,14 +16,14 @@ void    Row::print(void)
     }
 }
 
- std::vector<std::string>    Row::getWords(void) const
+const std::vector<std::string>&    Row::getWords(void) const
 {
     return this->words;
 }
 
 std::ostream &operator << (std::ostream &output, const Row &row)
 {
-    std::vector<std::string>::iterator it;
+    std::vector<const std::string>::iterator it;
     for (it = row.getWords().begin(); it < row.getWords().end(); it++)
     {
         output << *it << "\n";

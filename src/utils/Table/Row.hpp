@@ -13,7 +13,7 @@ class Row {
         Row(std::vector<std::string> words);
         ~Row(void);
 
-        std::vector<std::string>    getWords(void) const;
+       const std::vector<std::string>&    getWords(void) const;
 
         void    print(void);
 
