@@ -5,6 +5,8 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <stdexcept>
+#include <cstdlib>
+#include <cerrno>
 
 #define PORT 8080
 
