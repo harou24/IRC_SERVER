@@ -1,5 +1,4 @@
 #include "TcpConnector.hpp"
-#include <iostream>
 
 TcpStream*      TcpConnector::connect(int port, std::string server){
     struct sockaddr_in address;

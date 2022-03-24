@@ -3,6 +3,7 @@
 
 #include "TcpStream.hpp"
 #include <netdb.h>
+#include <cstring>
 
 class TcpConnector{
     public:

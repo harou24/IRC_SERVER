@@ -2,6 +2,7 @@
 # define TCPACCEPTOR_HPP
 
 #include "TcpStream.hpp"
+#include <cstring>
 
 class TcpAcceptor{
     public:
