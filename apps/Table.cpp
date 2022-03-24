@@ -7,9 +7,7 @@
 
 int main(void)
 {
-    std::vector<std::string> vec(10, std::string("hello"));
-    Row t(vec);
+    Row t(std::vector<std::string> (10, std::string("hello")), 6);
     std::cout << t << "\n";
-    t.print();
     return (0);
 }

@@ -7,15 +7,19 @@
 class Row {
     private:
         std::vector<std::string> words;
+        std::size_t cell_length;
+
 
     public:
         Row(void);
-        Row(std::vector<std::string> words);
+        Row(std::vector<std::string> words, std::size_t length = 10);
         ~Row(void);
 
-       const std::vector<std::string>&    getWords(void) const;
+        const std::vector<std::string>&    getWords(void) const;
+        std::size_t                        getCellLength(void) const;
 
-        void    print(void);
+        std::string                       getCellAtIndexAsStr(std::size_t index) const;
+        std::string                       getRowAsStr(void) const;
 
 };
 
