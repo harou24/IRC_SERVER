@@ -15,11 +15,10 @@ class Row {
         Row(std::vector<std::string> words, std::size_t length = 10);
         ~Row(void);
 
-        const std::vector<std::string>&    getWords(void) const;
-        std::size_t                        getCellLength(void) const;
-
-        std::string                       getCellAtIndexAsStr(std::size_t index) const;
-        std::string                       getRowAsStr(void) const;
+        const std::vector<std::string>& getWords(void) const;
+        std::size_t getCellLength(void) const;
+        std::string getCellAtIndexAsStr(std::size_t index) const;
+        std::string getRowAsStr(void) const;
 
 };
 

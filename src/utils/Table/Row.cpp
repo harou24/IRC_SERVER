@@ -1,7 +1,7 @@
 #include "Row.hpp"
+#include "colors.h"
 
 #include <iostream>
-
 Row::Row(void) { }
 
 Row::Row(std::vector<std::string> words, std::size_t length): words(words), cell_length(length) { }
@@ -39,6 +39,7 @@ std::string                        Row::getCellAtIndexAsStr(std::size_t index) c
 std::string                        Row::getRowAsStr(void) const
 {
     std::string str("");
+    str += RED;
 
     for (std::size_t i = 0; i < this->words.size(); i++)
     {
@@ -46,6 +47,7 @@ std::string                        Row::getRowAsStr(void) const
         if (i != this->words.size() - 1)
             str += " | ";
     }
+    str += RESET;
     return str;
 }
 
