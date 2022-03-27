@@ -21,7 +21,12 @@ add_library(ft_irc src/utils/Table/Row.cpp
 # add programs
 add_subdirectory(apps)
 
+
 # for unitests
-include(CTest)
-include(FetchContent)
-add_subdirectory(tests)
+option(TEST "TEST" OFF)
+if(TEST)
+	message("running tests")
+	include(CTest)
+	include(FetchContent)
+	add_subdirectory(tests)
+endif()

@@ -18,7 +18,7 @@ clean:
 
 test:
 			@mkdir -p build
-			@cmake -S . -B build
+			@cmake -S . -B build -DTEST=ON
 			@cmake --build build
 			@ctest --output-on-failure --test-dir build 
 			
