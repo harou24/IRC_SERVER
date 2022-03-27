@@ -13,6 +13,6 @@ void    Table::print(void)
     std::vector<Row>::iterator it;
     for (it = this->rows.begin(); it < this->rows.end(); it++)
     {
-        std::cout << *it << " | ";
+        std::cout << *it << "\n";
     }
 }

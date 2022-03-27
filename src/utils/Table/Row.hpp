@@ -6,13 +6,14 @@
 
 class Row {
     private:
-        std::vector<std::string> words;
+        std::vector<std::string> elements;
         std::size_t cell_length;
 
 
     public:
-        Row(void);
-        Row(std::vector<std::string> words, std::size_t length = 10);
+        Row();
+        Row(std::size_t nb_elements,  std::size_t length = 10);
+        Row(std::vector<std::string> elements, std::size_t length = 10);
         ~Row(void);
 
         const std::vector<std::string>& getWords(void) const;
