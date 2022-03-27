@@ -54,7 +54,7 @@ namespace Parser{
     };
 
     struct list : public Iparse{
-        list(const std::string& x){}
+        list(const std::string& x){ channel = x;}
         // std::string channel;
         // size_t      min;
         // size_t      max;

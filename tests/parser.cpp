@@ -6,5 +6,5 @@
 
 TEST_CASE("Class instantiates")
 {
-    Parser p;
+    Parser::Parser p;
 }

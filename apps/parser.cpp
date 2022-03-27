@@ -1,7 +1,17 @@
 #include "parser.hpp"
+#include <iostream>
 
-int     main(void)
+int main()
 {
-    Parser p;
-    return (0);
+    Parser::Parser   T;
+    Parser::Token *token;
+
+    token = &T.parse("/NICK HAROU");
+
+    std::cout << token->mType << std::endl;
+    std::cout << token->mRawText << std::endl;
+    // std::cout << token->mParser->message << std::endl;
+    // std::cout << token->mParser->channel << std::endl;
+    std::cout << token->mParser->name << std::endl;
+
 }

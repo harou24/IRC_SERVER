@@ -13,7 +13,7 @@ Parser::~Parser(void) { }
 
 std::pair<CommandType, std::string> find_command(const std::string& s)
     {
-        int         start = 1, end = s.find(" ");
+        size_t         start = 1, end = s.find(" ");
         std::string s1, s2;
         CommandType command;
         std::map<std::string,CommandType> string_to_case;
