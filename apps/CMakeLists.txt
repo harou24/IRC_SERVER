@@ -1,2 +1,2 @@
-add_executable(helloWorld.out say_hello.cpp)
-target_link_libraries(helloWorld.out PRIVATE helloWorld)
+add_executable(infinite_loop.out infinite_loop.cpp)
+add_executable(stop_loop.out stop_loop.cpp)
