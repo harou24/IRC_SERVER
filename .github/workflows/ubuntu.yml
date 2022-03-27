@@ -22,6 +22,6 @@ jobs:
           make
       - name: make.sh
         run: |
-          make
+          cmake . -DTEST=ON
           make test
           make clean
