@@ -6,6 +6,7 @@
 #include <vector>
 #include <map>
 #include <sstream>
+#include <iostream>
 
 namespace Parser{
 
@@ -18,6 +19,9 @@ namespace Parser{
         std::string newtopic;
         size_t      min;
         size_t      max;
+
+        protected:
+            Iparse() : name(""), message(""), channel(""), newtopic(""), min(0), max(0) {}
     };
 
     struct away : public Iparse{
@@ -84,24 +88,49 @@ namespace Parser{
     };
 
     struct notice : public Iparse{
-        notice(const std::string& x) {name = x;}
+        notice(const std::string& x) 
+        {
+            if (x.length() == 0)
+                return;
+            std::istringstream  ss(x);
+            ss >> name;
+            message = x.substr(name.length()+1);
+        }
         // std::string name;
         // std::string message;
     };
 
     struct part : public Iparse{
-        part(const std::string& x) {name = x;}
+        part(const std::string& x) 
+        {
+            if (x[0] == '#')
+                channel = x;
+        }
         // std::string channel;
     };
 
     struct privmsg : public Iparse{
-        privmsg(const std::string& x) {name = x;}
+        privmsg(const std::string& x) 
+        {
+            if (x.length() == 0)
+                return;
+            std::istringstream  ss(x);
+            ss >> name;
+            message = x.substr(name.length()+1);
+        }
         // std::string name;
         // std::string message;
     };
 
     struct query : public Iparse{
-        query(const std::string& x) {name = x;}
+        query(const std::string& x) 
+        {
+            if (x.length() == 0)
+                return;
+            std::istringstream  ss(x);
+            ss >> name;
+            message = x.substr(name.length()+1);
+        }
         // std::string name;
         // std::string message;
     };
