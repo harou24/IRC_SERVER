@@ -20,26 +20,28 @@ def getProcessIdByName(name):
     pid = fields[0]
     return int(pid)
 
-  
 def runServer():
-  print("Run Server\n")
+  print("Running the Server...")
   try:
     path.exists(SERVER_EXE)
   except Exception as error:
     print(error)
     print("Executable file not found, run make first...: |", SERVER_EXE, "|\n")
     exit()
-  output = subprocess.run([SERVER_EXE, "8080", "127.0.0.1"], capture_output=True)
-  print(output, "\n")
+  output = subprocess.run([SERVER_EXE, str(PORT), HOST], capture_output=True)
+  print(output.stdout, "\n")
 
 def stopServer():
-  output = subprocess.run(["./stop_loop.out"], capture_output=True)
-  print(output, "\n")
+    pid = getProcessIdByName(SERVER_EXE)
+    print("Pid of the process is:", pid, "\n")
+    os.kill(pid, signal.SIGTERM)
 
 def connectToServer():
   with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
     s.send(bytes("I am connected!", 'utf-8'))
+   # dataReceived = s.recv(1024)
+   # print("Received by server: |", dataReceived, "|")
     s.close()
 
 def runTest():
@@ -51,9 +53,7 @@ def runTest():
   else:
     time.sleep(1)
     connectToServer()
-    pid = getProcessIdByName(SERVER_EXE)
-    print("Pid of the process is:", pid, "\n")
-    os.kill(pid, signal.SIGTERM)
+    stopServer()
     
 #  connectToServer()
 #stopServer()
