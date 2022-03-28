@@ -29,6 +29,7 @@ std::pair<CommandType, std::string> find_command(const std::string& s)
         string_to_case.insert(std::make_pair<std::string,CommandType>("PRIVMSG",PRIVMSG));
         string_to_case.insert(std::make_pair<std::string,CommandType>("QUERY",QUERY));
         string_to_case.insert(std::make_pair<std::string,CommandType>("QUIT",QUIT));
+        string_to_case.insert(std::make_pair<std::string,CommandType>("WHOIS",WHOIS));
         s1 = s.substr(start, end - start);
         s2 = s.substr(end +1, s.length() - (end +1));
 
@@ -110,7 +111,7 @@ std::pair<CommandType, std::string> find_command(const std::string& s)
                     break;
                 case WHOIS:
                     currentToken->mType = WHOIS;
-                    currentToken->mParser = new quit(split_str.second);
+                    currentToken->mParser = new whois(split_str.second);
                     break;
                 
                 default:

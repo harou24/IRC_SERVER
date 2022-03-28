@@ -31,7 +31,7 @@ namespace Parser{
 
     struct invite : public Iparse{
         invite(const std::string& x)
-        {         
+        {
             std::istringstream  ss(x);
             ss >> name;
             channel = x.substr(name.length()+1);
