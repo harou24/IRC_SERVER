@@ -31,7 +31,7 @@ namespace Parser{
 
     struct invite : public Iparse{
         invite(const std::string& x)
-        {
+        {         
             std::istringstream  ss(x);
             ss >> name;
             channel = x.substr(name.length()+1);
@@ -55,6 +55,7 @@ namespace Parser{
                 channel = "";
         }
         // std::string channel;
+        // possibly there is also a password, that will go in message
     };
 
     struct list : public Iparse{
@@ -153,6 +154,12 @@ namespace Parser{
 
     struct kick : public Iparse{
         kick(const std::string& x) {name = x;}
+        // std::string channel;
+        // std::string name;
+    };
+
+    struct mode : public Iparse{
+        mode(const std::string& x) {name = x;}
         // std::string channel;
         // std::string name;
     };

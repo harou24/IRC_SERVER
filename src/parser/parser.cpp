@@ -19,7 +19,7 @@ std::pair<CommandType, std::string> find_command(const std::string& s)
         std::map<std::string,CommandType> string_to_case;
         string_to_case.insert(std::make_pair<std::string,CommandType>("AWAY",AWAY)); 
         string_to_case.insert(std::make_pair<std::string,CommandType>("JOIN",JOIN)); 
-        string_to_case.insert(std::make_pair<std::string,CommandType>("LIST",LIST)); 
+        // string_to_case.insert(std::make_pair<std::string,CommandType>("LIST",LIST)); 
         string_to_case.insert(std::make_pair<std::string,CommandType>("NICK",NICK)); 
         string_to_case.insert(std::make_pair<std::string,CommandType>("MSG",MSG));
         string_to_case.insert(std::make_pair<std::string,CommandType>("INVITE",INVITE));
