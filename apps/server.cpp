@@ -8,6 +8,8 @@
 #include <cstdlib>
 #include <cerrno>
 
+#include <signal.h>
+
 #define PORT 8080
 
 void    validArguments(int argc){
@@ -32,6 +34,14 @@ void    setupServer(TcpAcceptor &server){
     }
 }
 
+size_t running = 1;
+
+void sig_handler(int pid)
+{
+  std::cout << "Stopping the Server... pid=" << pid << ".\n";
+  running = 0;  
+}
+
 int     main(int argc, char **argv)
 {
     validArguments(argc);
@@ -39,8 +49,9 @@ int     main(int argc, char **argv)
     TcpAcceptor     server(atoi(argv[1]), argv[2]);
     TcpStream       *stream = NULL;
 
+    signal(SIGQUIT, sig_handler);
     setupServer(server);
-    while (1){
+    while (running){
         try{
             stream = server.accept();
             if (stream){
