@@ -1,14 +1,23 @@
 import socket
 import subprocess
 import os
+from os import path
 
 TEST_DIR = "../../build/apps"
+SERVER_EXE = "./echo_server"
 
 def changeDir(dir):
   os.chdir(dir)
   
 def runServer():
-  output = subprocess.run(["./echo_server"], capture_output=True)
+  print("Run Server\n")
+  try:
+    path.exists(SERVER_EXE)
+  except Exception as error:
+    print(error)
+    print("Executable file not found, run make first...: |", SERVER_EXE, "|\n")
+    exit()
+  output = subprocess.run([SERVER_EXE, "8080", "127.0.0.1"], capture_output=True)
   print(output, "\n")
 
 def stopServer():
@@ -24,5 +33,8 @@ def connectToServer():
 def runTest():
   changeDir(TEST_DIR)
   runServer()
-  connectToServer()
+#  connectToServer()
 #stopServer()
+
+
+runTest()
