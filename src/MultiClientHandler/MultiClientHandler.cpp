@@ -44,3 +44,7 @@ bool    MultiClientHandler::isFdReadyToCommunicate(int fd)
     return this->isFdInSet(fd);
 }
 
+const char* MultiClientHandler::UpdateFailed::what() const throw()
+{
+    return ("Error : Tcp connection error @_@");
+}
