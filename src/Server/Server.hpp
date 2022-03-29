@@ -1,9 +1,9 @@
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
-# include "../MultiClientHandler/MultiClientHandler.hpp"
-# include "../tcp/TcpAcceptor.hpp"
-# include "../tcp/TcpStream.hpp"
+# include "MultiClientHandler.hpp"
+# include "TcpAcceptor.hpp"
+# include "TcpStream.hpp"
 
 # include <vector>
 
