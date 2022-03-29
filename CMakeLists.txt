@@ -2,7 +2,8 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 # project name and language
-project(serverclient LANGUAGES CXX)
+project(ft_irc LANGUAGES CXX)
+
 
 # require C++11
 set(CMAKE_CXX_STANDARD 98)
@@ -12,11 +13,13 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -g -fsanitize=addr
 
 # include header files
 include_directories(include)
+
+include_directories(src/parser)
 include_directories(src/tcp)
-include_directories(src/server)
 
 # example library
-add_library(ft_irc src/tcp/TcpAcceptor.cpp src/tcp/TcpConnector.cpp src/tcp/TcpStream.cpp)
+add_library(ft_irc src/parser/parser.cpp src/tcp/TcpAcceptor.cpp src/tcp/TcpConnector.cpp src/tcp/TcpStream.cpp)
+# add_library(ft_irc src/tcp/TcpAcceptor.cpp src/tcp/TcpConnector.cpp src/tcp/TcpStream.cpp)
 
 # add programs
 add_subdirectory(apps)
