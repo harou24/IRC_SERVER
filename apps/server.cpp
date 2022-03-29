@@ -25,7 +25,7 @@ void    printException(std::exception &e){
 
 void    setupServer(TcpAcceptor &server){
     try{
-        server.start();
+        server.init();
     }
     catch(std::exception &e){
         printException(e);

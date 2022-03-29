@@ -16,7 +16,7 @@ include_directories(src/tcp)
 include_directories(src/server)
 
 # example library
-add_library(ft_irc src/tcp/TcpAcceptor.cpp src/tcp/TcpConnector.cpp src/tcp/TcpStream.cpp src/server/server.cpp)
+add_library(ft_irc src/tcp/TcpAcceptor.cpp src/tcp/TcpConnector.cpp src/tcp/TcpStream.cpp)
 
 # add programs
 add_subdirectory(apps)
