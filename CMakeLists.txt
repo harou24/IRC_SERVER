@@ -13,10 +13,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -g -fsanitize=addr
 # include header files
 include_directories(include)
 include_directories(src/tcp)
-include_directories(src/server)
+include_directories(src/Server)
 
 # example library
-add_library(ft_irc src/tcp/TcpAcceptor.cpp src/tcp/TcpConnector.cpp src/tcp/TcpStream.cpp)
+add_library(ft_irc src/tcp/TcpAcceptor.cpp src/tcp/TcpConnector.cpp src/tcp/TcpStream.cpp src/Server/Server.cpp src/MultiClientHandler/MultiClientHandler.cpp)
 
 # add programs
 add_subdirectory(apps)
