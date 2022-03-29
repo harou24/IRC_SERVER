@@ -13,13 +13,13 @@
 class Server: public MultiClientHandler
 {
     private:
-        TcpAcceptor *acceptor;
-        std::vector<TcpStream*>  clients;
-        bool    isRunning;
-        std::string         _mPassword;
+        TcpAcceptor                 acceptor;
+        std::vector<TcpStream*>     clients;
+        bool                        isRunning;
+        std::string                 _mPassword;
 
-    public:
         Server(void);
+    public:
         Server(int port, std::string password);
         ~Server(void);
 
