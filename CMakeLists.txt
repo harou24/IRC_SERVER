@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 # project name and language
 project(ft_irc LANGUAGES CXX)
 
+
 # require C++11
 set(CMAKE_CXX_STANDARD 98)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -12,10 +13,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -g -fsanitize=addr
 
 # include header files
 include_directories(include)
+
 include_directories(src/parser)
 
 # example library
 add_library(ft_irc src/parser/parser.cpp)
+
 
 # add programs
 add_subdirectory(apps)
