@@ -58,9 +58,9 @@ class Parser {
         std::string& getRaw();
 
     private:
-        CommandType     mCommand;
-        IArgs          *mArguments;
-        std::string     mRawText;
+        CommandType     _mCommand;
+        IArgs          *_mArguments;
+        std::string     _mRawText;
 
     private:
         std::string find_command(const std::string& s);
