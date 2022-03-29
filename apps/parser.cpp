@@ -3,15 +3,17 @@
 
 int main()
 {
-    Parser::Parser   T;
-    Parser::Token *token;
+    Parser   T;
+    
+    T.parse("USER name hostname servername :real name");
 
-    token = &T.parse("/quit #HAROU yo blabla");
+    IArgs A = T.getArgument();
 
-    std::cout << token->mType << std::endl;
-    std::cout << token->mRawText << std::endl;
-    std::cout << token->mParser->message << std::endl;
-    std::cout << token->mParser->channel << std::endl;
-    std::cout << token->mParser->name << std::endl;
+    std::cout << T.getCommand() << std::endl;
+    std::cout << T.getRaw() << std::endl;
+    std::cout << A.arg1 << std::endl;
+    std::cout << A.arg2 << std::endl;
+    std::cout << A.arg3 << std::endl;
+    std::cout << A.arg4 << std::endl;
 
 }

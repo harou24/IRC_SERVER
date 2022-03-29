@@ -6,204 +6,257 @@
 
 TEST_CASE("Parsing command Nick")
 {
-    Parser::Parser p;
-    Parser::Token *t;
+    Parser   T;
+    
+    T.parse("nick lala ");
 
+    IArgs A = T.getArgument();
 
-    t = &p.parse("/NICK name");
-
-    REQUIRE(t->mType == Parser::NICK);
-    REQUIRE(t->mParser->channel == "");
-    REQUIRE(t->mParser->name == "name");
-    REQUIRE(t->mParser->message == "");
-    REQUIRE(t->mParser->newtopic == "");
-    REQUIRE(t->mParser->min == 0);
-    REQUIRE(t->mParser->max == 0);
+    REQUIRE(T.getCommand() == NICK);
+    REQUIRE(T.getRaw() == "nick lala ");
+    REQUIRE(A.arg1 == "lala");
+    REQUIRE(A.arg2 == "");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
+    
 }
 
 TEST_CASE("Parsing command JOIN")
 {
-    Parser::Parser p;
-    Parser::Token *t;
+    Parser   T;
+    
+    T.parse("JOIN #channel");
 
+    IArgs A = T.getArgument();
 
-    t = &p.parse("/JOIN #channel");
-
-    REQUIRE(t->mType == Parser::JOIN);
-    REQUIRE(t->mParser->channel == "#channel");
-    REQUIRE(t->mParser->name == "");
-    REQUIRE(t->mParser->message == "");
-    REQUIRE(t->mParser->newtopic == "");
-    REQUIRE(t->mParser->min == 0);
-    REQUIRE(t->mParser->max == 0);
+    REQUIRE(T.getCommand() == JOIN);
+    REQUIRE(T.getRaw() == "JOIN #channel");
+    REQUIRE(A.arg1 == "#channel");
+    REQUIRE(A.arg2 == "");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
 }
 
 TEST_CASE("Parsing command AWAY")
 {
-    Parser::Parser p;
-    Parser::Token *t;
+    Parser   T;
+    
+    T.parse("AWAY :message");
 
+    IArgs A = T.getArgument();
 
-    t = &p.parse("/AWAY message");
-
-    REQUIRE(t->mType == Parser::AWAY);
-    REQUIRE(t->mParser->channel == "");
-    REQUIRE(t->mParser->name == "");
-    REQUIRE(t->mParser->message == "message");
-    REQUIRE(t->mParser->newtopic == "");
-    REQUIRE(t->mParser->min == 0);
-    REQUIRE(t->mParser->max == 0);
+    REQUIRE(T.getCommand() == AWAY);
+    REQUIRE(T.getRaw() == "AWAY :message");
+    REQUIRE(A.arg1 == ":message");
+    REQUIRE(A.arg2 == "");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
 }
 
 TEST_CASE("Parsing command INVITE")
 {
-    Parser::Parser p;
-    Parser::Token *t;
+    Parser   T;
+    
+    T.parse("INVITE name #channel");
 
+    IArgs A = T.getArgument();
 
-    t = &p.parse("/INVITE name #channel");
-
-    REQUIRE(t->mType == Parser::INVITE);
-    REQUIRE(t->mParser->channel == "#channel");
-    REQUIRE(t->mParser->name == "name");
-    REQUIRE(t->mParser->message == "");
-    REQUIRE(t->mParser->newtopic == "");
-    REQUIRE(t->mParser->min == 0);
-    REQUIRE(t->mParser->max == 0);
+    REQUIRE(T.getCommand() == INVITE);
+    REQUIRE(T.getRaw() == "INVITE name #channel");
+    REQUIRE(A.arg1 == "name");
+    REQUIRE(A.arg2 == "#channel");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
 }
 
 TEST_CASE("Parsing command MSG")
 {
-    Parser::Parser p;
-    Parser::Token *t;
+    Parser   T;
+    
+    T.parse("MSG name :message second");
 
+    IArgs A = T.getArgument();
 
-    t = &p.parse("/MSG name message");
-
-    REQUIRE(t->mType == Parser::MSG);
-    REQUIRE(t->mParser->channel == "");
-    REQUIRE(t->mParser->name == "name");
-    REQUIRE(t->mParser->message == "message");
-    REQUIRE(t->mParser->newtopic == "");
-    REQUIRE(t->mParser->min == 0);
-    REQUIRE(t->mParser->max == 0);
+    REQUIRE(T.getCommand() == MSG);
+    REQUIRE(T.getRaw() == "MSG name :message second");
+    REQUIRE(A.arg1 == "name");
+    REQUIRE(A.arg2 == ":message second");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
 }
 
 TEST_CASE("Parsing command ME")
 {
-    Parser::Parser p;
-    Parser::Token *t;
+    Parser   T;
+    
+    T.parse("ME :message second");
 
+    IArgs A = T.getArgument();
 
-    t = &p.parse("/ME message");
-
-    REQUIRE(t->mType == Parser::ME);
-    REQUIRE(t->mParser->channel == "");
-    REQUIRE(t->mParser->name == "");
-    REQUIRE(t->mParser->message == "message");
-    REQUIRE(t->mParser->newtopic == "");
-    REQUIRE(t->mParser->min == 0);
-    REQUIRE(t->mParser->max == 0);
+    REQUIRE(T.getCommand() == ME);
+    REQUIRE(T.getRaw() == "ME :message second");
+    REQUIRE(A.arg1 == ":message second");
+    REQUIRE(A.arg2 == "");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
 }
 
 TEST_CASE("Parsing command NOTICE")
 {
-    Parser::Parser p;
-    Parser::Token *t;
+    Parser   T;
+    
+    T.parse("NOTICE name :message second");
+    
+    IArgs A = T.getArgument();
 
-
-    t = &p.parse("/NOTICE name message");
-
-    REQUIRE(t->mType == Parser::NOTICE);
-    REQUIRE(t->mParser->channel == "");
-    REQUIRE(t->mParser->name == "name");
-    REQUIRE(t->mParser->message == "message");
-    REQUIRE(t->mParser->newtopic == "");
-    REQUIRE(t->mParser->min == 0);
-    REQUIRE(t->mParser->max == 0);
+    REQUIRE(T.getCommand() == NOTICE);
+    REQUIRE(T.getRaw() == "NOTICE name :message second");
+    REQUIRE(A.arg1 == "name");
+    REQUIRE(A.arg2 == ":message second");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
 }
 
 TEST_CASE("Parsing command PART")
 {
-    Parser::Parser p;
-    Parser::Token *t;
+    Parser   T;
+    
+    T.parse("PART #channel");
 
+    IArgs A = T.getArgument();
 
-    t = &p.parse("/PART #channel");
-
-    REQUIRE(t->mType == Parser::PART);
-    REQUIRE(t->mParser->channel == "#channel");
-    REQUIRE(t->mParser->name == "");
-    REQUIRE(t->mParser->message == "");
-    REQUIRE(t->mParser->newtopic == "");
-    REQUIRE(t->mParser->min == 0);
-    REQUIRE(t->mParser->max == 0);
+    REQUIRE(T.getCommand() == PART);
+    REQUIRE(T.getRaw() == "PART #channel");
+    REQUIRE(A.arg1 == "#channel");
+    REQUIRE(A.arg2 == "");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
 }
 
 TEST_CASE("Parsing command PRIVMSG")
 {
-    Parser::Parser p;
-    Parser::Token *t;
+    Parser   T;
+    
+    T.parse("PRIVMSG name message");
 
+    IArgs A = T.getArgument();
 
-    t = &p.parse("/PRIVMSG name message");
-
-    REQUIRE(t->mType == Parser::PRIVMSG);
-    REQUIRE(t->mParser->channel == "");
-    REQUIRE(t->mParser->name == "name");
-    REQUIRE(t->mParser->message == "message");
-    REQUIRE(t->mParser->newtopic == "");
-    REQUIRE(t->mParser->min == 0);
-    REQUIRE(t->mParser->max == 0);
+    REQUIRE(T.getCommand() == PRIVMSG);
+    REQUIRE(T.getRaw() == "PRIVMSG name message");
+    REQUIRE(A.arg1 == "name");
+    REQUIRE(A.arg2 == "message");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
 }
 
 TEST_CASE("Parsing command QUERY")
 {
-    Parser::Parser p;
-    Parser::Token *t;
+    Parser   T;
+    
+    T.parse("QUERY name message");
 
+    IArgs A = T.getArgument();
 
-    t = &p.parse("/QUERY name message");
-
-    REQUIRE(t->mType == Parser::QUERY);
-    REQUIRE(t->mParser->channel == "");
-    REQUIRE(t->mParser->name == "name");
-    REQUIRE(t->mParser->message == "message");
-    REQUIRE(t->mParser->newtopic == "");
-    REQUIRE(t->mParser->min == 0);
-    REQUIRE(t->mParser->max == 0);
+    REQUIRE(T.getCommand() == QUERY);
+    REQUIRE(T.getRaw() == "QUERY name message");
+    REQUIRE(A.arg1 == "name");
+    REQUIRE(A.arg2 == "message");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
 }
 
 TEST_CASE("Parsing command QUIT")
 {
-    Parser::Parser p;
-    Parser::Token *t;
+    Parser   T;
+    
+    T.parse("QUIT message");
 
+    IArgs A = T.getArgument();
 
-    t = &p.parse("/QUIT message");
-
-    REQUIRE(t->mType == Parser::QUIT);
-    REQUIRE(t->mParser->channel == "");
-    REQUIRE(t->mParser->name == "");
-    REQUIRE(t->mParser->message == "message");
-    REQUIRE(t->mParser->newtopic == "");
-    REQUIRE(t->mParser->min == 0);
-    REQUIRE(t->mParser->max == 0);
+    REQUIRE(T.getCommand() == QUIT);
+    REQUIRE(T.getRaw() == "QUIT message");
+    REQUIRE(A.arg1 == "message");
+    REQUIRE(A.arg2 == "");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
 }
 
 TEST_CASE("Parsing command WHOIS")
 {
-    Parser::Parser p;
-    Parser::Token *t;
+    Parser   T;
+    
+    T.parse("WHOIS name");
 
+    IArgs A = T.getArgument();
 
-    t = &p.parse("/WHOIS name");
+    REQUIRE(T.getCommand() == WHOIS);
+    REQUIRE(T.getRaw() == "WHOIS name");
+    REQUIRE(A.arg1 == "name");
+    REQUIRE(A.arg2 == "");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
+}
 
-    REQUIRE(t->mType == Parser::WHOIS);
-    REQUIRE(t->mParser->channel == "");
-    REQUIRE(t->mParser->name == "name");
-    REQUIRE(t->mParser->message == "");
-    REQUIRE(t->mParser->newtopic == "");
-    REQUIRE(t->mParser->min == 0);
-    REQUIRE(t->mParser->max == 0);
+TEST_CASE("Parsing command MODE1")
+{
+    Parser   T;
+    
+    T.parse("MODE name -b <nick>");
+
+    IArgs A = T.getArgument();
+
+    REQUIRE(T.getCommand() == MODE);
+    REQUIRE(T.getRaw() == "MODE name -b <nick>");
+    REQUIRE(A.arg1 == "name");
+    REQUIRE(A.arg2 == "-b");
+    REQUIRE(A.arg3 == "<nick>");
+    REQUIRE(A.arg4 == "");
+}
+
+TEST_CASE("Parsing command MODE2")
+{
+    Parser   T;
+    
+    T.parse("MODE #channel -b <nick>");
+
+    IArgs A = T.getArgument();
+
+    REQUIRE(T.getCommand() == MODE);
+    REQUIRE(T.getRaw() == "MODE #channel -b <nick>");
+    REQUIRE(A.arg1 == "#channel");
+    REQUIRE(A.arg2 == "-b");
+    REQUIRE(A.arg3 == "<nick>");
+    REQUIRE(A.arg4 == "");
+}
+
+TEST_CASE("Parsing command USER")
+{
+    Parser   T;
+    
+    T.parse("USER name hostname servername :real name");
+
+    IArgs A = T.getArgument();
+
+    REQUIRE(T.getCommand() == USER);
+    REQUIRE(T.getRaw() == "USER name hostname servername :real name");
+    REQUIRE(A.arg1 == "name");
+    REQUIRE(A.arg2 == "hostname");
+    REQUIRE(A.arg3 == "servername");
+    REQUIRE(A.arg4 == ":real name");
+}
+
+TEST_CASE("Parsing command PING")
+{
+    Parser   T;
+    
+    T.parse("PING hostname");
+
+    IArgs A = T.getArgument();
+
+    REQUIRE(T.getCommand() == PING);
+    REQUIRE(T.getRaw() == "PING hostname");
+    REQUIRE(A.arg1 == "hostname");
+    REQUIRE(A.arg2 == "");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
 }
