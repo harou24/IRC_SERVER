@@ -3,128 +3,128 @@
 #include <iostream>
 
 
-void    Parser::away(const std::string& x) 
+void    Parser::away(const std::string& str) 
 {
-    this->mArguments->arg1 = x;
+    this->mArguments->arg1 = str;
 }
 
-void    Parser::invite(const std::string& x)
+void    Parser::invite(const std::string& str)
 {
-    std::istringstream  ss(x);
+    std::istringstream  ss(str);
     ss >> this->mArguments->arg1;
     ss >> this->mArguments->arg2;
     if (this->mArguments->arg2 == "" || this->mArguments->arg2[0] != '#' || ss >> this->mArguments->arg3)
-        this->mCommand = UNKOWN;
+        this->mCommand = UNKNOWN;
 }
 
 
-void    Parser::join(const std::string& x) 
+void    Parser::join(const std::string& str) 
 {
-    std::istringstream  ss(x);
+    std::istringstream  ss(str);
     ss >> this->mArguments->arg1;
     ss >> this->mArguments->arg2;
     if (this->mArguments->arg1[0] != '#' || ss >> this->mArguments->arg3)
-        this->mCommand = UNKOWN;
+        this->mCommand = UNKNOWN;
 }
 
 
-void    Parser::me(const std::string& x) 
+void    Parser::me(const std::string& str) 
 {
-    this->mArguments->arg1 = x; 
+    this->mArguments->arg1 = str; 
 }
 
 
-void    Parser::msg(const std::string& x) 
+void    Parser::msg(const std::string& str) 
 {
-    std::istringstream  ss(x);
+    std::istringstream  ss(str);
     ss >> this->mArguments->arg1;
     if (ss>>this->mArguments->arg2)
-        this->mArguments->arg2 = x.substr(this->mArguments->arg1.length()+1);
+        this->mArguments->arg2 = str.substr(this->mArguments->arg1.length()+1);
     else
-        this->mCommand = UNKOWN;
+        this->mCommand = UNKNOWN;
 }
 
 
-void    Parser::nick(const std::string& x) 
+void    Parser::nick(const std::string& str) 
 {
-    std::istringstream  ss(x);
+    std::istringstream  ss(str);
     ss >> this->mArguments->arg1;
     if (ss >> this->mArguments->arg2)
-        this->mCommand = UNKOWN;
+        this->mCommand = UNKNOWN;
 }
 
 
-void    Parser::notice(const std::string& x) 
+void    Parser::notice(const std::string& str) 
 {
-    std::istringstream  ss(x);
+    std::istringstream  ss(str);
     ss >> this->mArguments->arg1;
     if (ss>>this->mArguments->arg2)
-        this->mArguments->arg2 = x.substr(this->mArguments->arg1.length()+1);
+        this->mArguments->arg2 = str.substr(this->mArguments->arg1.length()+1);
     else
-        this->mCommand = UNKOWN;
+        this->mCommand = UNKNOWN;
 }
 
 
-void    Parser::part(const std::string& x) 
+void    Parser::part(const std::string& str) 
 {
-    std::istringstream  ss(x);
+    std::istringstream  ss(str);
     ss >> this->mArguments->arg1;
     if (this->mArguments->arg1[0] != '#' || ss >> this->mArguments->arg2)
-        this->mCommand = UNKOWN;
+        this->mCommand = UNKNOWN;
 }
 
-void    Parser::privmsg(const std::string& x) 
+void    Parser::privmsg(const std::string& str) 
 {
-    std::istringstream  ss(x);
+    std::istringstream  ss(str);
     ss >> this->mArguments->arg1;
     if (ss>>this->mArguments->arg2)
-        this->mArguments->arg2 = x.substr(this->mArguments->arg1.length()+1);
+        this->mArguments->arg2 = str.substr(this->mArguments->arg1.length()+1);
     else
-        this->mCommand = UNKOWN;
+        this->mCommand = UNKNOWN;
 }
 
 
-void    Parser::query(const std::string& x) 
+void    Parser::query(const std::string& str) 
 {
-    std::istringstream  ss(x);
+    std::istringstream  ss(str);
     ss >> this->mArguments->arg1;
     if (ss>>this->mArguments->arg2)
-        this->mArguments->arg2 = x.substr(this->mArguments->arg1.length()+1);
+        this->mArguments->arg2 = str.substr(this->mArguments->arg1.length()+1);
     else
-        this->mCommand = UNKOWN;
+        this->mCommand = UNKNOWN;
 }
 
 
-void    Parser::quit(const std::string& x) 
+void    Parser::quit(const std::string& str) 
 {
-    this->mArguments->arg1 = x;
+    this->mArguments->arg1 = str;
 }
 
-void    Parser::whois(const std::string& x) 
+void    Parser::whois(const std::string& str) 
 {
-    std::istringstream  ss(x);
+    std::istringstream  ss(str);
     ss >> this->mArguments->arg1;
     if (ss >> this->mArguments->arg1)
-        this->mCommand = UNKOWN;
+        this->mCommand = UNKNOWN;
 }
 
 
-void    Parser::mode(const std::string& x) 
+void    Parser::mode(const std::string& str) 
 {
-    std::istringstream  ss(x);
+    std::istringstream  ss(str);
     ss >> this->mArguments->arg1;
     ss >> this->mArguments->arg2;
     ss >> this->mArguments->arg3;
     ss >> this->mArguments->arg4;
 
     if (this->mArguments->arg4 != "")
-        this->mCommand = UNKOWN;
+        this->mCommand = UNKNOWN;
 }
 
 
-void    Parser::user(const std::string& x) 
+void    Parser::user(const std::string& str) 
 {
-    std::istringstream  ss(x);
+    std::istringstream  ss(str);
     std::string         word;
     ss >> this->mArguments->arg1;
     ss >> this->mArguments->arg2;
@@ -135,18 +135,18 @@ void    Parser::user(const std::string& x)
             this->mArguments->arg4 += " " + word;
     }
     if (this->mArguments->arg4[0] != ':' || this->mArguments->arg4 == "")
-        this->mCommand = UNKOWN;
+        this->mCommand = UNKNOWN;
 }
 
-void    Parser::ping(const std::string& x) 
+void    Parser::ping(const std::string& str) 
 {
-    std::istringstream  ss(x);
+    std::istringstream  ss(str);
     ss >> this->mArguments->arg1;
     if (ss >> this->mArguments->arg1)
-        this->mCommand = UNKOWN;
+        this->mCommand = UNKNOWN;
 }
 
-Parser::Parser() : mCommand(UNKOWN), mArguments(0), mRawText("")
+Parser::Parser() : mCommand(UNKNOWN), mArguments(0), mRawText("")
 { 
     this->mArguments = new IArgs();
     std::cout << "Parser !\n";
@@ -206,7 +206,7 @@ std::string Parser::find_command(const std::string& s)
     else if (string_to_case.find(s1) != string_to_case.end() && s2 != "")
         this->mCommand = string_to_case.find(s1)->second;
     else
-        this->mCommand = UNKOWN;
+        this->mCommand = UNKNOWN;
     return (s2);
 }
 
@@ -220,6 +220,6 @@ void    Parser::parse(const std::string &inProgram)
     this->mRawText = inProgram;
     std::string arg;
         arg = find_command(inProgram);
-    if (this->mCommand != UNKOWN)
+    if (this->mCommand != UNKNOWN)
         (this->*p2f[this->mCommand])(arg);
 }
