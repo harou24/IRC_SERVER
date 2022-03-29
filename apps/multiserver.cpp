@@ -10,5 +10,11 @@
 
 int         main(){
     Server      s(8080, "lalala");
+    try{
+       s.start();
+    }
+    catch (std::exception &e){
+        std::cout << e.what() << std::endl;
+    }
     return 0;
 }

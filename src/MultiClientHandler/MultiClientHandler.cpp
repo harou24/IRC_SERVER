@@ -17,7 +17,8 @@ void    MultiClientHandler::zeroFdSet(void)
 void    MultiClientHandler::addFdToSet(int fd)
 {
     FD_SET(fd, &this->mainFds);
-    this->fdMax += 1;
+    if (size_t(fd) > fdMax)
+        this->fdMax = fd;
 }
 
 void    MultiClientHandler::clearFd(int fd)
@@ -42,6 +43,10 @@ void    MultiClientHandler::updateFdSet(void)
 bool    MultiClientHandler::isFdReadyToCommunicate(int fd)
 {
     return this->isFdInSet(fd);
+}
+
+size_t  MultiClientHandler::getFdmax() const{
+    return fdMax;
 }
 
 const char* MultiClientHandler::UpdateFailed::what() const throw()

@@ -11,17 +11,20 @@ class MultiClientHandler {
         fd_set  mainFds;
         std::size_t fdMax;
 
+        bool    isFdInSet(int fd);
+        void    updateFdSet(void);
+        void    zeroFdSet(void);
+
     public:
         MultiClientHandler(void);
         ~MultiClientHandler(void);
 
-        void    zeroFdSet(void);
         void    addFdToSet(int fd);
         void    clearFd(int fd);
-        bool    isFdInSet(int fd);
-        void    updateFdSet(void);
 
         bool    isFdReadyToCommunicate(int fd);
+
+        size_t  getFdmax() const;
 
         class UpdateFailed : public std::exception {
             public:
