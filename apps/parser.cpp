@@ -16,4 +16,6 @@ int main()
     std::cout << A.arg3 << std::endl;
     std::cout << A.arg4 << std::endl;
 
+    std::cout << parser << std::endl;
+
 }

@@ -25,7 +25,8 @@ add_library(ft_irc src/tcp/TcpAcceptor.cpp
                     src/tcp/TcpStream.cpp
                     src/MultiClientHandler/MultiClientHandler.cpp
                     src/Server/Server.cpp
-                    src/parser/parser.cpp)
+                    src/parser/parser.cpp
+                    src/IrcServer/IrcServer.cpp)
 
 # add programs
 add_subdirectory(apps)

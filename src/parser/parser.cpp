@@ -181,17 +181,17 @@ Parser::~Parser()
     delete _mArguments;
 }
 
-Args& Parser::getArgument()
+Args& Parser::getArgument() const
 {
     return *this->_mArguments;
 }
 
-CommandType Parser::getCommand()
+CommandType Parser::getCommand() const
 {
     return _mCommand;
 }
 
-std::string& Parser::getRaw()
+std::string Parser::getRaw() const
 {
     return this->_mRawText;
 }
@@ -247,3 +247,15 @@ void    Parser::parse(const std::string &inProgram)
     if (this->_mCommand != UNKNOWN)
         (this->*p2f[this->_mCommand])(arg);
 }
+
+std::ostream&   operator<<(std::ostream& o, Parser const& src){
+    o << "command = " << src.getCommand() << std::endl;
+    o << "argument1 = " << src.getArgument().arg1 << std::endl;
+    o << "argument2 = " << src.getArgument().arg2 << std::endl;
+    o << "argument3 = " << src.getArgument().arg3 << std::endl;
+    o << "argument4 = " << src.getArgument().arg4 << std::endl;
+    o << "rawtext = " << src.getRaw();
+
+    return o;
+}
+

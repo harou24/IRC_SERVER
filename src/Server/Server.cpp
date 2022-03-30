@@ -69,3 +69,16 @@ size_t          Server::receiveData(int fd, char *buffer, size_t len){
 bool            Server::isClientConnecting(int fd){
     return fd == _mAcceptor.getListenSd();
 }
+
+const std::vector<TcpStream*>&     Server::getClients() const{
+    return _mClients;
+}
+
+
+std::ostream&   operator<<(std::ostream& o, Server const& src){
+    for (int i = 0; i < MAX_CLIENTS; i++){
+        if (src.getClients()[i] != NULL)
+            o << *(src.getClients()[i]) << std::endl;
+    }
+    return o;
+}

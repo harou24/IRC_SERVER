@@ -25,6 +25,7 @@ int         main(){
     try{
         while(1){
            s.start();
+           std::cout << s << std::endl;
         }
     }
     catch (std::exception &e){
