@@ -1,5 +1,6 @@
 NAME = ft_irc
 
+
 BUILD_D = build
 
 all: $(NAME)
