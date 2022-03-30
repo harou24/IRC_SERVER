@@ -8,18 +8,9 @@
 #include <sstream>
 #include <iostream>
 
-struct IArgs {
+struct Args {
+    Args() : arg1(""), arg2(""), arg3(""), arg4("") {}
 
-    IArgs() : arg1(""), arg2(""), arg3(""), arg4("") {}
-    IArgs&  operator=(const IArgs& x)
-    {
-        arg1 = x.arg1;
-        arg2 = x.arg2;
-        arg3 = x.arg3;
-        arg4 = x.arg4;
-        return *this;
-    }
-    virtual ~IArgs(){}
     std::string arg1;
     std::string arg2;
     std::string arg3;
@@ -53,13 +44,13 @@ class Parser {
         Parser();
         ~Parser();
         void parse(const std::string &inProgram);
-        IArgs&  getArgument();
+        Args&  getArgument();
         CommandType getCommand();
         std::string& getRaw();
 
     private:
         CommandType     _mCommand;
-        IArgs          *_mArguments;
+        Args          *_mArguments;
         std::string     _mRawText;
 
     private:

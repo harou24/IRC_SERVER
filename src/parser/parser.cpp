@@ -173,7 +173,7 @@ void    Parser::ping(const std::string& str)
 
 Parser::Parser() : _mCommand(UNKNOWN), _mArguments(0), _mRawText("")
 { 
-    this->_mArguments = new IArgs();
+    this->_mArguments = new Args();
 }
 
 Parser::~Parser() 
@@ -181,7 +181,7 @@ Parser::~Parser()
     delete _mArguments;
 }
 
-IArgs& Parser::getArgument()
+Args& Parser::getArgument()
 {
     return *this->_mArguments;
 }
