@@ -10,7 +10,7 @@ TEST_CASE("Parsing command Nick")
     
     parser.parse("nick lala ");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == NICK);
     REQUIRE(parser.getRaw() == "nick lala ");
@@ -27,7 +27,7 @@ TEST_CASE("Parsing command JOIN")
     
     parser.parse("JOIN #channel");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == JOIN);
     REQUIRE(parser.getRaw() == "JOIN #channel");
@@ -43,7 +43,7 @@ TEST_CASE("Parsing command JOIN_WRONG")
     
     parser.parse("JOIN channel");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == UNKNOWN);
     REQUIRE(parser.getRaw() == "JOIN channel");
@@ -59,7 +59,7 @@ TEST_CASE("Parsing command AWAY")
     
     parser.parse("AWAY :message");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == AWAY);
     REQUIRE(parser.getRaw() == "AWAY :message");
@@ -75,7 +75,7 @@ TEST_CASE("Parsing command AWAY2")
     
     parser.parse("AWAY ");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == AWAY);
     REQUIRE(parser.getRaw() == "AWAY ");
@@ -91,7 +91,7 @@ TEST_CASE("Parsing command INVITE")
     
     parser.parse("INVITE name #channel");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == INVITE);
     REQUIRE(parser.getRaw() == "INVITE name #channel");
@@ -107,7 +107,7 @@ TEST_CASE("Parsing command MSG")
     
     parser.parse("MSG name :message second");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == MSG);
     REQUIRE(parser.getRaw() == "MSG name :message second");
@@ -123,7 +123,7 @@ TEST_CASE("Parsing command ME")
     
     parser.parse("ME :message second");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == ME);
     REQUIRE(parser.getRaw() == "ME :message second");
@@ -139,7 +139,7 @@ TEST_CASE("Parsing command ME_WRONG")
     
     parser.parse("ME message second");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == UNKNOWN);
     REQUIRE(parser.getRaw() == "ME message second");
@@ -155,7 +155,7 @@ TEST_CASE("Parsing command NOTICE")
     
     parser.parse("NOTICE name :message second");
     
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == NOTICE);
     REQUIRE(parser.getRaw() == "NOTICE name :message second");
@@ -171,7 +171,7 @@ TEST_CASE("Parsing command PART")
     
     parser.parse("PART #channel");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == PART);
     REQUIRE(parser.getRaw() == "PART #channel");
@@ -187,7 +187,7 @@ TEST_CASE("Parsing command PRIVMSG")
     
     parser.parse("PRIVMSG name :message");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == PRIVMSG);
     REQUIRE(parser.getRaw() == "PRIVMSG name :message");
@@ -203,7 +203,7 @@ TEST_CASE("Parsing command QUERY")
     
     parser.parse("QUERY name :message");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == QUERY);
     REQUIRE(parser.getRaw() == "QUERY name :message");
@@ -219,7 +219,7 @@ TEST_CASE("Parsing command QUIT")
     
     parser.parse("QUIT :message");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == QUIT);
     REQUIRE(parser.getRaw() == "QUIT :message");
@@ -235,7 +235,7 @@ TEST_CASE("Parsing command QUIT2")
     
     parser.parse("QUIT ");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == QUIT);
     REQUIRE(parser.getRaw() == "QUIT ");
@@ -251,7 +251,7 @@ TEST_CASE("Parsing command WHOIS")
     
     parser.parse("WHOIS name");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == WHOIS);
     REQUIRE(parser.getRaw() == "WHOIS name");
@@ -267,7 +267,7 @@ TEST_CASE("Parsing command MODE1")
     
     parser.parse("MODE name -b <nick>");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == MODE);
     REQUIRE(parser.getRaw() == "MODE name -b <nick>");
@@ -283,7 +283,7 @@ TEST_CASE("Parsing command MODE2")
     
     parser.parse("MODE #channel -b <nick>");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == MODE);
     REQUIRE(parser.getRaw() == "MODE #channel -b <nick>");
@@ -299,7 +299,7 @@ TEST_CASE("Parsing command USER")
     
     parser.parse("USER name hostname servername :real name");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == USER);
     REQUIRE(parser.getRaw() == "USER name hostname servername :real name");
@@ -315,7 +315,7 @@ TEST_CASE("Parsing command PING")
     
     parser.parse("PING hostname");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == PING);
     REQUIRE(parser.getRaw() == "PING hostname");
@@ -331,7 +331,7 @@ TEST_CASE("Parsing command UNKNOWN")
     
     parser.parse("USER name hostname servername ");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == UNKNOWN);
     REQUIRE(parser.getRaw() == "USER name hostname servername ");

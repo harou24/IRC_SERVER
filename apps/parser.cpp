@@ -7,7 +7,7 @@ int main()
     
     parser.parse("USER name hostname servername ");
 
-    IArgs A = parser.getArgument();
+    Args A = parser.getArgument();
 
     std::cout << parser.getCommand() << std::endl;
     std::cout << parser.getRaw() << std::endl;
