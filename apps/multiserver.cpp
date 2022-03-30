@@ -8,10 +8,23 @@
 #include <cstdlib>
 #include <cerrno>
 
+void            stopSigHandler(int pid){
+    std::cout << "Stopping the server.... signal pid = " << pid << std::endl;
+    exit(1);
+}
+
+void            SetupSignals(){
+    signal(SIGQUIT, stopSigHandler);
+    signal(SIGINT, stopSigHandler);
+}
+
 int         main(){
     Server      s(8080, "lalala");
+    SetupSignals();
     try{
-       s.start();
+        while(1){
+           s.start();
+        }
     }
     catch (std::exception &e){
         std::cout << e.what() << std::endl;

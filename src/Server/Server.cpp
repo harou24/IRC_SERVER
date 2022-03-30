@@ -3,7 +3,7 @@
 #include <iostream>
 
 Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClients(MAX_CLIENTS) {
-    _mIsRunning = false;
+    _mIsRunning = true;
     _mPassword = password;
 }
 
@@ -14,8 +14,7 @@ Server::~Server(){
 void            Server::start(){
     _mAcceptor.init();
     MultiClientHandler::addFdToSet(_mAcceptor.getListenSd());
-    _mIsRunning = true;
-    while(_mIsRunning){
+    if(_mIsRunning){
         for (size_t i = 0; i <= MultiClientHandler::getFdmax(); i++){
             if (MultiClientHandler::isFdReadyToCommunicate(i)){
                 if (isClientConnecting(i))
@@ -29,11 +28,7 @@ void            Server::start(){
 
 void            Server::stop(){
     _mIsRunning = false;
-}
-
-void            Server::stopSigHandler(int pid){
-    std::cout << "Stopping the server.... pid = " << pid << std::endl;
-    _mIsRunning = false;
+    exit(1);
 }
 
 void            Server::addClient(){

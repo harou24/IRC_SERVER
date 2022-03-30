@@ -28,7 +28,6 @@ class Server : public MultiClientHandler
 
         void start(void);
         void stop(void);
-        void stopSigHandler(int pid);
 
         void addClient(void);
         void removeClient(int fd);
