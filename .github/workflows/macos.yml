@@ -17,11 +17,10 @@ jobs:
 
       - name: Compilation
         run: |
-          cmake .
-          make clean
           make
+          make clean
       - name: make.sh
         run: |
-          make
+          make clean
           make test
           make clean
