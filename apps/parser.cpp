@@ -5,7 +5,7 @@ int main()
 {
     Parser   parser;
     
-    parser.parse("USER name hostname servername :real name");
+    parser.parse("USER name hostname servername ");
 
     IArgs A = parser.getArgument();
 

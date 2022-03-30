@@ -37,17 +37,49 @@ TEST_CASE("Parsing command JOIN")
     REQUIRE(A.arg4 == "");
 }
 
+TEST_CASE("Parsing command JOIN_WRONG")
+{
+    Parser   parser;
+    
+    parser.parse("JOIN channel");
+
+    IArgs A = parser.getArgument();
+
+    REQUIRE(parser.getCommand() == UNKNOWN);
+    REQUIRE(parser.getRaw() == "JOIN channel");
+    REQUIRE(A.arg1 == "channel");
+    REQUIRE(A.arg2 == "");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
+}
+
 TEST_CASE("Parsing command AWAY")
 {
     Parser   parser;
     
-    parser.parse("AWAY message");
+    parser.parse("AWAY :message");
 
     IArgs A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == AWAY);
-    REQUIRE(parser.getRaw() == "AWAY message");
-    REQUIRE(A.arg1 == "message");
+    REQUIRE(parser.getRaw() == "AWAY :message");
+    REQUIRE(A.arg1 == ":message");
+    REQUIRE(A.arg2 == "");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
+}
+
+TEST_CASE("Parsing command AWAY2")
+{
+    Parser   parser;
+    
+    parser.parse("AWAY ");
+
+    IArgs A = parser.getArgument();
+
+    REQUIRE(parser.getCommand() == AWAY);
+    REQUIRE(parser.getRaw() == "AWAY ");
+    REQUIRE(A.arg1 == "");
     REQUIRE(A.arg2 == "");
     REQUIRE(A.arg3 == "");
     REQUIRE(A.arg4 == "");
@@ -101,6 +133,22 @@ TEST_CASE("Parsing command ME")
     REQUIRE(A.arg4 == "");
 }
 
+TEST_CASE("Parsing command ME_WRONG")
+{
+    Parser   parser;
+    
+    parser.parse("ME message second");
+
+    IArgs A = parser.getArgument();
+
+    REQUIRE(parser.getCommand() == UNKNOWN);
+    REQUIRE(parser.getRaw() == "ME message second");
+    REQUIRE(A.arg1 == "message second");
+    REQUIRE(A.arg2 == "");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
+}
+
 TEST_CASE("Parsing command NOTICE")
 {
     Parser   parser;
@@ -137,14 +185,14 @@ TEST_CASE("Parsing command PRIVMSG")
 {
     Parser   parser;
     
-    parser.parse("PRIVMSG name message");
+    parser.parse("PRIVMSG name :message");
 
     IArgs A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == PRIVMSG);
-    REQUIRE(parser.getRaw() == "PRIVMSG name message");
+    REQUIRE(parser.getRaw() == "PRIVMSG name :message");
     REQUIRE(A.arg1 == "name");
-    REQUIRE(A.arg2 == "message");
+    REQUIRE(A.arg2 == ":message");
     REQUIRE(A.arg3 == "");
     REQUIRE(A.arg4 == "");
 }
@@ -153,14 +201,14 @@ TEST_CASE("Parsing command QUERY")
 {
     Parser   parser;
     
-    parser.parse("QUERY name message");
+    parser.parse("QUERY name :message");
 
     IArgs A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == QUERY);
-    REQUIRE(parser.getRaw() == "QUERY name message");
+    REQUIRE(parser.getRaw() == "QUERY name :message");
     REQUIRE(A.arg1 == "name");
-    REQUIRE(A.arg2 == "message");
+    REQUIRE(A.arg2 == ":message");
     REQUIRE(A.arg3 == "");
     REQUIRE(A.arg4 == "");
 }
@@ -169,13 +217,29 @@ TEST_CASE("Parsing command QUIT")
 {
     Parser   parser;
     
-    parser.parse("QUIT message");
+    parser.parse("QUIT :message");
 
     IArgs A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == QUIT);
-    REQUIRE(parser.getRaw() == "QUIT message");
-    REQUIRE(A.arg1 == "message");
+    REQUIRE(parser.getRaw() == "QUIT :message");
+    REQUIRE(A.arg1 == ":message");
+    REQUIRE(A.arg2 == "");
+    REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
+}
+
+TEST_CASE("Parsing command QUIT2")
+{
+    Parser   parser;
+    
+    parser.parse("QUIT ");
+
+    IArgs A = parser.getArgument();
+
+    REQUIRE(parser.getCommand() == QUIT);
+    REQUIRE(parser.getRaw() == "QUIT ");
+    REQUIRE(A.arg1 == "");
     REQUIRE(A.arg2 == "");
     REQUIRE(A.arg3 == "");
     REQUIRE(A.arg4 == "");
@@ -258,5 +322,21 @@ TEST_CASE("Parsing command PING")
     REQUIRE(A.arg1 == "hostname");
     REQUIRE(A.arg2 == "");
     REQUIRE(A.arg3 == "");
+    REQUIRE(A.arg4 == "");
+}
+
+TEST_CASE("Parsing command UNKNOWN")
+{
+    Parser   parser;
+    
+    parser.parse("USER name hostname servername ");
+
+    IArgs A = parser.getArgument();
+
+    REQUIRE(parser.getCommand() == UNKNOWN);
+    REQUIRE(parser.getRaw() == "USER name hostname servername ");
+    REQUIRE(A.arg1 == "name");
+    REQUIRE(A.arg2 == "hostname");
+    REQUIRE(A.arg3 == "servername");
     REQUIRE(A.arg4 == "");
 }
