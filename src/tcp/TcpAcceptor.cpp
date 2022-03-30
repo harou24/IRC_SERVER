@@ -41,6 +41,10 @@ TcpStream*  TcpAcceptor::accept(){
     return new TcpStream(sd, &address);
 }
 
+int         TcpAcceptor::getListenSd() const{
+    return _mListenSd;
+}
+
 void        TcpAcceptor::createListenSocket(){
     _mListenSd = socket(AF_INET, SOCK_STREAM, 0);
 }

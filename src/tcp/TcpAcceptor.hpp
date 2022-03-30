@@ -12,6 +12,7 @@ class TcpAcceptor{
 
         int             init();
         TcpStream*      accept();
+        int             getListenSd() const;
 
     private:
         int             _mListenSd;
