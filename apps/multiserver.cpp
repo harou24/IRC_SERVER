@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <cstdlib>
 #include <cerrno>
+#include <signal.h>
 
 void            stopSigHandler(int pid){
     std::cout << "Stopping the server.... signal pid = " << pid << std::endl;
