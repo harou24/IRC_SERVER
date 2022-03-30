@@ -1,4 +1,6 @@
-NAME = serverclient
+
+NAME = ft_irc
+
 
 BUILD_D = build
 

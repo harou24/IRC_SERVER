@@ -194,3 +194,6 @@ tags
 
 #custom
 build
+
+#custom
+.vscode/
