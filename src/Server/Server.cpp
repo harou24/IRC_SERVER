@@ -1,5 +1,6 @@
 #include "Server.hpp"
 # include <sys/select.h>
+#include <iostream>
 
 Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClients(MAX_CLIENTS) {
     _mIsRunning = false;
@@ -37,18 +38,17 @@ void            Server::stopSigHandler(int pid){
 
 void            Server::addClient(){
     TcpStream *newStream = _mAcceptor.accept();
-    if (newStream->getSd() - 4 >= MAX_CLIENTS){
+    if (newStream->getSd() - FD_CORRECTION >= MAX_CLIENTS){
         std::cout << "no space left for another client....\n";
         return;
     }
     MultiClientHandler::addFdToSet(newStream->getSd());
-    std::cout << "FD = " << newStream->getSd() << std::endl;
-    _mClients[newStream->getSd() - 4] = newStream;
+    _mClients[newStream->getSd() - FD_CORRECTION] = newStream;
 }
 
 void            Server::removeClient(int fd){
     MultiClientHandler::clearFd(fd);
-    _mClients[fd-4] = NULL;
+    _mClients[fd - FD_CORRECTION] = NULL;
     close(fd);
 }
 
@@ -56,11 +56,10 @@ void            Server::handleData(int fd){
     size_t          len;
     char            buffer[256];
 
-    // if ((len = receiveData(fd-4, buffer)) > 0){ --> causes for problem need to check
-    if ((len = _mClients[fd-4]->receive(buffer, sizeof(buffer))) > 0){
+    if ((len = receiveData(fd - FD_CORRECTION, buffer, sizeof(buffer))) > 0){
         buffer[len] = '\0';
         std::cout << "received: " << buffer << std::endl;
-        sendData(fd-4, buffer, len);
+        sendData(fd - FD_CORRECTION, buffer, len);
     }
     else
         removeClient(fd);
@@ -70,9 +69,9 @@ void            Server::sendData(int fd, char *buffer, size_t len){
     _mClients[fd]->send(buffer, len);
 }
 
-// size_t          Server::receiveData(int fd, char *buffer){
-//     return _mClients[fd]->receive(buffer, sizeof(buffer));
-// }
+size_t          Server::receiveData(int fd, char *buffer, size_t len){
+    return _mClients[fd]->receive(buffer, len);
+}
 
 bool            Server::isClientConnecting(int fd){
     return fd == _mAcceptor.getListenSd();

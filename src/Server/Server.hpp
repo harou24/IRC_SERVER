@@ -10,6 +10,7 @@
 
 # define MAX_CLIENTS 5
 # define HOST "127.0.0.1"
+# define FD_CORRECTION 4
 
 class Server : public MultiClientHandler
 {
@@ -34,7 +35,7 @@ class Server : public MultiClientHandler
 
         void handleData(int fd);
         void sendData(int fd, char *buffer, size_t len);
-        // size_t receiveData(int fd, char *buffer);
+        size_t receiveData(int fd, char *buffer, size_t len);
 
         bool isClientConnecting(int fd);
 
