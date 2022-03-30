@@ -1,6 +1,4 @@
 #include "Server.hpp"
-# include <sys/select.h>
-#include <iostream>
 
 Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClients(MAX_CLIENTS) {
     _mIsRunning = true;

@@ -7,6 +7,8 @@
 
 # include <vector>
 # include <iostream>
+# include <sys/select.h>
+# include <cstdlib>
 
 # define MAX_CLIENTS 5
 # define HOST "127.0.0.1"
