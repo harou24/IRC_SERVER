@@ -40,6 +40,9 @@ class Server : public MultiClientHandler
 
         bool isClientConnecting(int fd);
 
+        const std::vector<TcpStream*>&     getClients() const;
 };
+
+std::ostream&   operator<<(std::ostream& o, Server const& src);
 
 #endif

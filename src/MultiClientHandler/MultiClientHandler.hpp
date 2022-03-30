@@ -32,4 +32,6 @@ class MultiClientHandler {
         };
 };
 
+std::ostream&   operator<<(std::ostream& o, MultiClientHandler const& src);
+
 #endif

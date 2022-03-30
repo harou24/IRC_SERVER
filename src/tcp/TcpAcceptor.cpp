@@ -75,3 +75,8 @@ void        TcpAcceptor::setSocketOptions(){
     int optval = 1;
     setsockopt(_mListenSd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof optval);
 }
+
+std::ostream&           operator<<(std::ostream& o, TcpAcceptor const& src){
+    o << "Listen FD = " << src.getListenSd();
+    return o;
+}

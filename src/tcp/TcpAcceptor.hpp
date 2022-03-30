@@ -4,6 +4,7 @@
 #include "TcpStream.hpp"
 #include <cstring>
 #include <stdexcept>
+#include <iostream>
 
 class TcpAcceptor{
     public:
@@ -29,5 +30,7 @@ class TcpAcceptor{
         int             setSocketListen();
         void            setSocketOptions();
 };
+
+std::ostream&           operator<<(std::ostream& o, TcpAcceptor const& src);
 
 #endif

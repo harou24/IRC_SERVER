@@ -32,3 +32,10 @@ int             TcpStream::getPeerPort()const {return _mPeerPort;}
 
 int             TcpStream::getSd()const {return _mSd;}
 
+std::ostream&       operator<<(std::ostream& o , TcpStream const & src){
+    o << "IP = " << src.getPeerIP() << std::endl;
+    o << "Port = " << src.getPeerPort() << std::endl;
+    o << "FD = " << src.getSd();
+
+    return o;
+}

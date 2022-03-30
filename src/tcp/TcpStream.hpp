@@ -5,6 +5,7 @@
 #include <string>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <iostream>
 
 class TcpStream
 {
@@ -29,5 +30,7 @@ class TcpStream
         TcpStream(const TcpStream& src);
 
 };
+
+std::ostream&       operator<<(std::ostream& o , TcpStream const & src);
 
 #endif

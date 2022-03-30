@@ -44,9 +44,9 @@ class Parser {
         Parser();
         ~Parser();
         void parse(const std::string &inProgram);
-        Args&  getArgument();
-        CommandType getCommand();
-        std::string& getRaw();
+        Args&  getArgument() const;
+        CommandType getCommand() const;
+        std::string getRaw() const;
 
     private:
         CommandType     _mCommand;
@@ -71,5 +71,7 @@ class Parser {
         void    user(const std::string& str);
         void    ping(const std::string& str);
 };
+
+std::ostream&   operator<<(std::ostream& o, Parser const& src);
 
 #endif

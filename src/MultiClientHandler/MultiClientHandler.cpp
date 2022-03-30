@@ -53,3 +53,8 @@ const char* MultiClientHandler::UpdateFailed::what() const throw()
 {
     return ("Error : Tcp connection error @_@");
 }
+
+std::ostream&   operator<<(std::ostream& o, MultiClientHandler const& src){
+    o << "fdmax = " << src.getFdmax();
+    return o;
+}
