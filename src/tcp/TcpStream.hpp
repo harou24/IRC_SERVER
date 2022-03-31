@@ -29,6 +29,8 @@ class TcpStream
         TcpStream(int sd, struct sockaddr_in* address);
         TcpStream(const TcpStream& src);
 
+        TcpStream&      operator=(const TcpStream& src);
+
 };
 
 std::ostream&       operator<<(std::ostream& o , TcpStream const & src);

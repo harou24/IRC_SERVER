@@ -14,6 +14,13 @@ TcpStream::TcpStream(const TcpStream& src){
     _mSd = src._mSd;
 }
 
+TcpStream&      TcpStream::operator=(const TcpStream& src){
+    _mPeerPort = src.getPeerPort();
+    _mPeerIP = src.getPeerIP();
+    _mSd = src._mSd;
+    return *this;
+}
+
 TcpStream::~TcpStream(){
     close(_mSd);
 }
