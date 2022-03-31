@@ -11,6 +11,8 @@ SERVER_EXE = "./echo_server"
 HOST = "127.0.0.1"
 PORT = 8080
 
+socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
 def changeDir(dir):
   os.chdir(dir)
 
@@ -29,20 +31,20 @@ def runServer():
     print("Executable file not found, run make first...: |", SERVER_EXE, "|\n")
     exit()
   output = subprocess.run([SERVER_EXE, str(PORT), HOST], capture_output=True)
-  print(output.stdout, "\n")
+  print("|", output.stdout, "|\n")
 
 def stopServer():
+    socket.close()
     pid = getProcessIdByName(SERVER_EXE)
     print("Pid of the process is:", pid, "\n")
     os.kill(pid, signal.SIGTERM)
 
+def sendData(data):
+    socket.send(bytes(data, 'utf-8'))
+
 def connectToServer():
-  with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.connect((HOST, PORT))
-    s.send(bytes("I am connected!", 'utf-8'))
-   # dataReceived = s.recv(1024)
-   # print("Received by server: |", dataReceived, "|")
-    s.close()
+    socket.connect((HOST, PORT))
+    sendData("I am connected!")
 
 def runTest():
   changeDir(TEST_DIR)
@@ -55,8 +57,4 @@ def runTest():
     connectToServer()
     stopServer()
     
-#  connectToServer()
-#stopServer()
-
-
 runTest()
