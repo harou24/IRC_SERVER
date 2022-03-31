@@ -4,8 +4,9 @@ import os
 from os import path
 import time
 import signal
+import sys
 
-TEST_DIR = "../../build/apps"
+TEST_DIR = "./build/apps"
 SERVER_EXE = "./echo_server"
 
 HOST = "127.0.0.1"
@@ -13,8 +14,17 @@ PORT = 8080
 
 socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+nbArgs = len(sys.argv)
+if nbArgs < 2:
+    exit()
+data = sys.argv
+
 def changeDir(dir):
   os.chdir(dir)
+
+def listToString(list):
+    str = ""
+    return str.join(filter( lambda s: s != 'tests/script/run_and_stop.py' ,list))
 
 def getProcessIdByName(name):
   for line in os.popen("ps ax | grep " + name + " | grep -v grep"):
@@ -23,7 +33,6 @@ def getProcessIdByName(name):
     return int(pid)
 
 def runServer():
-  print("Running the Server...")
   try:
     path.exists(SERVER_EXE)
   except Exception as error:
@@ -31,12 +40,16 @@ def runServer():
     print("Executable file not found, run make first...: |", SERVER_EXE, "|\n")
     exit()
   output = subprocess.run([SERVER_EXE, str(PORT), HOST], capture_output=True)
-  print("|", output.stdout, "|\n")
+  received = str(output.stdout, 'utf-8')
+  received = received.replace("received: ", "")
+  received = received.replace("\n", "")
+  print("SENT     ->", "|" ,listToString(data), "|")
+  print("RECEIVED ->", "|", received, "|")
+  assert received == listToString(data)
 
 def stopServer():
     socket.close()
     pid = getProcessIdByName(SERVER_EXE)
-    print("Pid of the process is:", pid, "\n")
     os.kill(pid, signal.SIGTERM)
 
 def sendData(data):
@@ -44,7 +57,8 @@ def sendData(data):
 
 def connectToServer():
     socket.connect((HOST, PORT))
-    sendData("I am connected!")
+    for i in range(1, nbArgs):
+        sendData(data[i])
 
 def runTest():
   changeDir(TEST_DIR)

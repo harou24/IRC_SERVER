@@ -17,6 +17,9 @@ clean:
 			@git clean -d -f -X
 			@rm -rf build
 
+func:
+			@python3 ./tests/script/run_tests.py
+
 test:
 			@mkdir -p build
 			@cmake -S . -B build
