@@ -12,6 +12,8 @@ Server::~Server(){
 void            Server::start(){
     _mAcceptor.init();
     MultiClientHandler::addFdToSet(_mAcceptor.getListenSd());
+
+    
     if(_mIsRunning){
         for (size_t i = 0; i <= MultiClientHandler::getFdmax(); i++){
             if (MultiClientHandler::isFdReadyToCommunicate(i)){

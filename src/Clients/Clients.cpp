@@ -1,6 +1,6 @@
 #include "Clients.hpp"
 
-Clients::Clients(const std::string& nick, size_t fd) : _mNickName(nick), _mUserName(""), _mHostName(""), _mServerName(""), _mRealName(""), _mFD(fd)
+Clients::Clients(const std::string& nick, TcpStream& stream) : _mNickName(nick), _mUserName(""), _mHostName(""), _mServerName(""), _mRealName(""), _mStream(stream)
 {
 }
 
@@ -21,7 +21,7 @@ std::string     Clients::getUser() const {return _mUserName;}
 std::string     Clients::getHost() const {return _mHostName;}
 std::string     Clients::getServer() const {return _mServerName;}
 std::string     Clients::getReal() const {return _mRealName;}
-size_t          Clients::getFD() const {return _mFD;}
+// size_t          Clients::getFD() const {return _mFD;}
 
 
 std::ostream&   operator<<(std::ostream& o, const Clients & src)
@@ -30,6 +30,6 @@ std::ostream&   operator<<(std::ostream& o, const Clients & src)
     o << "Host = " << src.getHost() << std::endl;
     o << "Server = " << src.getServer() << std::endl;
     o << "Real = " << src.getReal() << std::endl;
-    o << "FD = " << src.getFD() << std::endl;
+    // o << "FD = " << src.getFD() << std::endl;
     return o;
 }

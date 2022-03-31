@@ -8,7 +8,7 @@
 class Clients
 {
 public:
-    Clients(const std::string& nick, size_t fd);
+    Clients(const std::string& nick, TcpStream &stream);
     ~Clients();
 
     void    setNick(const std::string& s);
@@ -22,7 +22,7 @@ public:
     std::string     getHost() const;
     std::string     getServer() const;
     std::string     getReal() const;
-    size_t          getFD() const;
+    // size_t          getFD() const;
 
 private:
     std::string  _mNickName;
