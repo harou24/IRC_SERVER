@@ -47,11 +47,11 @@ void            Server::removeClient(int fd){
 
 void            Server::handleData(int fd){
     size_t          len;
-    char            buffer[256];
+    char            buffer[512];
 
     if ((len = receiveData(fd - FD_CORRECTION, buffer, sizeof(buffer))) > 0){
         buffer[len] = '\0';
-        std::cout << "received: " << buffer << std::endl;
+        _mQueue.push(createMessage(buffer, fd - FD_CORRECTION));
         sendData(fd - FD_CORRECTION, buffer, len);
     }
     else
@@ -74,6 +74,14 @@ const std::vector<TcpStream*>&     Server::getClients() const{
     return _mClients;
 }
 
+Message         Server::createMessage(std::string str, int fd){
+    Message m = {str, _mClients[fd]};
+    return m;
+}
+
+std::queue<Message>&     Server::getQueue(){
+    return _mQueue;
+}
 
 std::ostream&   operator<<(std::ostream& o, Server const& src){
     for (int i = 0; i < MAX_CLIENTS; i++){
