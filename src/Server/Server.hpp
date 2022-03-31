@@ -9,10 +9,17 @@
 # include <iostream>
 # include <sys/select.h>
 # include <cstdlib>
+# include <queue>
 
 # define MAX_CLIENTS 5
 # define HOST "127.0.0.1"
 # define FD_CORRECTION 4
+
+struct Message
+{
+    std::string     data;
+    TcpStream       *stream;
+};
 
 class Server : public MultiClientHandler
 {
@@ -21,8 +28,11 @@ class Server : public MultiClientHandler
         std::vector<TcpStream*>     _mClients;
         bool                        _mIsRunning;
         std::string                 _mPassword;
+        std::queue<Message>         _mQueue;
 
         Server(void);
+        
+        Message createMessage(std::string str, int fd);
 
     public:
         Server(int port, std::string password);
@@ -40,7 +50,9 @@ class Server : public MultiClientHandler
 
         bool isClientConnecting(int fd);
 
-        const std::vector<TcpStream*>&     getClients() const;
+        const std::vector<TcpStream*>&      getClients() const;
+
+        std::queue<Message>&                 getQueue();
 };
 
 std::ostream&   operator<<(std::ostream& o, Server const& src);
