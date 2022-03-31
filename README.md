@@ -67,6 +67,9 @@ https://www.csd.uoc.gr/~hy556/material/tutorials/cs556-3rd-tutorial.pdf
 
 http://index-of.es/Programming/C/TCP%20IP%20Sockets%20in%20C,%20Second%20Edition%20Practical%20Guide%20for%20Programmers.pdf
 
+### Signals
+https://docs.oracle.com/cd/E19683-01/806-4125/sockets-82255/index.html
+
 ### IRSSI
 
 https://edunham.net/2015/02/16/automating_irssi.html
