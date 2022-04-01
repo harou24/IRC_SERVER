@@ -21,6 +21,7 @@ std::string     Clients::getUser() const {return _mUserName;}
 std::string     Clients::getHost() const {return _mHostName;}
 std::string     Clients::getServer() const {return _mServerName;}
 std::string     Clients::getReal() const {return _mRealName;}
+TcpStream&      Clients::getStream() {return _mStream;}
 // size_t          Clients::getFD() const {return _mFD;}
 
 

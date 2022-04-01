@@ -19,6 +19,7 @@ include_directories(src/tcp)
 include_directories(src/Server)
 include_directories(src/MultiClientHandler)
 include_directories(src/Clients)
+include_directories(src/IrcServer)
 
 # example library
 add_library(ft_irc src/utils/Table/Row.cpp

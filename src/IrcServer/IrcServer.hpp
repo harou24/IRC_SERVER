@@ -11,6 +11,8 @@ class IrcServer{
         IrcServer(int port, std::string password);
         ~IrcServer();
 
+
+
         // void    startServer(int port, std::string password);
         // void    processMessage(Message& msg);
         void    processMessage();
@@ -21,7 +23,6 @@ class IrcServer{
         Parser                  _mData;
         int                     _mNbclients;
         std::vector<Clients>    _mClient;
-        //create vector of clients ---> make client class @eu
     
     private:
         IrcServer();
@@ -29,23 +30,22 @@ class IrcServer{
         void    makeClient(std::string s, const TcpStream & ts);
         void    splitStrings(std::string str);
 
-        void    away(const std::string& str);
-        void    invite(const std::string& str);
-        void    join(const std::string& str);
-        void    me(const std::string& str);
-        void    msg(const std::string& str);
-        void    nick(const std::string& str);
-        void    notice(const std::string& str);
-        void    part(const std::string& str);
-        void    privmsg(const std::string& str);
-        void    query(const std::string& str);
-        void    quit(const std::string& str);
-        void    whois(const std::string& str);
-        void    mode(const std::string& str);
-        void    user(const std::string& str);
-        void    ping(const std::string& str);
+        void    away(const Args& args, TcpStream& stream);
+        void    invite(const Args& args, TcpStream& stream);
+        void    join(const Args& args, TcpStream& stream);
+        void    me(const Args& args, TcpStream& stream);
+        void    msg(const Args& args, TcpStream& stream);
+        void    nick(const Args& args, TcpStream& stream);
+        void    notice(const Args& args, TcpStream& stream);
+        void    part(const Args& args, TcpStream& stream);
+        void    privmsg(const Args& args, TcpStream& stream);
+        void    query(const Args& args, TcpStream& stream);
+        void    quit(const Args& args, TcpStream& stream);
+        void    whois(const Args& args, TcpStream& stream);
+        void    mode(const Args& args, TcpStream& stream);
+        void    user(const Args& args, TcpStream& stream);
+        void    ping(const Args& args, TcpStream& stream);
 };
 
 #endif
 
-// server starten  met ircserver

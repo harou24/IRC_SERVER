@@ -22,6 +22,7 @@ public:
     std::string     getHost() const;
     std::string     getServer() const;
     std::string     getReal() const;
+    TcpStream&       getStream();
     // size_t          getFD() const;
 
 private:
