@@ -1,7 +1,7 @@
 #include "Server.hpp"
 
-Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClients(MAX_CLIENTS) {
-    _mIsRunning = false;
+Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClients(MAX_CLIENTS), _mNbrClients(0) {
+    _mIsRunning = true;
     _mPassword = password;
 }
 
@@ -10,13 +10,14 @@ Server::~Server(){
 }
 
 void            Server::start(){
-    if (!_mIsRunning){
+    // if (!_mIsRunning){
         _mAcceptor.init();
         MultiClientHandler::addFdToSet(_mAcceptor.getListenSd());
-        _mIsRunning = true;
-    }
+        // _mIsRunning = true;
+    // }
     
     if(_mIsRunning){
+        // std::cout << *this << std::endl;
         for (size_t i = 0; i <= MultiClientHandler::getFdmax(); i++){
             try{
                 if (MultiClientHandler::isFdReadyToCommunicate(i)){
@@ -48,12 +49,14 @@ void            Server::addClient(){
     }
     MultiClientHandler::addFdToSet(newStream->getSd());
     _mClients[newStream->getSd() - FD_CORRECTION] = newStream;
+    _mNbrClients++;
 }
 
 void            Server::removeClient(int fd){
     MultiClientHandler::clearFd(fd);
     _mClients[fd - FD_CORRECTION] = NULL;
     close(fd);
+    _mNbrClients--;
 }
 
 void            Server::handleData(int fd){
@@ -94,10 +97,19 @@ std::queue<Message>&     Server::getQueue(){
     return _mQueue;
 }
 
+int                     Server::getNbrClients() const{
+    return _mNbrClients;
+}
+
 std::ostream&   operator<<(std::ostream& o, Server const& src){
+    size_t s = 0;
     for (int i = 0; i < MAX_CLIENTS; i++){
-        if (src.getClients()[i] != NULL)
+        if (src.getClients()[i] != NULL){
             o << *(src.getClients()[i]) << std::endl;
+            s++;
+        }
     }
+    o << "nbr clients = " << s << std::endl;
+    o << "nbr " << src.getNbrClients() << std::endl;
     return o;
 }

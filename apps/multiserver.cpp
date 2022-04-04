@@ -21,22 +21,23 @@ void            SetupSignals(){
 
 int         main(){
     Server      s(8080, "lalala");
-    std::queue<Message>     *q;
+    // std::queue<Message>     *q;
 
     SetupSignals();
     try{
-        while(1){
+        // while(1){
            s.start();
-           q = &(s.getQueue());
-           std::cout << "~~~~~~~~~~~~~\n";
-           while (!q->empty()){
-               std::cout << "Message = " << q->front().data << std::endl;
-               std::cout << *(q->front().stream) << std::endl;
-               std::cout << "before: " << q->size() << std::endl;
-               q->pop();
-               std::cout << "after: " << q->size() << std::endl;
-           }
-        }
+        //    std::cout << s << std::endl;
+        //    q = &(s.getQueue());
+        //    std::cout << "~~~~~~~~~~~~~\n";
+        //    while (!q->empty()){
+            //    std::cout << "Message = " << q->front().data << std::endl;
+            //    std::cout << *(q->front().stream) << std::endl;
+            //    std::cout << "before: " << q->size() << std::endl;
+            //    q->pop();
+            //    std::cout << "after: " << q->size() << std::endl;
+        //    }
+        // }
     }
     catch (std::exception &e){
         std::cout << e.what() << std::endl;

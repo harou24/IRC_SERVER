@@ -15,6 +15,7 @@ void    IrcServer::processMessage()
     while (1)
     {
         _mServer.start();
+        // std::cout << _mServer << std::endl;
         while (_mServer.getQueue().size() > 0)
         {
             for (std::stringstream ss(_mServer.getQueue().front().data ); std::getline(ss, s, '\n');)
@@ -22,6 +23,7 @@ void    IrcServer::processMessage()
                 _mData.parse(s);
                 if (_mData.getCommand() != UNKNOWN)
                     (this->*p2f[_mData.getCommand()])(_mData.getArgument(), *_mServer.getQueue().front().stream);
+                std::cout << s << std::endl;
             }
             _mServer.getQueue().pop();
         }
@@ -126,9 +128,11 @@ void    IrcServer::user(const Args& args, TcpStream& stream){
             std::string s;
             s = ":eutrodri 001 " + it->getNick() + "\n: Welcome to the Internet Relay Network\n" + it->getNick() + "!" + it->getUser() + "@" +it->getHost() + "\n";
             stream.send(s, s.length());
+            it->setHandShake();
         }
      }
 }
 void    IrcServer::ping(const Args& args, TcpStream& stream){
-    stream.send("PONG 127.0.0.1 \n" + args.arg1 + "\n", (18 + args.arg1.length()));
+    std::cout << stream << std::endl;
+    stream.send(": eutrodri PONG eutrodri :eutrodri\n", (39 + args.arg1.length()));
 }
