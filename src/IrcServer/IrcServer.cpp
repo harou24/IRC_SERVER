@@ -22,8 +22,6 @@ void    IrcServer::processMessage()
                 _mData.parse(s);
                 if (_mData.getCommand() != UNKNOWN)
                     (this->*p2f[_mData.getCommand()])(_mData.getArgument(), *_mServer.getQueue().front().stream);
-                std::cout << s << std::endl;
-                std::cout << _mData.getRaw() << std::endl;
             }
             _mServer.getQueue().pop();
         }
@@ -32,10 +30,16 @@ void    IrcServer::processMessage()
 
  void    IrcServer::nick(const Args& args, TcpStream& stream)
  {
-     std::vector<Clients>::iterator it;
-     for(it = _mClient.begin(); it != _mClient.end() && it->getStream() != stream; it++) {}
-     if (it != _mClient.end())
+    std::vector<Clients>::iterator it;
+    for(it = _mClient.begin(); it != _mClient.end() && it->getStream() != stream; it++) {}
+    if (it != _mClient.end() && it->getStream() == stream)
         it->setNick(args.arg1);
+    else
+    {
+        Clients *c = new Clients(args.arg1, stream);
+        _mClient.push_back(*c);
+    }
+    
  }
 
 void    IrcServer::away(const Args& args, TcpStream& stream) {
@@ -112,13 +116,19 @@ void    IrcServer::mode(const Args& args, TcpStream& stream){
 }
 void    IrcServer::user(const Args& args, TcpStream& stream){
     std::vector<Clients>::iterator it;
-     for(it = _mClient.begin(); it != _mClient.end() && it->getStream() != stream; it++) {}
-     if (it != _mClient.end())
-        it->setNick(args.arg1);
+    for(it = _mClient.begin(); it != _mClient.end() && it->getStream() != stream; it++) {}
+     if (it != _mClient.end()){
+        it->setUser(args.arg1);
+        it->setHost(args.arg2);
+        it->setServer(args.arg3);
+        it->setReal(args.arg4);
+        if (!it->getHandShake()){
+            std::string s;
+            s = ":eutrodri 001 " + it->getNick() + "\n: Welcome to the Internet Relay Network\n" + it->getNick() + "!" + it->getUser() + "@" +it->getHost() + "\n";
+            stream.send(s, s.length());
+        }
+     }
 }
 void    IrcServer::ping(const Args& args, TcpStream& stream){
-    std::vector<Clients>::iterator it;
-     for(it = _mClient.begin(); it != _mClient.end() && it->getStream() != stream; it++) {}
-     if (it != _mClient.end())
-        it->setNick(args.arg1);
+    stream.send("PONG 127.0.0.1 \n" + args.arg1 + "\n", (18 + args.arg1.length()));
 }

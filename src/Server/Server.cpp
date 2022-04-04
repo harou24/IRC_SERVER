@@ -1,7 +1,7 @@
 #include "Server.hpp"
 
 Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClients(MAX_CLIENTS) {
-    _mIsRunning = true;
+    _mIsRunning = false;
     _mPassword = password;
 }
 
@@ -10,17 +10,26 @@ Server::~Server(){
 }
 
 void            Server::start(){
-    _mAcceptor.init();
-    MultiClientHandler::addFdToSet(_mAcceptor.getListenSd());
-
+    if (!_mIsRunning){
+        _mAcceptor.init();
+        MultiClientHandler::addFdToSet(_mAcceptor.getListenSd());
+        _mIsRunning = true;
+    }
     
     if(_mIsRunning){
         for (size_t i = 0; i <= MultiClientHandler::getFdmax(); i++){
-            if (MultiClientHandler::isFdReadyToCommunicate(i)){
-                if (isClientConnecting(i))
-                    addClient();
-                else
-                    handleData(i);
+            try{
+                if (MultiClientHandler::isFdReadyToCommunicate(i)){
+                    if (isClientConnecting(i))
+                        addClient();
+                    else
+                        handleData(i);
+                }
+            }
+            catch(std::exception &e){
+                std::cout << e.what() << std::endl;
+                std::cout << std::strerror(errno) << std::endl;
+                exit(1);
             }
         }
     }
@@ -54,7 +63,7 @@ void            Server::handleData(int fd){
     if ((len = receiveData(fd - FD_CORRECTION, buffer, sizeof(buffer))) > 0){
         buffer[len] = '\0';
         _mQueue.push(createMessage(buffer, fd - FD_CORRECTION));
-        sendData(fd - FD_CORRECTION, buffer, len);
+        // sendData(fd - FD_CORRECTION, buffer, len);
     }
     else
         removeClient(fd);

@@ -37,7 +37,7 @@ void    MultiClientHandler::updateFdSet(void)
 {
     this->tmpFds = this->mainFds;
     if (select(this->fdMax + 1, &this->tmpFds, NULL, NULL, NULL) == - 1)
-        throw new UpdateFailed();
+        throw UpdateFailed();
 }
 
 bool    MultiClientHandler::isFdReadyToCommunicate(int fd)
