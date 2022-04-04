@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 # project name and language
 project(ft_irc LANGUAGES CXX)
 
-# require C++11
+# require C++ version 98
 set(CMAKE_CXX_STANDARD 98)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

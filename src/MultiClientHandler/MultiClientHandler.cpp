@@ -36,7 +36,10 @@ bool    MultiClientHandler::isFdInSet(int fd)
 void    MultiClientHandler::updateFdSet(void)
 {
     this->tmpFds = this->mainFds;
-    if (select(this->fdMax + 1, &this->tmpFds, NULL, NULL, NULL) == - 1)
+    struct timeval tv;
+    tv.tv_sec = 5;
+    tv.tv_usec = 0;
+    if (select(this->fdMax + 1, &this->tmpFds, NULL, NULL, &tv) == - 1)
         throw new UpdateFailed();
 }
 

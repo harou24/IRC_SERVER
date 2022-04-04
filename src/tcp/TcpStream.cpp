@@ -1,5 +1,6 @@
 #include "TcpStream.hpp"
 #include <iostream>
+
 TcpStream::TcpStream(){}
 
 TcpStream::TcpStream(int sd, struct sockaddr_in* address){

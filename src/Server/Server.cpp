@@ -1,4 +1,5 @@
 #include "Server.hpp"
+#include <assert.h>
 
 Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClients(0) {
     _mIsRunning = false;
@@ -9,41 +10,59 @@ Server::~Server(){
     _mClients.clear();
 }
 
-void            Server::start(){
+void            Server::start()
+{
     _mAcceptor.init();
     MultiClientHandler::addFdToSet(_mAcceptor.getListenSd());
+
     _mIsRunning = true;
-    std::cout << "RUNNING -> " << _mIsRunning << "\n";
-    if(_mIsRunning){
-        for (size_t i = 0; i <= MultiClientHandler::getFdmax(); i++){
-            if (MultiClientHandler::isFdReadyToCommunicate(i)){
-                if (isClientConnecting(i))
-                    addClient();
+    while (_mIsRunning)
+    {
+        for (std::size_t fd = 3; fd <= MultiClientHandler::getFdmax(); fd++)
+        {
+            if (MultiClientHandler::isFdReadyToCommunicate(fd))
+            {
+                if (isClientConnecting(fd))
+                {
+                    if (_mNbClients < MAX_CLIENTS)
+                        addClient();
+                }
                 else
-                    handleData(i);
+                    handleData(fd);
             }
         }
     }
 }
 
-void            Server::stop(){
+void            Server::stop()
+{
     _mIsRunning = false;
-    exit(1);
+    std::vector<TcpStream *>::iterator it = _mClients.begin();
+    while (it != _mClients.end())
+    {
+        removeClient((*it)->getSd());
+        it++;
+    }
+}
+
+std::size_t Server::getIndexByFd(int fd)
+{
+    std::size_t i = 0;
+    for ( ; i < _mNbClients; i++)
+        if (_mClients[i]->getSd() == fd)
+            break;
+    return i;
 }
 
 void            Server::addClient(){
     TcpStream *newStream = _mAcceptor.accept();
-    if (newStream->getSd() - FD_CORRECTION >= MAX_CLIENTS){
-        std::cout << "no space left for another client....\n";
-        return;
-    }
     MultiClientHandler::addFdToSet(newStream->getSd());
-    _mClients[newStream->getSd() - FD_CORRECTION] = newStream;
+    _mClients.push_back(newStream);
 }
 
 void            Server::removeClient(int fd){
     MultiClientHandler::clearFd(fd);
-    _mClients[fd - FD_CORRECTION] = NULL;
+    _mClients.erase(_mClients.begin() + getIndexByFd(fd));
     close(fd);
 }
 
@@ -51,10 +70,11 @@ void            Server::handleData(int fd){
     size_t          len;
     char            buffer[512];
 
-    if ((len = receiveData(fd - FD_CORRECTION, buffer, sizeof(buffer))) > 0){
+    if ((len = receiveData(fd, buffer, sizeof(buffer))) > 0)
+    {
         buffer[len] = '\0';
-        _mQueue.push(createMessage(buffer, fd - FD_CORRECTION));
-        sendData(fd - FD_CORRECTION, buffer, len);
+        _mQueue.push(createMessage(buffer, fd));
+        sendData(fd, buffer, len);
     }
     else
         removeClient(fd);
@@ -91,7 +111,7 @@ bool Server::isRunning(void) const { return _mIsRunning; }
 
 const TcpAcceptor& Server::getAcceptor(void) const { return _mAcceptor; }
 
-std::ostream&   operator<<(std::ostream& o, Server const& src){
+std::ostream&   operator << (std::ostream& o, Server const& src){
     for (int i = 0; i < MAX_CLIENTS; i++){
         if (src.getClients()[i] != NULL)
             o << *(src.getClients()[i]) << std::endl;

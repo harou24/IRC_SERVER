@@ -13,7 +13,6 @@
 
 # define MAX_CLIENTS 5
 # define HOST "127.0.0.1"
-# define FD_CORRECTION 4
 
 struct Message
 {
@@ -25,6 +24,7 @@ class Server : public MultiClientHandler
 {
     private:
         TcpAcceptor                 _mAcceptor;
+        std::size_t                 _mNbClients;
         std::vector<TcpStream*>     _mClients;
         bool                        _mIsRunning;
         std::string                 _mPassword;
@@ -43,6 +43,9 @@ class Server : public MultiClientHandler
 
         void addClient(void);
         void removeClient(int fd);
+        void removeClient(std::vector<TcpAcceptor *>::iterator it);
+
+        std::size_t getIndexByFd(int fd);
 
         void handleData(int fd);
         void sendData(int fd, char *buffer, size_t len);
