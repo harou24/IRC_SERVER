@@ -9,9 +9,9 @@ TcpAcceptor::~TcpAcceptor(){
         close(_mListenSd);
 }
 
-int         TcpAcceptor::init(){
+void         TcpAcceptor::init(){
     if (_mListening == true)
-        return 0;
+        return;
     
     createListenSocket();
 
@@ -20,12 +20,11 @@ int         TcpAcceptor::init(){
 
     setSocketOptions();
     
-    int result = bindSocket(&address);
+    bindSocket(&address);
     
-    result = setSocketListen();
+    setSocketListen();
     
     _mListening = true;
-    return result;
 }
 
 TcpStream*  TcpAcceptor::accept(){
@@ -45,6 +44,18 @@ int         TcpAcceptor::getListenSd() const{
     return _mListenSd;
 }
 
+std::string TcpAcceptor::getAddress() const{
+    return _mAddress;
+}
+
+int         TcpAcceptor::getPort() const{
+    return _mPort;
+}
+
+bool        TcpAcceptor::isListening() const {
+    return _mListening;
+}
+
 void        TcpAcceptor::createListenSocket(){
     _mListenSd = socket(AF_INET, SOCK_STREAM, 0);
 }
@@ -56,18 +67,16 @@ void        TcpAcceptor::inetSocketAddress(struct sockaddr_in *address){
     address->sin_addr.s_addr = inet_addr(_mAddress.c_str());
 }
 
-int         TcpAcceptor::bindSocket(struct sockaddr_in *address){
+void        TcpAcceptor::bindSocket(struct sockaddr_in *address){
     int result = bind(_mListenSd, (struct sockaddr*)address, sizeof(*address));
     if (result != 0)
         throw std::runtime_error("bind failed");
-    return result;
 }
 
-int         TcpAcceptor::setSocketListen(){
+void        TcpAcceptor::setSocketListen(){
     int result = listen(_mListenSd, 16);
     if (result != 0)
         throw std::runtime_error("listen failed");
-    return result;
 }
 
 void        TcpAcceptor::setSocketOptions(){

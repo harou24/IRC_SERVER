@@ -9,9 +9,7 @@ TcpStream::TcpStream(int sd, struct sockaddr_in* address){
 }
 
 TcpStream::TcpStream(const TcpStream& src){
-    _mPeerPort = src.getPeerPort();
-    _mPeerIP = src.getPeerIP();
-    _mSd = src._mSd;
+    *this = src;
 }
 
 TcpStream&      TcpStream::operator=(const TcpStream& src){

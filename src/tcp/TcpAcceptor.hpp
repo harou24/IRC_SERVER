@@ -11,9 +11,12 @@ class TcpAcceptor{
         TcpAcceptor(int port, std::string address);
         ~TcpAcceptor();
 
-        int             init();
+        void            init();
         TcpStream*      accept();
         int             getListenSd() const;
+        int             getPort() const;
+        std::string     getAddress() const;
+        bool            isListening() const;
 
     private:
         int             _mListenSd;
@@ -25,9 +28,9 @@ class TcpAcceptor{
         TcpAcceptor();
 
         void            createListenSocket();
-        int             bindSocket(struct sockaddr_in *address);
+        void            bindSocket(struct sockaddr_in *address);
         void            inetSocketAddress(struct sockaddr_in *address);
-        int             setSocketListen();
+        void            setSocketListen();
         void            setSocketOptions();
 };
 
