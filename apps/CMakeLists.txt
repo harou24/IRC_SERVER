@@ -17,3 +17,6 @@ target_link_libraries(irc PRIVATE ft_irc)
 
 add_executable(infinite_loop.out infinite_loop.cpp)
 add_executable(stop_loop.out stop_loop.cpp)
+
+add_executable(tcpStream.out tcpStream.cpp)
+target_link_libraries(tcpStream.out  PRIVATE ft_irc)
