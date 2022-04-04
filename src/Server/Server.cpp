@@ -1,7 +1,7 @@
 #include "Server.hpp"
 
-Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClients(MAX_CLIENTS) {
-    _mIsRunning = true;
+Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClients(0) {
+    _mIsRunning = false;
     _mPassword = password;
 }
 
@@ -12,6 +12,8 @@ Server::~Server(){
 void            Server::start(){
     _mAcceptor.init();
     MultiClientHandler::addFdToSet(_mAcceptor.getListenSd());
+    _mIsRunning = true;
+    std::cout << "RUNNING -> " << _mIsRunning << "\n";
     if(_mIsRunning){
         for (size_t i = 0; i <= MultiClientHandler::getFdmax(); i++){
             if (MultiClientHandler::isFdReadyToCommunicate(i)){
@@ -82,6 +84,12 @@ Message         Server::createMessage(std::string str, int fd){
 std::queue<Message>&     Server::getQueue(){
     return _mQueue;
 }
+
+std::string Server::getPassword(void) const { return _mPassword; }
+
+bool Server::isRunning(void) const { return _mIsRunning; }
+
+const TcpAcceptor& Server::getAcceptor(void) const { return _mAcceptor; }
 
 std::ostream&   operator<<(std::ostream& o, Server const& src){
     for (int i = 0; i < MAX_CLIENTS; i++){
