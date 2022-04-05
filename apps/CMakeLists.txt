@@ -21,3 +21,7 @@ add_executable(stop_loop.out ./experiment/stop_loop.cpp)
 
 add_executable(serverTest.out ./server/serverTest.cpp)
 target_link_libraries(serverTest.out PRIVATE ft_irc)
+
+
+add_executable(test_server_messaging.out ./server/test_server_messaging.cpp)
+target_link_libraries(test_server_messaging.out PRIVATE ft_irc)

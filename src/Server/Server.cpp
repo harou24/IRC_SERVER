@@ -55,6 +55,7 @@ std::size_t Server::getIndexByFd(int fd)
 }
 
 void            Server::addClient(){
+    std::cout << "Client connecting...\n";
     TcpStream *newStream = _mAcceptor.accept();
     MultiClientHandler::addFdToSet(newStream->getSd());
     _mClients.push_back(newStream);
@@ -70,9 +71,11 @@ void            Server::handleData(int fd){
     size_t          len;
     char            buffer[512];
 
+    memset(buffer, 0, sizeof(char) * 512);
+
     if ((len = receiveData(fd, buffer, sizeof(buffer))) > 0)
     {
-        buffer[len] = '\0';
+        //buffer[len] = '\0';
         _mQueue.push(createMessage(buffer, fd));
         sendData(fd, buffer, len);
     }
@@ -81,11 +84,26 @@ void            Server::handleData(int fd){
 }
 
 void            Server::sendData(int fd, char *buffer, size_t len){
-    _mClients[fd]->send(buffer, len);
+
+    std::vector<TcpStream*>::iterator it = _mClients.begin();
+    while (it != _mClients.end())
+    {
+        if ((*it)->getSd() == fd)
+            (*it)->send(buffer, len);
+        it++;
+    }
 }
 
-size_t          Server::receiveData(int fd, char *buffer, size_t len){
-    return _mClients[fd]->receive(buffer, len);
+size_t          Server::receiveData(int fd, char *buffer, size_t len)
+{
+    std::vector<TcpStream*>::iterator it = _mClients.begin();
+    while (it != _mClients.end())
+    {
+        if ((*it)->getSd() == fd)
+            return (*it)->receive(buffer, len);
+        it++;
+    }
+    return -1;
 }
 
 bool            Server::isClientConnecting(int fd){
@@ -97,7 +115,16 @@ const std::vector<TcpStream*>&     Server::getClients() const{
 }
 
 Message         Server::createMessage(std::string str, int fd){
-    Message m = {str, _mClients[fd]};
+
+    std::vector<TcpStream*>::iterator it = _mClients.begin();
+    while (it != _mClients.end())
+    {
+        if ((*it)->getSd() == fd)
+            return { str, *it};
+        it++;
+    }
+
+    Message m = {str, NULL};
     return m;
 }
 

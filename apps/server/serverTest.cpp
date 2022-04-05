@@ -2,8 +2,6 @@
 
 #include <assert.h>
 #include <unistd.h>
-#include <signal.h>
-#include <sys/types.h>
 
 #include <iostream>
 #include <thread>
@@ -12,7 +10,7 @@ Server serv(8080, "password");
 
 void  runServer()
 {
-    std::cout << "Starting server..." << serv.isRunning() << "\n";
+    std::cout << "Starting server...\n";
     serv.start();
 }
 
