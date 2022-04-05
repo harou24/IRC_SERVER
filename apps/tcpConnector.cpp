@@ -41,6 +41,8 @@ void    basicTest(TcpConnector &connector, char **argv, std::string message){
     try{
         TcpStream* stream = connector.connect(atoi(argv[1]), argv[2]);
         if (stream) {
+            assert(stream->getPeerIP() == argv[2]);
+            assert(stream->getPeerPort() == atoi(argv[1]));
             send(message, *stream);
             receive(*stream);
             delete stream;

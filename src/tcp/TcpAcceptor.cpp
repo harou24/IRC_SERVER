@@ -82,7 +82,7 @@ void        TcpAcceptor::setSocketListen(){
 void        TcpAcceptor::setSocketOptions(){
     //makes it possible to immidetly listen on same adddress and port when restart server
     int optval = 1;
-    setsockopt(_mListenSd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof optval);
+    setsockopt(_mListenSd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
 }
 
 std::ostream&           operator<<(std::ostream& o, TcpAcceptor const& src){

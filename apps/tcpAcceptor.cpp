@@ -55,6 +55,7 @@ int     main(int argc, char **argv)
         try{
             stream = server.accept();
             if (stream){
+                assert(stream->getPeerIP() == "127.0.0.1");
                 size_t          len;
                 char     buffer[256];
                 while ((len = stream->receive(buffer, sizeof(buffer))) > 0){
@@ -64,6 +65,8 @@ int     main(int argc, char **argv)
                 }
                 delete stream;
             }
+            else
+                assert(stream == NULL);
         }
         catch(std::exception &e){
             printException(e);

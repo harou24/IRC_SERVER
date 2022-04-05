@@ -5,7 +5,7 @@ add_executable(parser.out parser.cpp)
 target_link_libraries(parser.out PRIVATE ft_irc)
 
 add_executable(echo_server tcpAcceptor.cpp)
-add_executable(echo_client client.cpp)
+add_executable(echo_client tcpConnector.cpp)
 add_executable(tcpStream.out tcpStream.cpp)
 
 add_executable(server multiserver.cpp)
