@@ -14,7 +14,7 @@ def runTest():
   changeDir(TEST_DIR)
   output = subprocess.run([SERVER_EXE, MSG_TO_SEND], capture_output=True)
   if (output.returncode != 0):
-    print("TEST->", SERVER_EXE, " SUCCEEDED!")
+    print("TEST->", SERVER_EXE, " FAILED!")
   else:
     print("TEST->", SERVER_EXE, " SUCCEEDED!")
     

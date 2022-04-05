@@ -46,7 +46,8 @@ void  runClient()
     assert(serv.isRunning() == true);
     connectClient();
     sleep(1);
-    assert(serv.getClients().size() == 1);
+    assert(serv.getNbrClients() == 1 && "NB CLIENTS IS NOT RIGHT");
+    assert(serv.getClients().size() == 1 && "NB CLIENTS IS NOT RIGHT");
     sendMsg();
     sleep(1);
     assert(serv.getQueue().size() == 1);
