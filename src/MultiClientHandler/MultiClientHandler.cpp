@@ -3,7 +3,7 @@
 MultiClientHandler::MultiClientHandler(void)
 {
     this->zeroFdSet();
-    this->fdMax = 0;
+    this->fdMax = 3;
 }
 
 MultiClientHandler::~MultiClientHandler(void) { }

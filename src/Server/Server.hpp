@@ -5,7 +5,7 @@
 # include "TcpAcceptor.hpp"
 # include "TcpStream.hpp"
 
-# include <vector>
+# include <map>
 # include <iostream>
 # include <sys/select.h>
 # include <cstdlib>
@@ -26,7 +26,7 @@ class Server : public MultiClientHandler
 {
     private:
         TcpAcceptor                 _mAcceptor;
-        std::vector<TcpStream*>     _mClients;
+        std::map<int, TcpStream*>   _mClients;
         int                         _mNbrClients;
         bool                        _mIsRunning;
         std::string                 _mPassword;
@@ -52,7 +52,7 @@ class Server : public MultiClientHandler
 
         bool isClientConnecting(int fd);
 
-        const std::vector<TcpStream*>&      getClients() const;
+        const std::map<int, TcpStream*>&      getClients() const;
 
         std::queue<Message>&                 getQueue();
         int                                 getNbrClients() const;

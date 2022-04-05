@@ -22,7 +22,7 @@ class IrcServer{
         Server                  _mServer;
         Parser                  _mData;
         int                     _mNbclients;
-        std::vector<Clients>    _mClient;
+        std::vector<Clients*>    _mClient;
     
     private:
         IrcServer();
