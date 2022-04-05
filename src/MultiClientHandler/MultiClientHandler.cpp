@@ -3,7 +3,7 @@
 MultiClientHandler::MultiClientHandler(void)
 {
     this->zeroFdSet();
-    this->fdMax = 0;
+    this->fdMax = 3;
 }
 
 MultiClientHandler::~MultiClientHandler(void) { }
@@ -35,8 +35,10 @@ bool    MultiClientHandler::isFdInSet(int fd)
 
 void    MultiClientHandler::updateFdSet(void)
 {
+    timeval T;
+    T.tv_sec = 0; T.tv_usec = 500;
     this->tmpFds = this->mainFds;
-    if (select(this->fdMax + 1, &this->tmpFds, NULL, NULL, NULL) == - 1)
+    if (select(this->fdMax + 1, &this->tmpFds, NULL, NULL, &T) == - 1)
         throw UpdateFailed();
 }
 
