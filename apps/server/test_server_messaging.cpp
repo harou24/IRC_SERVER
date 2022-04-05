@@ -45,10 +45,12 @@ void  runClient()
 {
     assert(serv.isRunning() == true);
     connectClient();
+    serv.start();
     sleep(1);
     assert(serv.getNbrClients() == 1 && "NB CLIENTS IS NOT RIGHT");
     assert(serv.getClients().size() == 1 && "NB CLIENTS IS NOT RIGHT");
     sendMsg();
+    serv.start();
     sleep(1);
     assert(serv.getQueue().size() == 1);
     assert(serv.getQueue().front().data == msgToSend);

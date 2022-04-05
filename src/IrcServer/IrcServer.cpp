@@ -15,6 +15,7 @@ void    IrcServer::processMessage()
     while (1)
     {
         _mServer.start();
+        std::cout << _mServer.getNbrClients() << std::endl;
         // std::cout << _mServer << std::endl;
         while (_mServer.getQueue().size() > 0)
         {

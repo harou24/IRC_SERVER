@@ -38,7 +38,7 @@ void            Server::start(){
 
 void            Server::stop(){
     _mIsRunning = false;
-    exit(1);
+    // exit(1);
 }
 
 void            Server::addClient(){
@@ -52,14 +52,14 @@ void            Server::addClient(){
     // _mClients[newStream->getSd() - FD_CORRECTION] = newStream;
     _mNbrClients++;
 
-    size_t          len;
-    char            buffer[512];
+    // size_t          len;
+    // char            buffer[512];
 
-    std::cout << newStream->getSd() << std::endl;
-    if ((len = receiveData(newStream->getSd(), buffer, sizeof(buffer))) > 0){
-        buffer[len] = '\0';
-        _mQueue.push(createMessage(buffer, newStream->getSd()));
-    }
+    // std::cout << newStream->getSd() << std::endl;
+    // if ((len = receiveData(newStream->getSd(), buffer, sizeof(buffer))) > 0){
+    //     buffer[len] = '\0';
+    //     _mQueue.push(createMessage(buffer, newStream->getSd()));
+    // }
 }
 
 void            Server::removeClient(int fd){
