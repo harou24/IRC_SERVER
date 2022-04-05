@@ -10,7 +10,7 @@
 # include <sys/select.h>
 # include <cstdlib>
 # include <queue>
-#include <cstring>
+# include <cerrno>
 
 # define MAX_CLIENTS 5
 # define HOST "127.0.0.1"
