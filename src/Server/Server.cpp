@@ -94,6 +94,10 @@ std::queue<Message>&     Server::getQueue(){
     return _mQueue;
 }
 
+std::string Server::getPassword(void) const { return _mPassword; }
+
+bool Server::isRunning(void) const { return _mIsRunning; }
+
 std::ostream&   operator<<(std::ostream& o, Server const& src){
     for (int i = 0; i < MAX_CLIENTS; i++){
         if (src.getClients()[i] != NULL)

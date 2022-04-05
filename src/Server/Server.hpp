@@ -54,6 +54,9 @@ class Server : public MultiClientHandler
         const std::vector<TcpStream*>&      getClients() const;
 
         std::queue<Message>&                 getQueue();
+
+        std::string getPassword(void) const;
+        bool isRunning(void) const;
 };
 
 std::ostream&   operator<<(std::ostream& o, Server const& src);
