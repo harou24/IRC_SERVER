@@ -10,6 +10,7 @@ class MultiClientHandler {
         fd_set  tmpFds;
         fd_set  mainFds;
         std::size_t fdMax;
+        timeval timer;
 
         bool    isFdInSet(int fd);
         void    updateFdSet(void);
@@ -25,11 +26,6 @@ class MultiClientHandler {
         bool    isFdReadyToCommunicate(int fd);
 
         size_t  getFdmax() const;
-
-        class UpdateFailed : public std::exception {
-            public:
-                virtual const char* what() const throw();
-        };
 };
 
 std::ostream&   operator<<(std::ostream& o, MultiClientHandler const& src);

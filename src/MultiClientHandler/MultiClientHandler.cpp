@@ -3,7 +3,9 @@
 MultiClientHandler::MultiClientHandler(void)
 {
     this->zeroFdSet();
-    this->fdMax = 3;
+    this->fdMax = 0;
+    timer.tv_sec = 0;
+    timer.tv_usec = 500;
 }
 
 MultiClientHandler::~MultiClientHandler(void) { }
@@ -35,11 +37,9 @@ bool    MultiClientHandler::isFdInSet(int fd)
 
 void    MultiClientHandler::updateFdSet(void)
 {
-    timeval T;
-    T.tv_sec = 0; T.tv_usec = 500;
     this->tmpFds = this->mainFds;
-    if (select(this->fdMax + 1, &this->tmpFds, NULL, NULL, &T) == - 1)
-        throw UpdateFailed();
+    if (select(this->fdMax + 1, &this->tmpFds, NULL, NULL, &timer) == - 1)
+        throw std::runtime_error("select " + std::string(strerror(errno)));
 }
 
 bool    MultiClientHandler::isFdReadyToCommunicate(int fd)
@@ -49,11 +49,6 @@ bool    MultiClientHandler::isFdReadyToCommunicate(int fd)
 
 size_t  MultiClientHandler::getFdmax() const{
     return fdMax;
-}
-
-const char* MultiClientHandler::UpdateFailed::what() const throw()
-{
-    return ("Error : Tcp connection error @_@");
 }
 
 std::ostream&   operator<<(std::ostream& o, MultiClientHandler const& src){

@@ -37,7 +37,7 @@ TcpStream*  TcpAcceptor::accept(){
 
     int sd = ::accept(_mListenSd, (struct sockaddr*)&address, &length);
     if (sd < 0)
-        throw std::runtime_error("accept failed");
+        throw std::runtime_error("accept " + std::string(strerror(errno)));
     return new TcpStream(sd, &address);
 }
 
@@ -59,14 +59,14 @@ void        TcpAcceptor::inetSocketAddress(struct sockaddr_in *address){
 int         TcpAcceptor::bindSocket(struct sockaddr_in *address){
     int result = bind(_mListenSd, (struct sockaddr*)address, sizeof(*address));
     if (result != 0)
-        throw std::runtime_error("bind failed");
+        throw std::runtime_error("bind " + std::string(strerror(errno)));
     return result;
 }
 
 int         TcpAcceptor::setSocketListen(){
     int result = listen(_mListenSd, 16);
     if (result != 0)
-        throw std::runtime_error("listen failed");
+        throw std::runtime_error("listen " + std::string(strerror(errno)));
     return result;
 }
 

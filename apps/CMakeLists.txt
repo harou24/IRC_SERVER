@@ -4,13 +4,13 @@ target_link_libraries(table.out PRIVATE ft_irc)
 add_executable(parser.out ./parser/parser.cpp)
 target_link_libraries(parser.out PRIVATE ft_irc)
 
-add_executable(echo_server ./server/server.cpp)
+add_executable(echo_server ./server/tcp_acceptor.cpp)
 target_link_libraries(echo_server PRIVATE ft_irc)
 
-add_executable(echo_client ./client/client.cpp)
+add_executable(echo_client ./client/tcp_connector.cpp)
 target_link_libraries(echo_client PRIVATE ft_irc)
 
-add_executable(server ./server/multiserver.cpp)
+add_executable(server ./server/server.cpp)
 target_link_libraries(server PRIVATE ft_irc)
 
 add_executable(irc ./irc/irc.cpp)

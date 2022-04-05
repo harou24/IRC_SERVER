@@ -19,6 +19,7 @@ TcpStream* stream;
 void  runServer()
 {
     std::cout << "Starting server...\n";
+    serv.runOnce();
     serv.start();
 }
 
