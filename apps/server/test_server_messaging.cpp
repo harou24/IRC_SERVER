@@ -37,7 +37,7 @@ void sendMsg()
 
 void stopClient()
 {
-    delete stream;
+//    delete stream;
     delete connector;
 }
 
