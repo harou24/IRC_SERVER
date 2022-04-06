@@ -22,8 +22,12 @@ test:
 			@cmake -S . -B build -DTEST=ON
 			@cmake --build build
 			@ctest --output-on-failure --test-dir build 
+			
 func:
-			@make re && ./build/apps/test_server_messaging.out "hello what's up!"
+			@mkdir -p build
+			@cmake -S . -B build -DTEST=ON
+			@cmake --build build
+			@./build/apps/test_server_messaging.out "hello what's up!"
 			
 re: clean all
 
