@@ -6,9 +6,10 @@ project(ft_irc LANGUAGES CXX)
 
 option(TEST "TEST" OFF)
 
-# require C++ 98 / 11
+# require C++ 98
 if(TEST)
     set(CMAKE_CXX_STANDARD 11)
+    message("TEST ENABLED c++ version is 11")
 else()
     set(CMAKE_CXX_STANDARD 98)
 endif()
