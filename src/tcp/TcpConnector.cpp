@@ -10,7 +10,7 @@ TcpStream*      TcpConnector::connect(int port, std::string server){
         address.sin_addr.s_addr = inet_addr(server.c_str());//convert IP to network byte order
     int sd = socket(AF_INET, SOCK_STREAM, 0);
     if (::connect(sd, (struct sockaddr*)&address, sizeof(address)) != 0){
-        throw std::runtime_error("connection failed");
+        throw std::runtime_error("connect " + std::string(strerror(errno)));
     }
     return new TcpStream(sd, &address);
 }

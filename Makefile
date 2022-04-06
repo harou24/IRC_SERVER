@@ -23,6 +23,12 @@ test:
 			@cmake --build build
 			@ctest --output-on-failure --test-dir build 
 			
+func:
+			@mkdir -p build
+			@cmake -S . -B build -DTEST=ON
+			@cmake --build build
+			@./build/apps/test_server_messaging.out "hello what's up!"
+			
 re: clean all
 
 .PHONY = clean re $(NAME)

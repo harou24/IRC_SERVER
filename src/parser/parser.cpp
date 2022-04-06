@@ -1,8 +1,5 @@
 #include "parser.hpp"
 
-#include <iostream>
-
-
 void    Parser::away(const std::string& str) 
 {
     std::istringstream  ss(str);
@@ -236,14 +233,16 @@ std::string Parser::find_command(const std::string& s)
 
 void    Parser::parse(const std::string &inProgram)
 {
+    std::string arg;
     void    (Parser::*p2f[])(const std::string& x) = {&Parser::away, &Parser::invite, \
         &Parser::join, &Parser::me, &Parser::msg, &Parser::nick, &Parser::notice, \
         &Parser::part, &Parser::privmsg, &Parser::query, &Parser::quit, \
         &Parser::whois, &Parser::mode, &Parser::user, &Parser::ping};
-    
+
+    this->_mArguments->arg1 = this->_mArguments->arg2 = this->_mArguments->arg3 = this->_mArguments->arg4 = "";
     this->_mRawText = inProgram;
-    std::string arg;
-        arg = find_command(inProgram);
+    
+    arg = find_command(inProgram);
     if (this->_mCommand != UNKNOWN)
         (this->*p2f[this->_mCommand])(arg);
 }

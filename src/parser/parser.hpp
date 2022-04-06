@@ -1,12 +1,8 @@
 #ifndef PARSER_HPP
 # define PARSER_HPP
 
-#include <utility>
-#include <string>
-#include <vector>
 #include <map>
 #include <sstream>
-#include <iostream>
 
 struct Args {
     Args() : arg1(""), arg2(""), arg3(""), arg4("") {}

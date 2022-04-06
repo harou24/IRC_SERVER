@@ -5,6 +5,7 @@
 #include <netdb.h>
 #include <cstring>
 #include <stdexcept>
+#include <cerrno>
 
 class TcpConnector{
     public:

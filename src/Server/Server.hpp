@@ -5,11 +5,12 @@
 # include "TcpAcceptor.hpp"
 # include "TcpStream.hpp"
 
-# include <vector>
+# include <map>
 # include <iostream>
 # include <sys/select.h>
 # include <cstdlib>
 # include <queue>
+# include <cerrno>
 
 # define MAX_CLIENTS 5
 # define HOST "127.0.0.1"
@@ -25,7 +26,8 @@ class Server : public MultiClientHandler
 {
     private:
         TcpAcceptor                 _mAcceptor;
-        std::vector<TcpStream*>     _mClients;
+        std::map<int, TcpStream*>   _mClients;
+        int                         _mNbrClients;
         bool                        _mIsRunning;
         std::string                 _mPassword;
         std::queue<Message>         _mQueue;
@@ -39,6 +41,7 @@ class Server : public MultiClientHandler
         ~Server(void);
 
         void start(void);
+        void runOnce();
         void stop(void);
 
         void addClient(void);
@@ -50,9 +53,13 @@ class Server : public MultiClientHandler
 
         bool isClientConnecting(int fd);
 
-        const std::vector<TcpStream*>&      getClients() const;
+        const std::map<int, TcpStream*>&      getClients() const;
 
         std::queue<Message>&                 getQueue();
+
+        std::string getPassword(void) const;
+        bool isRunning(void) const;
+        int                                 getNbrClients() const;
 };
 
 std::ostream&   operator<<(std::ostream& o, Server const& src);

@@ -19,6 +19,9 @@ class TcpStream
         int             getPeerPort() const;
         int             getSd() const;
 
+        bool    operator==(TcpStream& rhs);
+        bool    operator!=(TcpStream& rhs);
+
     private:
         int             _mSd;
         std::string     _mPeerIP;

@@ -46,3 +46,14 @@ std::ostream&       operator<<(std::ostream& o , TcpStream const & src){
 
     return o;
 }
+
+bool    TcpStream::operator==(TcpStream& rhs)
+{
+    if (rhs._mSd == this->_mSd && rhs._mPeerPort == this->_mPeerPort && rhs._mPeerIP == this->_mPeerIP)
+        return true;
+    return false;
+}
+bool    TcpStream::operator!=(TcpStream& rhs)
+{
+    return !(rhs == *this);
+}

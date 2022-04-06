@@ -4,8 +4,16 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 # project name and language
 project(ft_irc LANGUAGES CXX)
 
-# require C++11
-set(CMAKE_CXX_STANDARD 98)
+option(TEST "TEST" OFF)
+
+# require C++ 98
+if(TEST)
+    set(CMAKE_CXX_STANDARD 11)
+    message("TEST ENABLED c++ version is 11")
+else()
+    set(CMAKE_CXX_STANDARD 98)
+endif()
+
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -g -fsanitize=address")
@@ -18,6 +26,8 @@ include_directories(src/parser)
 include_directories(src/tcp)
 include_directories(src/Server)
 include_directories(src/MultiClientHandler)
+include_directories(src/Clients)
+include_directories(src/IrcServer)
 
 # example library
 add_library(ft_irc src/utils/Table/Row.cpp
@@ -28,13 +38,13 @@ add_library(ft_irc src/utils/Table/Row.cpp
                     src/MultiClientHandler/MultiClientHandler.cpp
                     src/Server/Server.cpp
                     src/parser/parser.cpp
+                    src/Clients/Clients.cpp
                     src/IrcServer/IrcServer.cpp)
 
 # add programs
 add_subdirectory(apps)
 
 # for unitests
-option(TEST "TEST" OFF)
 if(TEST)
 	message("running tests")
 	include(CTest)

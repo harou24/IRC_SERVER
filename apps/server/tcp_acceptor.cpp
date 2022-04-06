@@ -21,7 +21,6 @@ void    validArguments(int argc){
 
 void    printException(std::exception &e){
     std::cout << e.what() << std::endl;
-    std::cout << std::strerror(errno) << std::endl;
     exit(1);
 }
 

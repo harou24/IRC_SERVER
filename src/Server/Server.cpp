@@ -1,24 +1,41 @@
 #include "Server.hpp"
 
-Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClients(MAX_CLIENTS) {
-    _mIsRunning = true;
+Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClients(), _mNbrClients(0) {
+    _mIsRunning = false;
     _mPassword = password;
 }
 
 Server::~Server(){
+    
+    std::map<int, TcpStream*>::iterator it = _mClients.begin();
+    while (it != _mClients.end())
+    {
+        delete it->second;
+        it++;
+    }
     _mClients.clear();
 }
 
-void            Server::start(){
+void            Server::runOnce(){
     _mAcceptor.init();
     MultiClientHandler::addFdToSet(_mAcceptor.getListenSd());
+    _mIsRunning = true;
+}
+
+void            Server::start(){    
     if(_mIsRunning){
-        for (size_t i = 0; i <= MultiClientHandler::getFdmax(); i++){
-            if (MultiClientHandler::isFdReadyToCommunicate(i)){
-                if (isClientConnecting(i))
-                    addClient();
-                else
-                    handleData(i);
+        for (size_t fd = 0; fd <= MultiClientHandler::getFdmax(); fd++){
+            try{
+                if (MultiClientHandler::isFdReadyToCommunicate(fd)){
+                    if (isClientConnecting(fd))
+                        addClient();
+                    else
+                        handleData(fd);
+                }
+            }
+            catch(std::exception &e){
+                std::cout << e.what() << std::endl;
+                exit(1);
             }
         }
     }
@@ -26,51 +43,54 @@ void            Server::start(){
 
 void            Server::stop(){
     _mIsRunning = false;
-    exit(1);
 }
 
 void            Server::addClient(){
-    TcpStream *newStream = _mAcceptor.accept();
-    if (newStream->getSd() - FD_CORRECTION >= MAX_CLIENTS){
+    if (_mNbrClients == MAX_CLIENTS){
         std::cout << "no space left for another client....\n";
         return;
     }
+    TcpStream *newStream = _mAcceptor.accept();
     MultiClientHandler::addFdToSet(newStream->getSd());
-    _mClients[newStream->getSd() - FD_CORRECTION] = newStream;
+    _mClients.insert(std::make_pair(newStream->getSd(), newStream));
+    _mNbrClients++;
 }
 
 void            Server::removeClient(int fd){
     MultiClientHandler::clearFd(fd);
-    _mClients[fd - FD_CORRECTION] = NULL;
+    _mClients.erase(fd);
     close(fd);
+    _mNbrClients--;
 }
 
 void            Server::handleData(int fd){
     size_t          len;
     char            buffer[512];
 
-    if ((len = receiveData(fd - FD_CORRECTION, buffer, sizeof(buffer))) > 0){
+    if ((len = receiveData(fd, buffer, sizeof(buffer))) > 0){
         buffer[len] = '\0';
-        _mQueue.push(createMessage(buffer, fd - FD_CORRECTION));
-        sendData(fd - FD_CORRECTION, buffer, len);
+        _mQueue.push(createMessage(buffer, fd));
     }
     else
         removeClient(fd);
 }
 
 void            Server::sendData(int fd, char *buffer, size_t len){
-    _mClients[fd]->send(buffer, len);
+    if (_mClients[fd])
+        _mClients[fd]->send(buffer, len);
 }
 
 size_t          Server::receiveData(int fd, char *buffer, size_t len){
-    return _mClients[fd]->receive(buffer, len);
+    if (_mClients[fd])
+        return _mClients[fd]->receive(buffer, len);
+    return 0;
 }
 
 bool            Server::isClientConnecting(int fd){
     return fd == _mAcceptor.getListenSd();
 }
 
-const std::vector<TcpStream*>&     Server::getClients() const{
+const std::map<int, TcpStream*>&     Server::getClients() const{
     return _mClients;
 }
 
@@ -83,10 +103,17 @@ std::queue<Message>&     Server::getQueue(){
     return _mQueue;
 }
 
+std::string Server::getPassword(void) const { return _mPassword; }
+
+bool Server::isRunning(void) const { return _mIsRunning; }
+
+int                     Server::getNbrClients() const{
+    return _mNbrClients;
+}
+
 std::ostream&   operator<<(std::ostream& o, Server const& src){
-    for (int i = 0; i < MAX_CLIENTS; i++){
-        if (src.getClients()[i] != NULL)
-            o << *(src.getClients()[i]) << std::endl;
-    }
+    for (std::map<int, TcpStream*>::const_iterator it = src.getClients().begin(); it != src.getClients().end(); it++)
+        o << it->second << std::endl;
+    o << "nbr " << src.getNbrClients() << std::endl;
     return o;
 }
