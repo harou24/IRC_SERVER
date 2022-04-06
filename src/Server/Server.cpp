@@ -6,6 +6,13 @@ Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClien
 }
 
 Server::~Server(){
+    
+    std::map<int, TcpStream*>::iterator it = _mClients.begin();
+    while (it != _mClients.end())
+    {
+        delete it->second;
+        it++;
+    }
     _mClients.clear();
 }
 

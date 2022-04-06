@@ -4,8 +4,16 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 # project name and language
 project(ft_irc LANGUAGES CXX)
 
-# require C++11
-set(CMAKE_CXX_STANDARD 98)
+option(TEST "TEST" OFF)
+
+# require C++ 98
+if(TEST)
+    set(CMAKE_CXX_STANDARD 11)
+    message("TEST ENABLED c++ version is 11")
+else()
+    set(CMAKE_CXX_STANDARD 98)
+endif()
+
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -g -fsanitize=address")
@@ -37,7 +45,6 @@ add_library(ft_irc src/utils/Table/Row.cpp
 add_subdirectory(apps)
 
 # for unitests
-option(TEST "TEST" OFF)
 if(TEST)
 	message("running tests")
 	include(CTest)
