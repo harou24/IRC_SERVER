@@ -1,5 +1,8 @@
 #include "IrcServer.hpp"
 
+#define WELCOME_MSG(nick, args) ":" + args.arg3 + " 001 " + nick + "\n: Welcome to the Internet Relay Network\n" + nick + "!" + args.arg1 + "@" + args.arg2 + "\n"
+#define PING(str) ": " + str + " PONG " + str + " :" + str + "\n"
+
 IrcServer::IrcServer(int port, std::string password) : _mServer(port, password) {}
 
 IrcServer::~IrcServer() {}
@@ -23,6 +26,7 @@ void    IrcServer::processMessage()
                 _mData.parse(s);
                 if (_mData.getCommand() != UNKNOWN)
                     (this->*p2f[_mData.getCommand()])(_mData.getArgument(), *_mServer.getQueue().front().stream);
+                std::cout << s << std::endl;
             }
             _mServer.getQueue().pop();
         }
@@ -123,13 +127,13 @@ void    IrcServer::user(const Args& args, TcpStream& stream){
         (*it)->setServer(args.arg3);
         (*it)->setReal(args.arg4);
         if (!(*it)->getHandShake()){
-            std::string s;
-            s = ":eutrodri 001 " + (*it)->getNick() + "\n: Welcome to the Internet Relay Network\n" + (*it)->getNick() + "!" + (*it)->getUser() + "@" +(*it)->getHost() + "\n";
+            std::string s = WELCOME_MSG((*it)->getNick(), args);
             stream.send(s, s.length());
             (*it)->setHandShake();
         }
      }
 }
 void    IrcServer::ping(const Args& args, TcpStream& stream){
-    stream.send(": eutrodri PONG eutrodri :eutrodri\n", (39 + args.arg1.length()));
+    std::string s = PING(args.arg1);
+    stream.send(s, s.length());
 }
