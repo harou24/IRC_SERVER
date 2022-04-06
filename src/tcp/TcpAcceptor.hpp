@@ -5,6 +5,7 @@
 #include <cstring>
 #include <stdexcept>
 #include <iostream>
+#include <cerrno>
 
 class TcpAcceptor{
     public:
