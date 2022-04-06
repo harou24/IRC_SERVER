@@ -16,13 +16,13 @@ Server::~Server(){
     _mClients.clear();
 }
 
-void            Server::runOnce(){
+void            Server::init(){
     _mAcceptor.init();
     MultiClientHandler::addFdToSet(_mAcceptor.getListenSd());
     _mIsRunning = true;
 }
 
-void            Server::start(){    
+void            Server::runOnce(){    
     if(_mIsRunning){
         for (size_t fd = 0; fd <= MultiClientHandler::getFdmax(); fd++){
             try{

@@ -11,7 +11,7 @@ Server serv(8080, "password");
 void  runServer()
 {
     std::cout << "Starting server...\n";
-    serv.start();
+    serv.runOnce();
 }
 
 int main(void)

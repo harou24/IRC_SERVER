@@ -18,9 +18,9 @@ TcpStream* stream;
 
 void  runServer()
 {
-    std::cout << "Starting server...\n";
+    std::cout << "runOnceing server...\n";
+    serv.init();
     serv.runOnce();
-    serv.start();
 }
 
 void connectClient()
@@ -46,12 +46,12 @@ void  runClient()
 {
     assert(serv.isRunning() == true);
     connectClient();
-    serv.start();
+    serv.runOnce();
     sleep(1);
     assert(serv.getNbrClients() == 1 && "NB CLIENTS IS NOT RIGHT");
     assert(serv.getClients().size() == 1 && "NB CLIENTS IS NOT RIGHT");
     sendMsg();
-    serv.start();
+    serv.runOnce();
     sleep(1);
     assert(serv.getQueue().size() == 1);
     assert(serv.getQueue().front().data == msgToSend);
