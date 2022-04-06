@@ -96,7 +96,7 @@ size_t          Server::receiveData(int fd, char *buffer, size_t len){
     return 0;
 }
 
-bool            Server::isClientConnecting(int fd){
+bool            Server::isClientConnecting(int fd) {
     return fd == _mAcceptor.getListenSd();
 }
 
@@ -121,7 +121,7 @@ int                     Server::getNbrClients() const{
     return _mNbrClients;
 }
 
-std::ostream&   operator<<(std::ostream& o, Server const& src){
+std::ostream&   operator << (std::ostream& o, Server const& src) {
     for (std::map<int, TcpStream*>::const_iterator it = src.getClients().begin(); it != src.getClients().end(); it++)
         o << it->second << std::endl;
     o << "nbr " << src.getNbrClients() << std::endl;
