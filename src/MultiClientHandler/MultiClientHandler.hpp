@@ -4,6 +4,7 @@
 # include <sys/select.h>
 # include <iostream>
 # include <stdexcept>
+# include <cstring>
 # include <cerrno>
 
 class MultiClientHandler {
