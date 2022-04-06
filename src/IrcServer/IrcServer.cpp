@@ -25,6 +25,7 @@
 #define RPL_AWAY(nick, message) nick + " :" + message + "\n"
 #define RPL_UNAWAY() ": You are no longer marked as being away\n"
 #define RPL_NOAWAY() ": You have been marked as being away\n"
+#define PRIV_MESSAGE(nick, nick2, host, message) ":" + nick + "!" + nick + "@" + host + "\n PRIVMSG " + nick2 + " : " + message + "\n"
 
 IrcServer::IrcServer(int port, std::string password) : _mServer(port, password) {}
 
@@ -48,7 +49,8 @@ void    IrcServer::processMessage()
                 _mData.parse(s);
                 if (_mData.getCommand() != UNKNOWN)
                     (this->*p2f[_mData.getCommand()])(_mData.getArgument(), *_mServer.getQueue().front().stream);
-                std::cout << s << std::endl;
+				else if (s == "CAP LS")
+					_mServer.getQueue().front().stream->send("CAP * LS :multi-prefix sasl\n", 12);
             }
             _mServer.getQueue().pop();
         }
@@ -74,7 +76,7 @@ void    IrcServer::away(const Args& args, TcpStream& stream) {
     if (it != _mClient.end() && (*it)->getStream() == stream)
     {
 		std::string s;
-		if ((*it)->getAway() == false || args.arg1 != "")
+		if ((*it)->getAway() == false || args.arg1 == "")
 		{
 			s = RPL_NOAWAY();
 			(*it)->setAway(true);
@@ -129,8 +131,19 @@ void    IrcServer::part(const Args& args, TcpStream& stream){
 void    IrcServer::privmsg(const Args& args, TcpStream& stream){
     std::vector<Clients*>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
-    if (it != _mClient.end() && (*it)->getStream() == stream)
-        (*it)->setNick(args.arg1);
+    if (it != _mClient.end() && (*it)->getStream() == stream){
+		for (std::vector<Clients*>::iterator it2 = _mClient.begin(); it2 != _mClient.end(); it2++)
+		{
+			if ((*it2)->getNick() == args.arg1)
+			{
+				std::string s = PRIV_MESSAGE((*it)->getNick(), args.arg1, (*it)->getHost(), args.arg2);
+    			(*it2)->getStream().send(s, s.length());
+				break ;
+			}
+		}
+    
+
+	}
 }
 void    IrcServer::query(const Args& args, TcpStream& stream){
     std::vector<Clients*>::iterator it;
