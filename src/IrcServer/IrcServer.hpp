@@ -40,6 +40,8 @@ class IrcServer{
         void    mode(const Args& args, TcpStream& stream);
         void    user(const Args& args, TcpStream& stream);
         void    ping(const Args& args, TcpStream& stream);
+
+        void    welcome(const Args& args, TcpStream& stream, Clients* it);
 };
 
 #endif

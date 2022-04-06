@@ -1,6 +1,8 @@
 #include "IrcServer.hpp"
 
-#define WELCOME_MSG(nick, args) ":" + args.arg3 + " 001 " + nick + "\n: Welcome to the Internet Relay Network\n" + nick + "!" + args.arg1 + "@" + args.arg2 + "\n"
+#define RPL_WELCOME(nick, args) ":" + args.arg3 + " 001 " + nick + "\n: Welcome to the Internet Relay Network\n" + nick + "!" + args.arg1 + "@" + args.arg2 + "\n"
+#define RPL_YOURHOST(args) ":Your host is " + args.arg3 + ", running version 1.0\n"
+#define RPL_CREATED ":This server was created 12.54.22 Apr 06 2022\n"
 #define PING(str) ": " + str + " PONG " + str + " :" + str + "\n"
 
 IrcServer::IrcServer(int port, std::string password) : _mServer(port, password) {}
@@ -126,8 +128,7 @@ void    IrcServer::user(const Args& args, TcpStream& stream){
         (*it)->setServer(args.arg3);
         (*it)->setReal(args.arg4);
         if (!(*it)->getHandShake()){
-            std::string s = WELCOME_MSG((*it)->getNick(), args);
-            stream.send(s, s.length());
+            welcome(args, stream, *it);
             (*it)->setHandShake();
         }
      }
@@ -135,4 +136,15 @@ void    IrcServer::user(const Args& args, TcpStream& stream){
 void    IrcServer::ping(const Args& args, TcpStream& stream){
     std::string s = PING(args.arg1);
     stream.send(s, s.length());
+}
+void    IrcServer::welcome(const Args& args, TcpStream& stream, Clients* it){
+    std::string s;
+    s = RPL_WELCOME(it->getNick(), args);
+    stream.send(s, s.length());
+    s = RPL_YOURHOST(args);
+    stream.send(s, s.length());
+    s = RPL_CREATED;
+    stream.send(s, s.length());
+    // s = RPL_MYINFO((*it)->getNick(), args);
+    // stream.send(s, s.length());
 }
