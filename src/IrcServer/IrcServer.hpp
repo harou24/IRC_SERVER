@@ -11,12 +11,7 @@ class IrcServer{
         IrcServer(int port, std::string password);
         ~IrcServer();
 
-
-
-        // void    startServer(int port, std::string password);
-        // void    processMessage(Message& msg);
         void    processMessage();
-        // void    
 
     private:
         Server                  _mServer;

@@ -7,7 +7,6 @@ IrcServer::IrcServer(int port, std::string password) : _mServer(port, password) 
 
 IrcServer::~IrcServer() {}
 
-// void    startServer(int port, std::string password);
 void    IrcServer::processMessage()
 {
     std::string s;
