@@ -23,9 +23,9 @@ int         main(){
     Server      s(8080, "lalala");
 
     SetupSignals();
-    s.runOnce();
+    s.init();
     try{
-           s.start();
+           s.runOnce();
            while (!s.getQueue().empty()){
                std::cout << "Message = " << s.getQueue().front().data << std::endl;
                std::cout << *(s.getQueue().front().stream) << std::endl;

@@ -40,8 +40,9 @@ class Server : public MultiClientHandler
         Server(int port, std::string password);
         ~Server(void);
 
+        void runOnce(void);
+        void init(void);
         void start(void);
-        void runOnce();
         void stop(void);
 
         void addClient(void);

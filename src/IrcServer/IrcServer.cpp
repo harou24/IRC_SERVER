@@ -19,10 +19,10 @@ void    IrcServer::processMessage()
         &IrcServer::join, &IrcServer::me, &IrcServer::msg, &IrcServer::nick, &IrcServer::notice, \
         &IrcServer::part, &IrcServer::privmsg, &IrcServer::query, &IrcServer::quit, \
         &IrcServer::whois, &IrcServer::mode, &IrcServer::user, &IrcServer::ping};
-    _mServer.runOnce();
+    _mServer.init();
     while (1)
     {
-        _mServer.start();
+        _mServer.runOnce();
         while (_mServer.getQueue().size() > 0)
         {
             for (std::stringstream ss(_mServer.getQueue().front().data ); std::getline(ss, s, '\n');)
