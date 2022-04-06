@@ -41,6 +41,16 @@ void            Server::runOnce(){
     }
 }
 
+void            Server::start(void)
+{
+    init();
+    while (1)
+    {
+        if (!_mIsRunning) break;
+        runOnce();
+    }
+}
+
 void            Server::stop(){
     _mIsRunning = false;
 }

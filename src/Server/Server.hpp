@@ -42,6 +42,7 @@ class Server : public MultiClientHandler
 
         void runOnce(void);
         void init(void);
+        void start(void);
         void stop(void);
 
         void addClient(void);
