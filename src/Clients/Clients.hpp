@@ -17,6 +17,8 @@ public:
     void    setHost(const std::string& s);
     void    setServer(const std::string& s);
     void    setReal(const std::string& s);
+    void    setAwayMessage(const std::string& s);
+    void    setAway(bool status);
     void    setHandShake();
 
     std::string     getNick() const;
@@ -24,7 +26,9 @@ public:
     std::string     getHost() const;
     std::string     getServer() const;
     std::string     getReal() const;
+    std::string     getAwayMessage() const;
     TcpStream&      getStream();
+    bool            getAway() const;
     bool            getHandShake() const;
 
 private:
@@ -33,7 +37,9 @@ private:
     std::string _mHostName;
     std::string _mServerName;
     std::string _mRealName;
+    std::string _mAwayMessage;
     TcpStream   _mStream;
+    bool        _mAway;
     bool        _mHandShake;
 
 private:

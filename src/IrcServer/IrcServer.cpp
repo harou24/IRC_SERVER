@@ -4,9 +4,9 @@
 #define RPL_YOURHOST(args) ":Your host is " + args.arg3 + ", running version 1.0\n"
 #define RPL_CREATED ":This server was created 12.54.22 Apr 06 2022\n"
 #define PING(str) ": " + str + " PONG " + str + " :" + str + "\n"
-#define RPL_AWAY(nick, message) nick + " :" + message
-#define RPL_UNAWAY() ":You are no longer marked as being away"
-#define RPL_NOAWAY() ":You have been marked as being away"
+#define RPL_AWAY(nick, message) nick + " :" + message + "\n"
+#define RPL_UNAWAY() ": You are no longer marked as being away\n"
+#define RPL_NOAWAY() ": You have been marked as being away\n"
 
 IrcServer::IrcServer(int port, std::string password) : _mServer(port, password) {}
 
@@ -54,7 +54,23 @@ void    IrcServer::away(const Args& args, TcpStream& stream) {
     std::vector<Clients*>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
     if (it != _mClient.end() && (*it)->getStream() == stream)
-        (*it)->setNick(args.arg1);
+    {
+		std::string s;
+		if ((*it)->getAway() == false || args.arg1 != "")
+		{
+			s = RPL_NOAWAY();
+			(*it)->setAway(true);
+			(*it)->setAwayMessage(args.arg1);
+    		stream.send(s, s.length());
+		}
+		else
+		{
+			s = RPL_UNAWAY();
+			(*it)->setAway(false);
+			(*it)->setAwayMessage("");	
+    		stream.send(s, s.length());
+		}
+	}
 }
 void    IrcServer::invite(const Args& args, TcpStream& stream){
     std::vector<Clients*>::iterator it;
