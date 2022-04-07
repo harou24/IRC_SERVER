@@ -1,0 +1,107 @@
+    ________  ______   _____ __        __        ______      _     __   
+   /  _/ __ \/ ____/  / ___// /___  __/ /__     / ____/_  __(_)___/ /__ 
+   / // /_/ / /       \__ \/ __/ / / / / _ \   / / __/ / / / / __  / _ \
+ _/ // _, _/ /___    ___/ / /_/ /_/ / /  __/  / /_/ / /_/ / / /_/ /  __/
+/___/_/ |_|\____/   /____/\__/\__, /_/\___/   \____/\__,_/_/\__,_/\___/ 
+                             /____/                                     
+
+----------------------------Naming----------------------------
+
+Files/Folders naming
+    lower_case
+
+Function naming:
+    lowerCamelCase
+
+Classes/Struct naming:
+    start with Capital
+
+Variable naming:
+    Local           lowerCamelCase
+
+    Class           lowerCamelCase_         ALWAYS PRIVATE
+
+    Global          g_lowerCamelCase
+    Static          s_lowerCamelCase
+    Const           c_lowerCamelCase
+
+
+Macros/Defines only CAPITALS
+
+clear function/vars/file names
+
+----------------------------Include----------------------------
+
+first own .hpp Files
+newline
+cpp libs
+newline
+c libs
+newline
+defines/macros
+newline
+
+----------------------------Function----------------------------
+
+void            function() {
+    do things
+}
+
+for only return function;
+void            function(int x) {return x;}
+
+for operators:
+std::ostream&   operator << () {
+    do things
+}
+
+Dont put void when functions doenst have parameters
+
+----------------------------IF/ELSE----------------------------
+
+if/else structure:
+if ()
+{
+    do things
+}
+else
+{
+
+}
+for 1line if/else brackets can be left out:
+if ()
+    do thing
+else
+    another thing
+OR
+if ()
+{
+    do things
+}
+else
+    another thing
+OR
+if ()
+    do thing
+else
+{
+    do things
+}
+
+----------------------------Classes----------------------------
+
+class structure:
+class   Server {
+    public:
+        things;
+
+    private:
+        things;
+};
+
+----------------------------Basic----------------------------
+
+max 80 chars in a line
+only tabs no spaces
+no trailing white spaces
+this? -> maybe
