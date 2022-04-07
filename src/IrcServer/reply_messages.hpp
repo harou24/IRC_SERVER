@@ -1,5 +1,5 @@
-#ifndef REPLY_MESSAGES_
-# define REPLY_MESSAGES_
+#ifndef REPLY_MESSAGES
+# define REPLY_MESSAGES
 
 
 # define WELCOME "Welcome to the Internet Relay Network\n"
