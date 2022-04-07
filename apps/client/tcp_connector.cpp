@@ -53,10 +53,10 @@ void    basicTest(TcpConnector &connector, char **argv, std::string message){
 int main(int argc, char **argv)
 {
     validArguments(argc);
-    
+
     std::string message;
     TcpConnector* connector = new TcpConnector();
-    
+
     basicTest(*connector, argv, "Is there life on Mars?");
     basicTest(*connector, argv, "Why is there air?");
 
