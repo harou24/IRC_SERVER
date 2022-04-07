@@ -5,7 +5,7 @@
 /___/_/ |_|\____/   /____/\__/\__, /_/\___/   \____/\__,_/_/\__,_/\___/
                              /____/
 
-----------------------------Naming----------------------------
+-----------------------------Naming-----------------------------
 
 Files/Folders naming
     lower_case
@@ -30,7 +30,7 @@ Macros/Defines only CAPITALS
 
 clear function/vars/file names
 
-----------------------------Include----------------------------
+----------------------------Include-----------------------------
 
 first own .hpp Files
 newline
@@ -57,7 +57,7 @@ std::ostream&   operator << () {
 
 Dont put void when functions doenst have parameters
 
-----------------------------IF/ELSE----------------------------
+----------------------------IF/ELSE-----------------------------
 
 if/else structure:
 if ()
@@ -88,7 +88,7 @@ else
     do things
 }
 
-----------------------------Classes----------------------------
+----------------------------Classes-----------------------------
 
 class structure:
 class   Server {
@@ -99,7 +99,7 @@ class   Server {
         things;
 };
 
-----------------------------Basic----------------------------
+-----------------------------Basic------------------------------
 
 max 80 chars in a line
 only tabs no spaces
