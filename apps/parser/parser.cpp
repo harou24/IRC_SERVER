@@ -1,8 +1,7 @@
 #include "parser.hpp"
 #include <iostream>
 
-int main()
-{
+int main() {
 	Parser   parser;
 
 	parser.parse("USER name hostname servername ");

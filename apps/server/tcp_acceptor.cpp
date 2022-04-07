@@ -1,48 +1,50 @@
 #include "TcpStream.hpp"
 #include "TcpConnector.hpp"
 #include "TcpAcceptor.hpp"
+
 #include <iostream>
-#include <netinet/in.h>
-#include <sys/socket.h>
 #include <stdexcept>
 #include <cstdlib>
 #include <cerrno>
 
+#include <netinet/in.h>
+#include <sys/socket.h>
 #include <signal.h>
 
 #define PORT 8080
 
-void    validArguments(int argc){
-    if (argc != 3){
+void    validArguments(int argc) {
+    if (argc != 3)
+    {
         std::cout << "usage: server <port> <ip-addres>\n";
         exit(1);
     }
 }
 
-void    printException(std::exception &e){
+void    printException(std::exception &e) {
     std::cout << e.what() << std::endl;
     exit(1);
 }
 
-void    setupServer(TcpAcceptor &server){
-    try{
+void    setupServer(TcpAcceptor &server) {
+    try
+    {
         server.init();
     }
-    catch(std::exception &e){
+    catch(std::exception &e)
+    {
         printException(e);
     }
 }
 
 size_t running = 1;
 
-void sig_handler(int pid)
-{
+void sig_handler(int pid) {
   std::cout << "Stopping the Server... pid=" << pid << ".\n";
   running = 0;
 }
 
-int     main(int argc, char **argv)
-{
+int     main(int argc, char **argv) {
     validArguments(argc);
 
     TcpAcceptor     server(atoi(argv[1]), argv[2]);
@@ -64,7 +66,8 @@ int     main(int argc, char **argv)
                 delete stream;
             }
         }
-        catch(std::exception &e){
+        catch(std::exception &e)
+        {
             printException(e);
         }
     }

@@ -5,14 +5,12 @@
 
 int running = 1;
 
-void sig_handler(int pid)
-{
+void sig_handler(int pid) {
   std::cout << "Stopping the loop... pid=" << pid << ".\n";
   running = 0;
 }
 
-int     main(void)
-{
+int     main() {
     signal(SIGQUIT, sig_handler);
 
     std::cout << "Starting the loop...\n";

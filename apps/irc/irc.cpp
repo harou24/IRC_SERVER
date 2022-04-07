@@ -1,6 +1,6 @@
 #include "IrcServer.hpp"
 
-int     main(){
+int     main() {
     IrcServer   S(8080, "lalala");
 
     S.processMessage();

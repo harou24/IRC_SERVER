@@ -3,12 +3,11 @@
 #include "TcpConnector.hpp"
 #include <stdexcept>
 
-#include <assert.h>
-#include <unistd.h>
-
 #include <iostream>
 #include <thread>
 
+#include <assert.h>
+#include <unistd.h>
 
 Server serv(8080, "");
 
@@ -16,33 +15,28 @@ std::string msgToSend("");
 TcpConnector* connector;
 TcpStream* stream;
 
-void  runServer()
-{
+void  runServer() {
 	std::cout << "Runing server...\n";
 	serv.start();
 }
 
-void connectClient()
-{
+void connectClient() {
 	connector = new TcpConnector();
 	assert(serv.isRunning() == true);
 	stream = connector->connect(8080, "127.0.0.1");
 }
 
-void sendMsg()
-{
+void sendMsg() {
 	assert(serv.isRunning() == true);
 	stream->send(msgToSend.c_str(), msgToSend.size());
 }
 
-void stopClient()
-{
+void stopClient() {
 //    delete stream;
 	delete connector;
 }
 
-void  runClient()
-{
+void  runClient() {
 	assert(serv.isRunning() == true);
 	connectClient();
 	sleep(1);
@@ -55,8 +49,7 @@ void  runClient()
 	stopClient();
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
 	if (argc < 2)
 	{
 		std::cout << "You need to provide a message to send \

@@ -2,8 +2,7 @@
 
 #include <signal.h>
 
-int main(void)
-{
+int main() {
   pid_t pid;
 
   std::cout << "What is the process you want to stop ?\n";

@@ -1,21 +1,19 @@
 #include "Server.hpp"
 
-#include <assert.h>
-#include <unistd.h>
-
 #include <iostream>
 #include <thread>
 
+#include <assert.h>
+#include <unistd.h>
+
 Server serv(8080, "password");
 
-void  runServer()
-{
+void  runServer() {
     std::cout << "Starting server...\n";
     serv.runOnce();
 }
 
-int main(void)
-{
+int main() {
     assert(serv.getPassword() == "password");
 
     std::thread serverJob(runServer);

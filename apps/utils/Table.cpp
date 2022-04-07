@@ -5,8 +5,7 @@
 #include <string>
 #include <iostream>
 
-int main(void)
-{
+int main() {
     Row r1(std::vector<std::string> (10, std::string("hello")), 6);
     Row r2(std::vector<std::string> (10, std::string("one")), 6);
     Row r3(std::vector<std::string> (10, std::string("two")), 6);

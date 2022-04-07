@@ -10,24 +10,25 @@
 
 #define PORT 8080
 
-void    validArguments(int argc){
-    if (argc != 3){
+void    validArguments(int argc) {
+    if (argc != 3)
+    {
         std::cout << "usage: client <port> <ip-addres>\n";
         exit(1);
     }
 }
 
-void    printException(std::exception &e){
+void    printException(std::exception &e) {
     std::cout << e.what() << std::endl;
     exit(1);
 }
 
-void    send(std::string message, TcpStream &stream){
+void    send(std::string message, TcpStream &stream) {
     stream.send(message.c_str(), message.size());
     std::cout << "sent - " << message << std::endl;
 }
 
-void    receive(TcpStream &stream){
+void    receive(TcpStream &stream) {
     int     length;
     char    line[256];
 
@@ -36,8 +37,9 @@ void    receive(TcpStream &stream){
     std::cout << "received - " << line << std::endl;
 }
 
-void    basicTest(TcpConnector &connector, char **argv, std::string message){
-    try{
+void    basicTest(TcpConnector &connector, char **argv, std::string message) {
+    try
+    {
         TcpStream* stream = connector.connect(atoi(argv[1]), argv[2]);
         if (stream) {
             send(message, *stream);
@@ -45,13 +47,13 @@ void    basicTest(TcpConnector &connector, char **argv, std::string message){
             delete stream;
         }
     }
-    catch(std::exception &e){
+    catch(std::exception &e)
+    {
         printException(e);
     }
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     validArguments(argc);
 
     std::string message;
