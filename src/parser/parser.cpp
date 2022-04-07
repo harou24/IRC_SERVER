@@ -9,6 +9,8 @@ void    Parser::away(const std::string& str)
         this->_mArguments->arg1 += " " + word;
     if (this->_mArguments->arg1[0] != ':' && this->_mArguments->arg1 != "")
         this->_mCommand = UNKNOWN;
+    else if (this->_mArguments->arg1.length() > 1)
+        this->_mArguments->arg1 = &this->_mArguments->arg1[1];
 }
 
 void    Parser::invite(const std::string& str)

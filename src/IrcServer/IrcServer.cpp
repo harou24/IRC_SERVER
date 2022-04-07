@@ -21,11 +21,14 @@
            -        ~      ' '   \n\
        haroutioun eutienne evita\n\n "
 
-#define PING(str) ": " + str + " PONG " + str + " :" + str + "\n"
+#define PING(str) ":" + str + " PONG " + str + " :" + str + "\n"
+#define PING1(str) "PING :" + str
 #define RPL_AWAY(nick, message) nick + " :" + message + "\n"
 #define RPL_UNAWAY() ": You are no longer marked as being away\n"
 #define RPL_NOAWAY() ": You have been marked as being away\n"
-#define PRIV_MESSAGE(nick, nick2, host, message) ":" + nick + "!" + nick + "@" + host + "\n PRIVMSG " + nick2 + " : " + message + "\n"
+#define PRIV_MESSAGE(nick, nick2, host, message) ":" + nick + "!" + nick + "@" + host + "\n PRIVMSG " + nick2 + " " + message + "\n"
+#define RPL_UMODEIS(host, args) ":" + args.arg1 + "!" + args.arg1 + "@" + host + " MODE " + args.arg1 + " :" + args.arg2 +  "\n"
+#define RPL_NICK(server, user, nick) ":" + user + "!" + user + "@" + server + " NICK :" + nick + "\n"
 
 IrcServer::IrcServer(int port, std::string password) : _mServer(port, password) {}
 
@@ -47,10 +50,9 @@ void    IrcServer::processMessage()
             for (std::stringstream ss(_mServer.getQueue().front().data ); std::getline(ss, s, '\n');)
             {
                 _mData.parse(s);
+                std::cout << s << std::endl;
                 if (_mData.getCommand() != UNKNOWN)
                     (this->*p2f[_mData.getCommand()])(_mData.getArgument(), *_mServer.getQueue().front().stream);
-				else if (s == "CAP LS")
-					_mServer.getQueue().front().stream->send("CAP * LS :multi-prefix sasl\n", 12);
             }
             _mServer.getQueue().pop();
         }
@@ -60,9 +62,15 @@ void    IrcServer::processMessage()
  void    IrcServer::nick(const Args& args, TcpStream& stream)
  {
     std::vector<Clients*>::iterator it;
+    std::string s;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
     if (it != _mClient.end() && (*it)->getStream() == stream)
+    {
         (*it)->setNick(args.arg1);
+        s = RPL_NICK((*it)->getServer(), (*it)->getUser(), (*it)->getNick());
+        stream.send(s, s.length());
+    }
+
     else
     {
         Clients *c = new Clients(args.arg1, stream);
@@ -167,7 +175,10 @@ void    IrcServer::mode(const Args& args, TcpStream& stream){
     std::vector<Clients*>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
     if (it != _mClient.end() && (*it)->getStream() == stream)
-        (*it)->setNick(args.arg1);
+    {
+        std::string s = RPL_UMODEIS((*it)->getServer(), args);
+        stream.send(s, s.length());
+    }
 }
 void    IrcServer::user(const Args& args, TcpStream& stream){
     std::vector<Clients*>::iterator it;
@@ -188,7 +199,14 @@ void    IrcServer::ping(const Args& args, TcpStream& stream){
     stream.send(s, s.length());
 }
 void    IrcServer::welcome(const Args& args, TcpStream& stream, Clients* it){
-    std::string s;
+    std::string s = "blablablabl\n";
+    s = PING1(s);
+    stream.send(s, s.length());
+    s = "CAP * LS :away-notify\n";
+    stream.send(s, s.length());
+    sleep(1);
+    // s = "CAP * ACK :multi-prefix sasl";
+    // stream.send(s, s.length());
     s = RPL_WELCOME(it->getNick(), args);
     stream.send(s, s.length());
     s = RPL_YOURHOST(args);
