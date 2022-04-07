@@ -3,19 +3,19 @@
 
 int main()
 {
-    Parser   parser;
-    
-    parser.parse("USER name hostname servername ");
+	Parser   parser;
 
-    Args A = parser.getArgument();
+	parser.parse("USER name hostname servername ");
 
-    std::cout << parser.getCommand() << std::endl;
-    std::cout << parser.getRaw() << std::endl;
-    std::cout << A.arg1 << std::endl;
-    std::cout << A.arg2 << std::endl;
-    std::cout << A.arg3 << std::endl;
-    std::cout << A.arg4 << std::endl;
+	Args A = parser.getArgument();
 
-    std::cout << parser << std::endl;
+	std::cout << parser.getCommand() << std::endl;
+	std::cout << parser.getRaw() << std::endl;
+	std::cout << A.arg1 << std::endl;
+	std::cout << A.arg2 << std::endl;
+	std::cout << A.arg3 << std::endl;
+	std::cout << A.arg4 << std::endl;
+
+	std::cout << parser << std::endl;
 
 }

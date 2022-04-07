@@ -12,18 +12,18 @@ TcpAcceptor::~TcpAcceptor(){
 int         TcpAcceptor::init(){
     if (_mListening == true)
         return 0;
-    
+
     createListenSocket();
 
     struct sockaddr_in address;
     inetSocketAddress(&address);
 
     setSocketOptions();
-    
+
     int result = bindSocket(&address);
-    
+
     result = setSocketListen();
-    
+
     _mListening = true;
     return result;
 }

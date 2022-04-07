@@ -14,7 +14,7 @@ make
 cd build/apps
 ./helloWorld.out
 ```
-Run unitests : 
+Run unitests :
 ```
 make test
 ```

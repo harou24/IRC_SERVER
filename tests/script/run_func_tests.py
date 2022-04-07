@@ -17,5 +17,5 @@ def runTest():
     print("TEST->", SERVER_EXE, " FAILED!")
   else:
     print("TEST->", SERVER_EXE, " SUCCEEDED!")
-    
+
 runTest()

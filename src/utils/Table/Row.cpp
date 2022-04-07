@@ -55,5 +55,5 @@ std::ostream &operator << (std::ostream &output, const Row &row)
 {
     std::string str = row.getRowAsStr();
     output << str;
-    return output; 
+    return output;
 }

@@ -1,5 +1,9 @@
 #!/usr/bin/env
 
+# Run script after make clean, otherwise you get an error
+# Run the script in de root folder
+# It wil check all files in the root and sub directories
+
 import sys
 import os
 
@@ -10,7 +14,7 @@ def checkLines(data, file):
 	for line in data:
 		line_num += 1
 		if len(line) > 80:
-			print(file + " line " + str(line_num) + " has more then 80characters, namely " + str(len(line)))
+			print(file + " line " + str(line_num) + " has more then 80 characters, namely " + str(len(line)))
 			counter += 1
 		if line[0:len(line)-1].endswith((' ', ' ')):
 			print(file + " line " + str(line_num) + " has trailing whitespaces")

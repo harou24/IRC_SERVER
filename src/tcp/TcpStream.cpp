@@ -5,7 +5,7 @@ TcpStream::TcpStream(){}
 TcpStream::TcpStream(int sd, struct sockaddr_in* address){
     _mPeerIP = inet_ntoa(address->sin_addr);//converts host address in byte order to string
     _mPeerPort = ntohs(address->sin_port);//converst network byte order to host byte order
-    _mSd = sd; 
+    _mSd = sd;
 }
 
 TcpStream::TcpStream(const TcpStream& src){

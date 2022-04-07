@@ -7,7 +7,7 @@
 TEST_CASE("Parsing command Nick")
 {
     Parser   parser;
-    
+
     parser.parse("nick lala ");
 
     Args A = parser.getArgument();
@@ -18,13 +18,13 @@ TEST_CASE("Parsing command Nick")
     REQUIRE(A.arg2 == "");
     REQUIRE(A.arg3 == "");
     REQUIRE(A.arg4 == "");
-    
+
 }
 
 TEST_CASE("Parsing command JOIN")
 {
     Parser   parser;
-    
+
     parser.parse("JOIN #channel");
 
     Args A = parser.getArgument();
@@ -40,7 +40,7 @@ TEST_CASE("Parsing command JOIN")
 TEST_CASE("Parsing command JOIN_WRONG")
 {
     Parser   parser;
-    
+
     parser.parse("JOIN channel");
 
     Args A = parser.getArgument();
@@ -56,7 +56,7 @@ TEST_CASE("Parsing command JOIN_WRONG")
 TEST_CASE("Parsing command AWAY")
 {
     Parser   parser;
-    
+
     parser.parse("AWAY :message");
 
     Args A = parser.getArgument();
@@ -72,7 +72,7 @@ TEST_CASE("Parsing command AWAY")
 TEST_CASE("Parsing command AWAY2")
 {
     Parser   parser;
-    
+
     parser.parse("AWAY ");
 
     Args A = parser.getArgument();
@@ -88,7 +88,7 @@ TEST_CASE("Parsing command AWAY2")
 TEST_CASE("Parsing command INVITE")
 {
     Parser   parser;
-    
+
     parser.parse("INVITE name #channel");
 
     Args A = parser.getArgument();
@@ -104,7 +104,7 @@ TEST_CASE("Parsing command INVITE")
 TEST_CASE("Parsing command MSG")
 {
     Parser   parser;
-    
+
     parser.parse("MSG name :message second");
 
     Args A = parser.getArgument();
@@ -120,7 +120,7 @@ TEST_CASE("Parsing command MSG")
 TEST_CASE("Parsing command ME")
 {
     Parser   parser;
-    
+
     parser.parse("ME :message second");
 
     Args A = parser.getArgument();
@@ -136,7 +136,7 @@ TEST_CASE("Parsing command ME")
 TEST_CASE("Parsing command ME_WRONG")
 {
     Parser   parser;
-    
+
     parser.parse("ME message second");
 
     Args A = parser.getArgument();
@@ -152,9 +152,9 @@ TEST_CASE("Parsing command ME_WRONG")
 TEST_CASE("Parsing command NOTICE")
 {
     Parser   parser;
-    
+
     parser.parse("NOTICE name :message second");
-    
+
     Args A = parser.getArgument();
 
     REQUIRE(parser.getCommand() == NOTICE);
@@ -168,7 +168,7 @@ TEST_CASE("Parsing command NOTICE")
 TEST_CASE("Parsing command PART")
 {
     Parser   parser;
-    
+
     parser.parse("PART #channel");
 
     Args A = parser.getArgument();
@@ -184,7 +184,7 @@ TEST_CASE("Parsing command PART")
 TEST_CASE("Parsing command PRIVMSG")
 {
     Parser   parser;
-    
+
     parser.parse("PRIVMSG name :message");
 
     Args A = parser.getArgument();
@@ -200,7 +200,7 @@ TEST_CASE("Parsing command PRIVMSG")
 TEST_CASE("Parsing command QUERY")
 {
     Parser   parser;
-    
+
     parser.parse("QUERY name :message");
 
     Args A = parser.getArgument();
@@ -216,7 +216,7 @@ TEST_CASE("Parsing command QUERY")
 TEST_CASE("Parsing command QUIT")
 {
     Parser   parser;
-    
+
     parser.parse("QUIT :message");
 
     Args A = parser.getArgument();
@@ -232,7 +232,7 @@ TEST_CASE("Parsing command QUIT")
 TEST_CASE("Parsing command QUIT2")
 {
     Parser   parser;
-    
+
     parser.parse("QUIT ");
 
     Args A = parser.getArgument();
@@ -248,7 +248,7 @@ TEST_CASE("Parsing command QUIT2")
 TEST_CASE("Parsing command WHOIS")
 {
     Parser   parser;
-    
+
     parser.parse("WHOIS name");
 
     Args A = parser.getArgument();
@@ -264,7 +264,7 @@ TEST_CASE("Parsing command WHOIS")
 TEST_CASE("Parsing command MODE1")
 {
     Parser   parser;
-    
+
     parser.parse("MODE name -b <nick>");
 
     Args A = parser.getArgument();
@@ -280,7 +280,7 @@ TEST_CASE("Parsing command MODE1")
 TEST_CASE("Parsing command MODE2")
 {
     Parser   parser;
-    
+
     parser.parse("MODE #channel -b <nick>");
 
     Args A = parser.getArgument();
@@ -296,7 +296,7 @@ TEST_CASE("Parsing command MODE2")
 TEST_CASE("Parsing command USER")
 {
     Parser   parser;
-    
+
     parser.parse("USER name hostname servername :real name");
 
     Args A = parser.getArgument();
@@ -312,7 +312,7 @@ TEST_CASE("Parsing command USER")
 TEST_CASE("Parsing command PING")
 {
     Parser   parser;
-    
+
     parser.parse("PING hostname");
 
     Args A = parser.getArgument();
@@ -328,7 +328,7 @@ TEST_CASE("Parsing command PING")
 TEST_CASE("Parsing command UNKNOWN")
 {
     Parser   parser;
-    
+
     parser.parse("USER name hostname servername ");
 
     Args A = parser.getArgument();

@@ -54,7 +54,7 @@ def runTest():
     time.sleep(1)
     connectToServer()
     stopServer()
-    
+
 #  connectToServer()
 #stopServer()
 

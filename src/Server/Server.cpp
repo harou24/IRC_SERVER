@@ -6,7 +6,6 @@ Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClien
 }
 
 Server::~Server(){
-    
     std::map<int, TcpStream*>::iterator it = _mClients.begin();
     while (it != _mClients.end())
     {
@@ -22,7 +21,7 @@ void            Server::init(){
     _mIsRunning = true;
 }
 
-void            Server::runOnce(){    
+void            Server::runOnce(){
     if(_mIsRunning){
         for (size_t fd = 0; fd <= MultiClientHandler::getFdmax(); fd++){
             try{

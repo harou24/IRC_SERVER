@@ -27,5 +27,5 @@ int main(void)
     assert(serv.isRunning() == false);
 
     serverJob.join();
-    return 0;   
+    return 0;
 }

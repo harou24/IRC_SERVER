@@ -38,7 +38,7 @@ size_t running = 1;
 void sig_handler(int pid)
 {
   std::cout << "Stopping the Server... pid=" << pid << ".\n";
-  running = 0;  
+  running = 0;
 }
 
 int     main(int argc, char **argv)

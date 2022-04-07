@@ -34,7 +34,7 @@ class Server : public MultiClientHandler
         std::queue<Message>         _mQueue;
 
         Server(void);
-        
+
         Message createMessage(std::string str, int fd);
 
     public:

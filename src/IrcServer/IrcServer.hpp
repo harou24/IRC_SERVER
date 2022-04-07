@@ -18,10 +18,10 @@ class IrcServer{
         Parser                  _mData;
         int                     _mNbclients;
         std::vector<Clients*>    _mClient;
-    
+
     private:
         IrcServer();
-        
+
         void    makeClient(std::string s, const TcpStream & ts);
         void    splitStrings(std::string str);
 

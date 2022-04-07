@@ -21,8 +21,8 @@ add_executable(stop_loop.out ./experiment/stop_loop.cpp)
 
 
 if(TEST)
-    add_executable(test_server_start_stop.out ./server/test_server_start_stop.cpp)
-    target_link_libraries(test_server_start_stop.out PRIVATE ft_irc)
-    add_executable(test_server_messaging.out ./server/test_server_messaging.cpp)
-    target_link_libraries(test_server_messaging.out PRIVATE ft_irc)
+	add_executable(test_server_start_stop.out ./server/test_server_start_stop.cpp)
+	target_link_libraries(test_server_start_stop.out PRIVATE ft_irc)
+	add_executable(test_server_messaging.out ./server/test_server_messaging.cpp)
+	target_link_libraries(test_server_messaging.out PRIVATE ft_irc)
 endif()

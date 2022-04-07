@@ -1,18 +1,18 @@
 #include "Clients.hpp"
 
-Clients::Clients(const std::string& nick, TcpStream& stream) : _mNickName(nick), _mUserName(""), _mHostName(""), 
-_mServerName(""), _mRealName(""), _mAwayMessage(""), _mStream(stream), _mAway(false), _mHandShake(false)
+Clients::Clients(const std::string& nick, TcpStream& stream) :
+_mNickName(nick), _mUserName(""), _mHostName(""), _mServerName(""),
+_mRealName(""), _mAwayMessage(""), _mStream(stream), _mAway(false),
+ _mHandShake(false)
 {
 }
 
-Clients::Clients(const Clients& src) 
+Clients::Clients(const Clients& src)
 : _mNickName(src.getNick()), _mUserName(src.getUser()), _mHostName(src.getHost()),
-_mServerName(src.getServer()), _mRealName(src.getReal()), _mAwayMessage(src._mAwayMessage), 
+_mServerName(src.getServer()), _mRealName(src.getReal()), _mAwayMessage(src._mAwayMessage),
 _mStream(src._mStream), _mAway(src.getAway()), _mHandShake(src.getHandShake())
 {
 }
-
-
 
 Clients::~Clients()
 {
@@ -41,10 +41,10 @@ bool            Clients::getHandShake() const {return _mHandShake;}
 
 std::ostream&   operator<<(std::ostream& o, const Clients & src)
 {
-    o << "Nick = " << src.getNick() << std::endl;
-    o << "User = " << src.getUser() << std::endl;
-    o << "Host = " << src.getHost() << std::endl;
-    o << "Server = " << src.getServer() << std::endl;
-    o << "Real = " << src.getReal() << std::endl;
-    return o;
+	o << "Nick = " << src.getNick() << std::endl;
+	o << "User = " << src.getUser() << std::endl;
+	o << "Host = " << src.getHost() << std::endl;
+	o << "Server = " << src.getServer() << std::endl;
+	o << "Real = " << src.getReal() << std::endl;
+	return o;
 }

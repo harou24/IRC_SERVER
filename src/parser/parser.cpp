@@ -1,6 +1,6 @@
 #include "parser.hpp"
 
-void    Parser::away(const std::string& str) 
+void    Parser::away(const std::string& str)
 {
     std::istringstream  ss(str);
     std::string         word;
@@ -20,8 +20,7 @@ void    Parser::invite(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-
-void    Parser::join(const std::string& str) 
+void    Parser::join(const std::string& str)
 {
     std::istringstream  ss(str);
     ss >> this->_mArguments->arg1;
@@ -30,8 +29,7 @@ void    Parser::join(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-
-void    Parser::me(const std::string& str) 
+void    Parser::me(const std::string& str)
 {
     std::istringstream  ss(str);
     std::string         word;
@@ -42,7 +40,7 @@ void    Parser::me(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-void    Parser::msg(const std::string& str) 
+void    Parser::msg(const std::string& str)
 {
     std::istringstream  ss(str);
     std::string         word;
@@ -54,8 +52,7 @@ void    Parser::msg(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-
-void    Parser::nick(const std::string& str) 
+void    Parser::nick(const std::string& str)
 {
     std::istringstream  ss(str);
     ss >> this->_mArguments->arg1;
@@ -63,8 +60,7 @@ void    Parser::nick(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-
-void    Parser::notice(const std::string& str) 
+void    Parser::notice(const std::string& str)
 {
     std::istringstream  ss(str);
     std::string         word;
@@ -76,8 +72,7 @@ void    Parser::notice(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-
-void    Parser::part(const std::string& str) 
+void    Parser::part(const std::string& str)
 {
     std::istringstream  ss(str);
     ss >> this->_mArguments->arg1;
@@ -85,7 +80,7 @@ void    Parser::part(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-void    Parser::privmsg(const std::string& str) 
+void    Parser::privmsg(const std::string& str)
 {
     std::istringstream  ss(str);
     std::string         word;
@@ -97,8 +92,7 @@ void    Parser::privmsg(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-
-void    Parser::query(const std::string& str) 
+void    Parser::query(const std::string& str)
 {
     std::istringstream  ss(str);
     std::string         word;
@@ -110,8 +104,7 @@ void    Parser::query(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-
-void    Parser::quit(const std::string& str) 
+void    Parser::quit(const std::string& str)
 {
     std::istringstream  ss(str);
     std::string         word;
@@ -122,7 +115,7 @@ void    Parser::quit(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-void    Parser::whois(const std::string& str) 
+void    Parser::whois(const std::string& str)
 {
     std::istringstream  ss(str);
     ss >> this->_mArguments->arg1;
@@ -130,8 +123,7 @@ void    Parser::whois(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-
-void    Parser::mode(const std::string& str) 
+void    Parser::mode(const std::string& str)
 {
     std::istringstream  ss(str);
     ss >> this->_mArguments->arg1;
@@ -143,8 +135,7 @@ void    Parser::mode(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-
-void    Parser::user(const std::string& str) 
+void    Parser::user(const std::string& str)
 {
     std::istringstream  ss(str);
     std::string         word;
@@ -160,7 +151,7 @@ void    Parser::user(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-void    Parser::ping(const std::string& str) 
+void    Parser::ping(const std::string& str)
 {
     std::istringstream  ss(str);
     ss >> this->_mArguments->arg1;
@@ -169,11 +160,11 @@ void    Parser::ping(const std::string& str)
 }
 
 Parser::Parser() : _mCommand(UNKNOWN), _mArguments(0), _mRawText("")
-{ 
+{
     this->_mArguments = new Args();
 }
 
-Parser::~Parser() 
+Parser::~Parser()
 {
     delete _mArguments;
 }
@@ -199,12 +190,12 @@ std::string Parser::find_command(const std::string& s)
     std::string s1, s2 = "";
     std::istringstream  ss(s);
     std::map<std::string,CommandType> string_to_case;
-    string_to_case.insert(std::make_pair<std::string,CommandType>("AWAY",AWAY)); 
+    string_to_case.insert(std::make_pair<std::string,CommandType>("AWAY",AWAY));
     string_to_case.insert(std::make_pair<std::string,CommandType>("INVITE",INVITE));
-    string_to_case.insert(std::make_pair<std::string,CommandType>("JOIN",JOIN)); 
+    string_to_case.insert(std::make_pair<std::string,CommandType>("JOIN",JOIN));
     string_to_case.insert(std::make_pair<std::string,CommandType>("ME",ME));
     string_to_case.insert(std::make_pair<std::string,CommandType>("MSG",MSG));
-    string_to_case.insert(std::make_pair<std::string,CommandType>("NICK",NICK)); 
+    string_to_case.insert(std::make_pair<std::string,CommandType>("NICK",NICK));
     string_to_case.insert(std::make_pair<std::string,CommandType>("NOTICE",NOTICE));
     string_to_case.insert(std::make_pair<std::string,CommandType>("PART",PART));
     string_to_case.insert(std::make_pair<std::string,CommandType>("PRIVMSG",PRIVMSG));
@@ -214,7 +205,7 @@ std::string Parser::find_command(const std::string& s)
     string_to_case.insert(std::make_pair<std::string,CommandType>("MODE",MODE));
     string_to_case.insert(std::make_pair<std::string,CommandType>("USER",USER));
     string_to_case.insert(std::make_pair<std::string,CommandType>("PING",PING));
-    
+
     ss >> s1;
     if (ss>>s2)
         s2 = s.substr(s1.length()+1, s.length() - (s1.length()+1));
@@ -241,7 +232,7 @@ void    Parser::parse(const std::string &inProgram)
 
     this->_mArguments->arg1 = this->_mArguments->arg2 = this->_mArguments->arg3 = this->_mArguments->arg4 = "";
     this->_mRawText = inProgram;
-    
+
     arg = find_command(inProgram);
     if (this->_mCommand != UNKNOWN)
         (this->*p2f[this->_mCommand])(arg);
