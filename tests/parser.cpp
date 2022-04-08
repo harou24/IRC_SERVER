@@ -63,7 +63,7 @@ TEST_CASE("Parsing command AWAY")
 
     REQUIRE(parser.getCommand() == AWAY);
     REQUIRE(parser.getRaw() == "AWAY :message");
-    REQUIRE(A.arg1 == ":message");
+    REQUIRE(A.arg1 == "message");
     REQUIRE(A.arg2 == "");
     REQUIRE(A.arg3 == "");
     REQUIRE(A.arg4 == "");

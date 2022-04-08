@@ -29,6 +29,7 @@
 #define PRIV_MESSAGE(nick, nick2, host, message) ":" + nick + "!" + nick + "@" + host + "\n PRIVMSG " + nick2 + " " + message + "\n"
 #define RPL_UMODEIS(host, args) ":" + args.arg1 + "!" + args.arg1 + "@" + host + " MODE " + args.arg1 + " :" + args.arg2 +  "\n"
 #define RPL_NICK(server, user, nick) ":" + user + "!" + user + "@" + server + " NICK :" + nick + "\n"
+#define NOTICE(server) server + " NOTICE * :*** Looking up your hostname...\n"
 
 IrcServer::IrcServer(int port, std::string password) : _mServer(port, password) {}
 
@@ -177,6 +178,7 @@ void    IrcServer::mode(const Args& args, TcpStream& stream){
     if (it != _mClient.end() && (*it)->getStream() == stream)
     {
         std::string s = RPL_UMODEIS((*it)->getServer(), args);
+        std::cout << s << std::endl;
         stream.send(s, s.length());
     }
 }
@@ -199,14 +201,17 @@ void    IrcServer::ping(const Args& args, TcpStream& stream){
     stream.send(s, s.length());
 }
 void    IrcServer::welcome(const Args& args, TcpStream& stream, Clients* it){
-    std::string s = "blablablabl\n";
+    std::string s;
+    s = NOTICE(it->getServer());
+    stream.send(s, s.length());
+    s = "CAP * LS :account-notify account-tag away-notify batch cap-notify chghost echo-message extended-join inspircd.org/poison inspircd.org/standard-replies invite-notify labeled-response message-tags multi-prefix server-time setname userhost-in-names\n";
+    stream.send(s, s.length());
+    s = "blablablabl\n";
     s = PING1(s);
     stream.send(s, s.length());
-    s = "CAP * LS :away-notify\n";
-    stream.send(s, s.length());
     sleep(1);
-    // s = "CAP * ACK :multi-prefix sasl";
-    // stream.send(s, s.length());
+    s = "CAP * ACK : multi-prefix\n";
+    stream.send(s, s.length());
     s = RPL_WELCOME(it->getNick(), args);
     stream.send(s, s.length());
     s = RPL_YOURHOST(args);
