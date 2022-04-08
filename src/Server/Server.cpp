@@ -31,9 +31,9 @@ void            Server::runOnce(){
                     {
                         if (_mNbrClients == MAX_CLIENTS){
                             std::cout << "nbr clients = " << _mNbrClients << std::endl;
-                            MultiClientHandler::clearFd(fd);
+                            // MultiClientHandler::clearFd(fd);
                         }
-                        else
+                        else if (MultiClientHandler::isFdReadyToCommunicate(fd))
                             addClient();
                     }
                     else
