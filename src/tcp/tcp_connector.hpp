@@ -1,7 +1,8 @@
-#ifndef TCPCONNECTOR_HPP
-# define TCPCONNECTOR_HPP
+#ifndef TCP_CONNECTOR_HPP
+# define TCP_CONNECTOR_HPP
 
-#include "TcpStream.hpp"
+#include "tcp_stream.hpp"
+
 #include <netdb.h>
 #include <cstring>
 #include <stdexcept>

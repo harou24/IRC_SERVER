@@ -1,19 +1,19 @@
 #include "Server.hpp"
 
-Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClients(), _mNbrClients(0) {
+Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClientss(), _mNbrClients(0) {
     _mIsRunning = false;
     _mPassword = password;
 }
 
 Server::~Server(){
     
-    std::map<int, TcpStream*>::iterator it = _mClients.begin();
-    while (it != _mClients.end())
+    std::map<int, TcpStream*>::iterator it = _mClientss.begin();
+    while (it != _mClientss.end())
     {
         delete it->second;
         it++;
     }
-    _mClients.clear();
+    _mClientss.clear();
 }
 
 void            Server::init(){
@@ -62,13 +62,13 @@ void            Server::addClient(){
     }
     TcpStream *newStream = _mAcceptor.accept();
     MultiClientHandler::addFdToSet(newStream->getSd());
-    _mClients.insert(std::make_pair(newStream->getSd(), newStream));
+    _mClientss.insert(std::make_pair(newStream->getSd(), newStream));
     _mNbrClients++;
 }
 
 void            Server::removeClient(int fd){
     MultiClientHandler::clearFd(fd);
-    _mClients.erase(fd);
+    _mClientss.erase(fd);
     close(fd);
     _mNbrClients--;
 }
@@ -86,13 +86,13 @@ void            Server::handleData(int fd){
 }
 
 void            Server::sendData(int fd, char *buffer, size_t len){
-    if (_mClients[fd])
-        _mClients[fd]->send(buffer, len);
+    if (_mClientss[fd])
+        _mClientss[fd]->send(buffer, len);
 }
 
 size_t          Server::receiveData(int fd, char *buffer, size_t len){
-    if (_mClients[fd])
-        return _mClients[fd]->receive(buffer, len);
+    if (_mClientss[fd])
+        return _mClientss[fd]->receive(buffer, len);
     return 0;
 }
 
@@ -101,11 +101,11 @@ bool            Server::isClientConnecting(int fd){
 }
 
 const std::map<int, TcpStream*>&     Server::getClients() const{
-    return _mClients;
+    return _mClientss;
 }
 
 Message         Server::createMessage(std::string str, int fd){
-    Message m = {str, _mClients[fd]};
+    Message m = {str, _mClientss[fd]};
     return m;
 }
 

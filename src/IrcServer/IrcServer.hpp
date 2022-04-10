@@ -4,7 +4,7 @@
 #include <vector>
 #include "Server.hpp"
 #include "parser.hpp"
-#include "Clients.hpp"
+#include "Client.hpp"
 
 class IrcServer{
     public:
@@ -22,7 +22,7 @@ class IrcServer{
         Server                  _mServer;
         Parser                  _mData;
         int                     _mNbclients;
-        std::vector<Clients*>    _mClient;
+        std::vector<Client*>    _mClient;
     
     private:
         IrcServer();

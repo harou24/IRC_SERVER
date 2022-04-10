@@ -1,6 +1,6 @@
 #include "Server.hpp"
-#include "TcpStream.hpp"
-#include "TcpConnector.hpp"
+#include "tcp_stream.hpp"
+#include "tcp_connector.hpp"
 #include <stdexcept>
 
 #include <assert.h>

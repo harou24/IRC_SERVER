@@ -35,91 +35,91 @@ void    IrcServer::processMessage()
 
  void    IrcServer::nick(const Args& args, TcpStream& stream)
  {
-    std::vector<Clients*>::iterator it;
+    std::vector<Client *>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
     if (it != _mClient.end() && (*it)->getStream() == stream)
         (*it)->setNick(args.arg1);
     else
     {
-        Clients *c = new Clients(args.arg1, stream);
+        Client *c = new Client(args.arg1, stream);
         _mClient.push_back(c);
     }
  }
 
 void    IrcServer::away(const Args& args, TcpStream& stream) {
-    std::vector<Clients*>::iterator it;
+    std::vector<Client*>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream().getSd() != 0 && (*it)->getStream() != stream; it++) {}
     if (it != _mClient.end() && (*it)->getStream() == stream)
         (*it)->setNick(args.arg1);
 }
 void    IrcServer::invite(const Args& args, TcpStream& stream){
-    std::vector<Clients*>::iterator it;
+    std::vector<Client*>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
     if (it != _mClient.end() && (*it)->getStream() == stream)
         (*it)->setNick(args.arg1);
 }
 void    IrcServer::join(const Args& args, TcpStream& stream){
-    std::vector<Clients*>::iterator it;
+    std::vector<Client*>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
     if (it != _mClient.end() && (*it)->getStream() == stream)
         (*it)->setNick(args.arg1);
 }
 void    IrcServer::me(const Args& args, TcpStream& stream){
-    std::vector<Clients*>::iterator it;
+    std::vector<Client*>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
     if (it != _mClient.end() && (*it)->getStream() == stream)
         (*it)->setNick(args.arg1);
 }
 void    IrcServer::msg(const Args& args, TcpStream& stream){
-    std::vector<Clients*>::iterator it;
+    std::vector<Client*>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
     if (it != _mClient.end() && (*it)->getStream() == stream)
         (*it)->setNick(args.arg1);
 }
 void    IrcServer::notice(const Args& args, TcpStream& stream){
-    std::vector<Clients*>::iterator it;
+    std::vector<Client*>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
     if (it != _mClient.end() && (*it)->getStream() == stream)
         (*it)->setNick(args.arg1);
 }
 void    IrcServer::part(const Args& args, TcpStream& stream){
-    std::vector<Clients*>::iterator it;
+    std::vector<Client*>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
     if (it != _mClient.end() && (*it)->getStream() == stream)
         (*it)->setNick(args.arg1);
 }
 void    IrcServer::privmsg(const Args& args, TcpStream& stream){
-    std::vector<Clients*>::iterator it;
+    std::vector<Client*>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
     if (it != _mClient.end() && (*it)->getStream() == stream)
         (*it)->setNick(args.arg1);
 }
 void    IrcServer::query(const Args& args, TcpStream& stream){
-    std::vector<Clients*>::iterator it;
+    std::vector<Client*>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
     if (it != _mClient.end() && (*it)->getStream() == stream)
         (*it)->setNick(args.arg1);
 }
 void    IrcServer::quit(const Args& args, TcpStream& stream){
-    std::vector<Clients*>::iterator it;
+    std::vector<Client*>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
     if (it != _mClient.end() && (*it)->getStream() == stream)
         (*it)->setNick(args.arg1);
 }
 void    IrcServer::whois(const Args& args, TcpStream& stream){
-    std::vector<Clients*>::iterator it;
+    std::vector<Client*>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
     if (it != _mClient.end() && (*it)->getStream() == stream)
         (*it)->setNick(args.arg1);
 }
 void    IrcServer::mode(const Args& args, TcpStream& stream){
-    std::vector<Clients*>::iterator it;
+    std::vector<Client*>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
     if (it != _mClient.end() && (*it)->getStream() == stream)
         (*it)->setNick(args.arg1);
 }
 void    IrcServer::user(const Args& args, TcpStream& stream){
-    std::vector<Clients*>::iterator it;
+    std::vector<Client*>::iterator it;
     for(it = _mClient.begin(); it != _mClient.end() && (*it)->getStream() != stream; it++) {}
      if (it != _mClient.end()){
         (*it)->setUser(args.arg1);

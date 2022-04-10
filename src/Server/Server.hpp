@@ -2,8 +2,8 @@
 # define SERVER_HPP
 
 # include "MultiClientHandler.hpp"
-# include "TcpAcceptor.hpp"
-# include "TcpStream.hpp"
+# include "tcp_acceptor.hpp"
+# include "tcp_stream.hpp"
 
 # include <map>
 # include <iostream>
@@ -26,7 +26,7 @@ class Server : public MultiClientHandler
 {
     private:
         TcpAcceptor                 _mAcceptor;
-        std::map<int, TcpStream*>   _mClients;
+        std::map<int, TcpStream*>   _mClientss;
         int                         _mNbrClients;
         bool                        _mIsRunning;
         std::string                 _mPassword;

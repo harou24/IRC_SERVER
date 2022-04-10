@@ -26,20 +26,23 @@ include_directories(src/parser)
 include_directories(src/tcp)
 include_directories(src/Server)
 include_directories(src/MultiClientHandler)
-include_directories(src/Clients)
+include_directories(src/Client)
 include_directories(src/IrcServer)
+include_directories(src/connectable_client)
 
 # example library
 add_library(ft_irc src/utils/Table/Row.cpp
                     src/utils/Table/Table.cpp
-                    src/tcp/TcpAcceptor.cpp
-                    src/tcp/TcpConnector.cpp
-                    src/tcp/TcpStream.cpp
+                    src/tcp/tcp_acceptor.cpp
+                    src/tcp/tcp_connector.cpp
+                    src/tcp/tcp_stream.cpp
                     src/MultiClientHandler/MultiClientHandler.cpp
                     src/Server/Server.cpp
                     src/parser/parser.cpp
-                    src/Clients/Clients.cpp
-                    src/IrcServer/IrcServer.cpp)
+                    src/Client/Client.cpp
+                    src/IrcServer/IrcServer.cpp
+                    src/connectable_client/connectable_client.hpp
+                    )
 
 # add programs
 add_subdirectory(apps)
