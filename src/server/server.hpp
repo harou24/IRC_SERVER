@@ -1,7 +1,7 @@
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
-# include "MultiClientHandler.hpp"
+# include "multi_client_handler.hpp"
 # include "tcp_acceptor.hpp"
 # include "tcp_stream.hpp"
 
@@ -61,6 +61,8 @@ class Server : public MultiClientHandler
         std::string getPassword(void) const;
         bool isRunning(void) const;
         int                                 getNbrClients() const;
+
+        Message getNextMsg(void);
 };
 
 std::ostream&   operator<<(std::ostream& o, Server const& src);

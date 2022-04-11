@@ -1,8 +1,8 @@
 #ifndef CMD_CONTROLLER_HPP
 # define CMD_CONTROLLER_HPP
 
-# include "Server.hpp"
-#include "commands.hpp"
+# include "server.hpp"
+# include "commands.hpp"
 
 # include <map>
 

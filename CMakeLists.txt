@@ -25,10 +25,10 @@ include_directories(src/utils/Table)
 include_directories(src/commands)
 include_directories(src/parser)
 include_directories(src/tcp)
-include_directories(src/Server)
-include_directories(src/MultiClientHandler)
-include_directories(src/Client)
-include_directories(src/IrcServer)
+include_directories(src/server)
+include_directories(src/multi_client_handler)
+include_directories(src/client)
+include_directories(src/irc_server)
 include_directories(src/connectable_client)
 include_directories(src/cmd_controller)
 
@@ -38,11 +38,11 @@ add_library(ft_irc src/utils/Table/Row.cpp
                     src/tcp/tcp_acceptor.cpp
                     src/tcp/tcp_connector.cpp
                     src/tcp/tcp_stream.cpp
-                    src/MultiClientHandler/MultiClientHandler.cpp
-                    src/Server/Server.cpp
+                    src/multi_client_handler/multi_client_handler.cpp
+                    src/server/server.cpp
                     src/parser/parser.cpp
-                    src/Client/Client.cpp
-                    src/IrcServer/IrcServer.cpp
+                    src/client/client.cpp
+                    src/irc_server/irc_server.cpp
                     src/connectable_client/connectable_client.hpp
                     src/cmd_controller/cmd_controller.cpp
                     )

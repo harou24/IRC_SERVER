@@ -1,4 +1,5 @@
-#include "IrcServer.hpp"
+#include "irc_server.hpp"
+#include "cmd_controller.hpp"
 
 #define WELCOME_MSG(nick, args) ":" + args.arg3 + " 001 " + nick + "\n: Welcome to the Internet Relay Network\n" + nick + "!" + args.arg1 + "@" + args.arg2 + "\n"
 #define PING(str) ": " + str + " PONG " + str + " :" + str + "\n"
@@ -31,6 +32,24 @@ void    IrcServer::processMessage()
             _mServer.getQueue().pop();
         }
     }
+}
+
+void    IrcServer::start()
+{
+    CmdController controller((const Server*)this);
+
+    _mServer.init();
+
+    while (1)
+    {
+        _mServer.runOnce();
+        while (!_mServer.getQueue().empty())
+        {
+
+        }
+    }
+
+
 }
 
  void    IrcServer::nick(const Args& args, TcpStream& stream)

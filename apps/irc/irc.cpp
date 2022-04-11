@@ -1,4 +1,4 @@
-#include "IrcServer.hpp"
+#include "irc_server.hpp"
 
 int     main(){
     IrcServer   S(8080, "lalala");

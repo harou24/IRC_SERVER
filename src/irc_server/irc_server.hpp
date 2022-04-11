@@ -2,9 +2,9 @@
 # define IRC_SERVER_HPP
 
 #include <vector>
-#include "Server.hpp"
+#include "server.hpp"
 #include "parser.hpp"
-#include "Client.hpp"
+#include "client.hpp"
 
 
 class IrcServer{
@@ -30,6 +30,8 @@ class IrcServer{
         
         void    makeClient(std::string s, const TcpStream & ts);
         void    splitStrings(std::string str);
+
+        void    start(void);
 
         void    away(const Args& args, TcpStream& stream);
         void    invite(const Args& args, TcpStream& stream);

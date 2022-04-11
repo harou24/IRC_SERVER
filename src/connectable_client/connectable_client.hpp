@@ -1,7 +1,7 @@
 #ifndef CONNECTABLE_CLIENT_HPP
 # define CONNECTABLE_CLIENT_HPP
 
-# include "Client.hpp"
+# include "client.hpp"
 
 class ConnectableClient {
 

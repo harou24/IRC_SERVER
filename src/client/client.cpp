@@ -1,4 +1,4 @@
-#include "Client.hpp"
+#include "client.hpp"
 
 Client::Client(const std::string& nick, TcpStream& stream) : _mNickName(nick), _mUserName(""), _mHostName(""), 
 _mServerName(""), _mRealName(""), _mStream(stream), _mHandShake(false)

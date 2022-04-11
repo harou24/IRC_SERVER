@@ -1,4 +1,4 @@
-#include "Server.hpp"
+#include "server.hpp"
 
 Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClientss(), _mNbrClients(0) {
     _mIsRunning = false;
@@ -53,6 +53,13 @@ void            Server::start(void)
 
 void            Server::stop(){
     _mIsRunning = false;
+}
+
+Message Server::getNextMsg(void)
+{
+    Message msg = _mQueue.front();
+    _mQueue.pop();
+    return msg;
 }
 
 void            Server::addClient(){

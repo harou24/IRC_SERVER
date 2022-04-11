@@ -1,5 +1,5 @@
 #include "tcp_stream.hpp"
-#include "Server.hpp"
+#include "server.hpp"
 #include "tcp_acceptor.hpp"
 #include <iostream>
 #include <netinet/in.h>
