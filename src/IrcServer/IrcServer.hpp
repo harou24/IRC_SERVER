@@ -1,10 +1,11 @@
-#ifndef IRCSERVER_HPP
-# define IRCSERVER_HPP
+#ifndef IRC_SERVER_HPP
+# define IRC_SERVER_HPP
 
 #include <vector>
 #include "Server.hpp"
 #include "parser.hpp"
 #include "Client.hpp"
+
 
 class IrcServer{
     public:

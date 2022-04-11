@@ -1,37 +1,27 @@
 #ifndef CMD_CONTROLLER_HPP
 # define CMD_CONTROLLER_HPP
 
-# include "commands.hpp"
 # include "Server.hpp"
+#include "commands.hpp"
 
-enum CommandType {
-    AWAY,
-    INVITE,
-    JOIN,
-    ME,
-    MSG,
-    NICK = nick,
-    NOTICE,
-    PART,
-    PRIVMSG,
-    QUERY,
-    QUIT,
-    WHOIS,
-    MODE,
-    USER,
-    PING,
-    UNKNOWN,
-    SIZE
-};
+# include <map>
+
+
+typedef std::string (*t_ft_ptr)(const Server* const);
 
 class CmdController {
 
     private:
-       const Server* const server;
+        std::map<CommandType, t_ft_ptr> cmds_;
+        const Server* const server_;
+        CmdController();
 
 
     public:
-        execute();
+        CmdController(const Server* const server);
+        ~CmdController();
+
+        void execute(CommandType type);
 
 };
 
