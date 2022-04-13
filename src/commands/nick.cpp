@@ -1,8 +1,10 @@
 #include "commands.hpp"
 
 
-std::string    nick(const IrcServer* const s)
+std::string    nick(IrcServer* s)
 {
     if (s)
         std::cout << "nick cmd!\n";
+    return std::string("Reply\n");
 }
+

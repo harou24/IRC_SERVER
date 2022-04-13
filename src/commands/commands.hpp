@@ -26,21 +26,21 @@ enum CommandType {
 };
 */
 
-std::string    nick(const IrcServer* const s);
-std::string    away(const IrcServer* const s);
-std::string    invite(const IrcServer* const s);
-std::string    join(const IrcServer* const s);
-std::string    me(const IrcServer* const s);
-std::string    msg(const IrcServer* const s);
-std::string    nick(const IrcServer* const s);
-std::string    notice(const IrcServer* const s);
-std::string    part(const IrcServer* const s);
-std::string    privmsg(const IrcServer* const s);
-std::string    query(const IrcServer* const s);
-std::string    quit(const IrcServer* const s);
-std::string    whois(const IrcServer* const s);
-std::string    mode(const IrcServer* const s);
-std::string    user(const IrcServer* const s);
-std::string    ping(const IrcServer* const s);
+std::string    nick(IrcServer* s);
+std::string    away(IrcServer* s);
+std::string    invite(IrcServer* s);
+std::string    join(IrcServer* s);
+std::string    me(IrcServer* s);
+std::string    msg(IrcServer* s);
+std::string    nick(IrcServer* s);
+std::string    notice(IrcServer* s);
+std::string    part(IrcServer* s);
+std::string    privmsg(IrcServer* s);
+std::string    query(IrcServer* s);
+std::string    quit(IrcServer* s);
+std::string    whois(IrcServer* s);
+std::string    mode(IrcServer* s);
+std::string    user(IrcServer* s);
+std::string    ping(IrcServer* s);
 
 #endif

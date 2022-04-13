@@ -44,11 +44,15 @@ void    IrcServer::start()
         _mServer.runOnce();
         while (Message *msg = _mServer.getNextMsg())
         {
+            std::string s;
             for (std::stringstream ss(_mServer.getQueue().front().data ); std::getline(ss, s, '\n');)
             {
                 _mData.parse(s);
                 if (_mData.getCommand() != UNKNOWN)
-                    (this->*p2f[_mData.getCommand()])(_mData.getArgument(), *_mServer.getQueue().front().stream);
+                {
+                    CmdController cmd(this);
+                    cmd.execute(msg);
+                }
                 std::cout << s << std::endl;
             }
             std::cout << msg->data; 

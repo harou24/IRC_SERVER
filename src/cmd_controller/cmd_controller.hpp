@@ -13,16 +13,16 @@ class CmdController {
 
     private:
         std::map<CommandType, t_ft_ptr> cmds_;
-        const Server* const server_;
+        IrcServer* server_;
         CmdController();
 
 
     public:
-        CmdController(const Server* const server);
-        CmdController(const Server* const server, Message *m);
+        CmdController(IrcServer* server);
+        CmdController(IrcServer* server, Message *m);
         ~CmdController();
 
-        void execute(CommandType type);
+        void execute(Message *m);
         void process(Message *msg);
 
 };

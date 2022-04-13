@@ -45,6 +45,7 @@ add_library(ft_irc src/utils/Table/Row.cpp
                     src/irc_server/irc_server.cpp
                     src/connectable_client/connectable_client.hpp
                     src/cmd_controller/cmd_controller.cpp
+                    src/commands/nick.cpp
                     )
 
 # add programs
