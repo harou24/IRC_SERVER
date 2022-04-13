@@ -12,3 +12,4 @@ CmdController::CmdController(const Server* const server): server_(server)
 CmdController::~CmdController() { }
 
 //void CmdController::execute(CommandType type) { }
+//void CmdController::process(Message *m) { }

@@ -19,9 +19,11 @@ class CmdController {
 
     public:
         CmdController(const Server* const server);
+        CmdController(const Server* const server, Message *m);
         ~CmdController();
 
         void execute(CommandType type);
+        void process(Message *msg);
 
 };
 

@@ -36,20 +36,24 @@ void    IrcServer::processMessage()
 
 void    IrcServer::start()
 {
-    CmdController controller((const Server*)this);
 
     _mServer.init();
 
     while (1)
     {
         _mServer.runOnce();
-        while (!_mServer.getQueue().empty())
+        while (Message *msg = _mServer.getNextMsg())
         {
-
+            for (std::stringstream ss(_mServer.getQueue().front().data ); std::getline(ss, s, '\n');)
+            {
+                _mData.parse(s);
+                if (_mData.getCommand() != UNKNOWN)
+                    (this->*p2f[_mData.getCommand()])(_mData.getArgument(), *_mServer.getQueue().front().stream);
+                std::cout << s << std::endl;
+            }
+            std::cout << msg->data; 
         }
     }
-
-
 }
 
  void    IrcServer::nick(const Args& args, TcpStream& stream)

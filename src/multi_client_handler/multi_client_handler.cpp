@@ -34,7 +34,6 @@ bool    MultiClientHandler::isFdInSet(int fd)
     return (FD_ISSET(fd, &this->tmpFds) != 0);
 }
 
-
 void    MultiClientHandler::updateFdSet(void)
 {
     this->tmpFds = this->mainFds;

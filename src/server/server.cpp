@@ -55,10 +55,15 @@ void            Server::stop(){
     _mIsRunning = false;
 }
 
-Message Server::getNextMsg(void)
+Message* Server::getNextMsg(void)
 {
-    Message msg = _mQueue.front();
-    _mQueue.pop();
+    Message *msg = NULL;
+    
+    if (!_mQueue.empty())
+    {
+        msg = &_mQueue.front();
+        _mQueue.pop();
+    }
     return msg;
 }
 
