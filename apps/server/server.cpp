@@ -27,8 +27,8 @@ int         main(){
     try{
            s.runOnce();
            while (!s.getQueue().empty()){
-               std::cout << "Message = " << s.getQueue().front().data << std::endl;
-               std::cout << *(s.getQueue().front().stream) << std::endl;
+               std::cout << "Message = " << s.getQueue().front()->getData() << std::endl;
+               std::cout << (s.getQueue().front()->getStream()) << std::endl;
                s.getQueue().pop();
            }
     }

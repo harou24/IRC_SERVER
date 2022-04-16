@@ -17,6 +17,7 @@ class IrcServer{
         // void    startServer(int port, std::string password);
         // void    processMessage(Message& msg);
         void    processMessage();
+        void    start(void);
         // void    
 
     private:
@@ -25,13 +26,11 @@ class IrcServer{
         int                     _mNbclients;
         std::vector<Client*>    _mClient;
     
-    private:
         IrcServer();
         
         void    makeClient(std::string s, const TcpStream & ts);
         void    splitStrings(std::string str);
 
-        void    start(void);
 
         void    away(const Args& args, TcpStream& stream);
         void    invite(const Args& args, TcpStream& stream);

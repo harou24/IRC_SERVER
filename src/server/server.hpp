@@ -4,6 +4,7 @@
 # include "multi_client_handler.hpp"
 # include "tcp_acceptor.hpp"
 # include "tcp_stream.hpp"
+# include "message.hpp"
 
 # include <map>
 # include <iostream>
@@ -16,12 +17,6 @@
 # define HOST "127.0.0.1"
 # define FD_CORRECTION 4
 
-struct Message
-{
-    std::string     data;
-    TcpStream       *stream;
-};
-
 class Server : public MultiClientHandler
 {
     private:
@@ -30,12 +25,10 @@ class Server : public MultiClientHandler
         int                         _mNbrClients;
         bool                        _mIsRunning;
         std::string                 _mPassword;
-        std::queue<Message>         _mQueue;
+        std::queue<Message*>         _mQueue;
 
         Server(void);
         
-        Message createMessage(std::string str, int fd);
-
     public:
         Server(int port, std::string password);
         ~Server(void);
@@ -45,24 +38,27 @@ class Server : public MultiClientHandler
         void start(void);
         void stop(void);
 
+        std::queue<std::string> split(const std::string &data);
+
         void addClient(void);
         void removeClient(int fd);
 
         void handleData(int fd);
         void sendData(int fd, char *buffer, size_t len);
-        size_t receiveData(int fd, char *buffer, size_t len);
+        std::string receiveData(int fd);
 
         bool isClientConnecting(int fd);
 
         const std::map<int, TcpStream*>&      getClients() const;
 
-        std::queue<Message>&                 getQueue();
+        std::queue<Message *>&                 getQueue();
 
         std::string getPassword(void) const;
         bool isRunning(void) const;
         int                                 getNbrClients() const;
 
         Message* getNextMsg(void);
+        TcpStream *getStreamFromFd(int fd);
 };
 
 std::ostream&   operator<<(std::ostream& o, Server const& src);

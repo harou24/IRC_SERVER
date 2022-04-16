@@ -1,5 +1,7 @@
 #include "server.hpp"
 
+#include <sstream>
+
 Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _mClientss(), _mNbrClients(0) {
     _mIsRunning = false;
     _mPassword = password;
@@ -61,7 +63,7 @@ Message* Server::getNextMsg(void)
     
     if (!_mQueue.empty())
     {
-        msg = &_mQueue.front();
+        msg = _mQueue.front();
         _mQueue.pop();
     }
     return msg;
@@ -85,13 +87,37 @@ void            Server::removeClient(int fd){
     _mNbrClients--;
 }
 
-void            Server::handleData(int fd){
-    size_t          len;
-    char            buffer[512];
+std::queue<std::string> Server::split(const std::string &data)
+{
+    std::queue<std::string> res;
+    std::string line;
+    for (std::stringstream stream(data ); std::getline(stream, line, '\n');)
+    {
+        res.push(line);
+    }
+    return res;
+}
 
-    if ((len = receiveData(fd, buffer, sizeof(buffer))) > 0){
-        buffer[len] = '\0';
-        _mQueue.push(createMessage(buffer, fd));
+TcpStream*      Server::getStreamFromFd(int fd)
+{
+    TcpStream *stream  = NULL;
+    std::map<int, TcpStream *>::iterator it = _mClientss.find(fd);
+    if (it != _mClientss.end())
+        stream = it->second;
+    return stream;
+}
+
+void            Server::handleData(int fd){
+    std::string data = receiveData(fd);
+    std::queue<std::string> splited = split(data);
+    if (!splited.empty())
+    {
+        while (!splited.empty())
+        {
+            std::string cmd = splited.front();
+            _mQueue.push(new Message(cmd, getStreamFromFd(fd)));
+            splited.pop();
+        }
     }
     else
         removeClient(fd);
@@ -102,10 +128,15 @@ void            Server::sendData(int fd, char *buffer, size_t len){
         _mClientss[fd]->send(buffer, len);
 }
 
-size_t          Server::receiveData(int fd, char *buffer, size_t len){
-    if (_mClientss[fd])
-        return _mClientss[fd]->receive(buffer, len);
-    return 0;
+std::string          Server::receiveData(int fd)
+{
+    if (!_mClientss[fd])
+        return std::string("");
+
+    char    buffer[512];
+    size_t len = _mClientss[fd]->receive(buffer, 512);
+    buffer[len] = '\0';
+    return std::string(buffer);
 }
 
 bool            Server::isClientConnecting(int fd){
@@ -116,12 +147,7 @@ const std::map<int, TcpStream*>&     Server::getClients() const{
     return _mClientss;
 }
 
-Message         Server::createMessage(std::string str, int fd){
-    Message m = {str, _mClientss[fd]};
-    return m;
-}
-
-std::queue<Message>&     Server::getQueue(){
+std::queue<Message *>&     Server::getQueue(){
     return _mQueue;
 }
 

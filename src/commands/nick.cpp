@@ -1,9 +1,9 @@
 #include "commands.hpp"
+#include "cmd_controller.hpp"
 
-
-std::string    nick(IrcServer* s)
+std::string    nick(CmdController* controller)
 {
-    if (s)
+    if (controller)
         std::cout << "nick cmd!\n";
     return std::string("Reply\n");
 }

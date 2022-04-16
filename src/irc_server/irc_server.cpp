@@ -22,11 +22,11 @@ void    IrcServer::processMessage()
         _mServer.runOnce();
         while (_mServer.getQueue().size() > 0)
         {
-            for (std::stringstream ss(_mServer.getQueue().front().data ); std::getline(ss, s, '\n');)
+            for (std::stringstream ss(_mServer.getQueue().front()->getData() ); std::getline(ss, s, '\n');)
             {
                 _mData.parse(s);
                 if (_mData.getCommand() != UNKNOWN)
-                    (this->*p2f[_mData.getCommand()])(_mData.getArgument(), *_mServer.getQueue().front().stream);
+                    (this->*p2f[_mData.getCommand()])(_mData.getArgument(), _mServer.getQueue().front()->getStream());
                 std::cout << s << std::endl;
             }
             _mServer.getQueue().pop();
@@ -38,24 +38,18 @@ void    IrcServer::start()
 {
 
     _mServer.init();
-
+    std::cout << "starting server...\n";
+    CmdController cmd(this);
     while (1)
     {
         _mServer.runOnce();
         while (Message *msg = _mServer.getNextMsg())
         {
-            std::string s;
-            for (std::stringstream ss(_mServer.getQueue().front().data ); std::getline(ss, s, '\n');)
+            if (msg)
             {
-                _mData.parse(s);
-                if (_mData.getCommand() != UNKNOWN)
-                {
-                    CmdController cmd(this);
-                    cmd.execute(msg);
-                }
-                std::cout << s << std::endl;
+                cmd.execute(msg);
+                std::cout << "msg->" << msg->getData() << "\n"; 
             }
-            std::cout << msg->data; 
         }
     }
 }

@@ -3,17 +3,19 @@
 
 # include "server.hpp"
 # include "commands.hpp"
+# include "parser.hpp"
 
 # include <map>
 
 
-typedef std::string (*t_ft_ptr)(const Server* const);
+typedef std::string (*t_ft_ptr)(const CmdController*);
 
 class CmdController {
 
     private:
         std::map<CommandType, t_ft_ptr> cmds_;
         IrcServer* server_;
+        Parser* parser_;
         CmdController();
 
 

@@ -31,6 +31,7 @@ include_directories(src/client)
 include_directories(src/irc_server)
 include_directories(src/connectable_client)
 include_directories(src/cmd_controller)
+include_directories(src/message)
 
 # example library
 add_library(ft_irc src/utils/Table/Row.cpp
@@ -39,6 +40,7 @@ add_library(ft_irc src/utils/Table/Row.cpp
                     src/tcp/tcp_connector.cpp
                     src/tcp/tcp_stream.cpp
                     src/multi_client_handler/multi_client_handler.cpp
+                    src/message/message.cpp
                     src/server/server.cpp
                     src/parser/parser.cpp
                     src/client/client.cpp
