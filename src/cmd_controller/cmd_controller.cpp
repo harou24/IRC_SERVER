@@ -1,5 +1,5 @@
 #include "cmd_controller.hpp"
-#include "parser.hpp"
+#include "commands.hpp"
 
 CmdController::CmdController(): server_(NULL) { }
 
@@ -20,6 +20,5 @@ void CmdController::execute(Message *m)
     std::cout << "execute...\n"; 
     parser_->parse(m->getData());
     if (parser_->getCommand() == NICK)
-        cmds_[parser_->getCommand()](server_);
+        cmds_[parser_->getCommand()](this);
 }
-//void CmdController::process(Message *m) { }

@@ -1,8 +1,6 @@
 #ifndef COMMANDS_HPP
 # define COMMANDS_HPP
 
-# include "irc_server.hpp"
-# include "parser.hpp"
 # include "cmd_controller.hpp"
 
 /*
@@ -27,6 +25,7 @@ enum CommandType {
 };
 */
 
+std::string    welcome(CmdController* controller);
 std::string    nick(CmdController* controller);
 std::string    user(CmdController* controller);
 std::string    ping(CmdController* controller);

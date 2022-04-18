@@ -1,5 +1,4 @@
 #include "commands.hpp"
-#include "cmd_controller.hpp"
 
 std::string    nick(CmdController* controller)
 {

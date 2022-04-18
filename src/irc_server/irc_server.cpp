@@ -36,7 +36,6 @@ void    IrcServer::processMessage()
 
 void    IrcServer::start()
 {
-
     _mServer.init();
     std::cout << "starting server...\n";
     CmdController cmd(this);

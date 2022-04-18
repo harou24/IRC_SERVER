@@ -22,7 +22,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -g -fsanitize=addr
 include_directories(include)
 include_directories(src/utils/Table)
 
-include_directories(src/commands)
 include_directories(src/parser)
 include_directories(src/tcp)
 include_directories(src/server)
@@ -31,6 +30,7 @@ include_directories(src/client)
 include_directories(src/irc_server)
 include_directories(src/connectable_client)
 include_directories(src/cmd_controller)
+include_directories(src/commands)
 include_directories(src/message)
 
 # example library
@@ -46,9 +46,10 @@ add_library(ft_irc src/utils/Table/Row.cpp
                     src/client/client.cpp
                     src/irc_server/irc_server.cpp
                     src/connectable_client/connectable_client.hpp
-                    src/cmd_controller/cmd_controller.cpp
                     src/commands/nick.cpp
-                    )
+                    src/commands/ping.cpp
+                    src/cmd_controller/cmd_controller.cpp
+)
 
 # add programs
 add_subdirectory(apps)
