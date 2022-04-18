@@ -14,6 +14,7 @@ class CmdController {
         std::map<CommandType, t_ft_ptr> cmds_;
         IrcServer* server_;
         Parser* parser_;
+        Message* currentMsg_;
         
         CmdController();
 
@@ -24,6 +25,7 @@ class CmdController {
         ~CmdController();
 
         void execute(Message *m);
+        Message* getCurrentMsg();
 
 };
 

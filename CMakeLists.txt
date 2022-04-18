@@ -48,6 +48,7 @@ add_library(ft_irc src/utils/Table/Row.cpp
                     src/connectable_client/connectable_client.hpp
                     src/commands/nick.cpp
                     src/commands/ping.cpp
+                    src/commands/welcome.cpp
                     src/cmd_controller/cmd_controller.cpp
 )
 

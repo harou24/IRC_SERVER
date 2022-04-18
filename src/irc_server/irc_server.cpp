@@ -9,6 +9,7 @@ IrcServer::IrcServer(int port, std::string password) : _mServer(port, password) 
 IrcServer::~IrcServer() {}
 
 // void    startServer(int port, std::string password);
+
 void    IrcServer::processMessage()
 {
     std::string s;
@@ -46,6 +47,7 @@ void    IrcServer::start()
         {
             if (msg)
             {
+                std::cout << "Stream->" << msg->getStream() << std::endl;
                 cmd.execute(msg);
                 std::cout << "msg->" << msg->getData() << "\n"; 
             }
