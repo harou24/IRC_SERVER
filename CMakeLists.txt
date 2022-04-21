@@ -22,15 +22,15 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -g -fsanitize=addr
 include_directories(include)
 include_directories(src/utils/Table)
 
-include_directories(src/parser)
 include_directories(src/tcp)
 include_directories(src/server)
 include_directories(src/multi_client_handler)
 include_directories(src/client)
 include_directories(src/irc_server)
 include_directories(src/connectable_client)
-include_directories(src/cmd_controller)
 include_directories(src/commands)
+include_directories(src/parser)
+include_directories(src/cmd_controller)
 include_directories(src/message)
 
 # example library

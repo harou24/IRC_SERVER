@@ -2,9 +2,10 @@
 # define CMD_CONTROLLER_HPP
 
 # include "irc_server.hpp"
+# include "commands.hpp"
+# include "parser.hpp"
 
 # include <map>
-
 
 
 class CmdController {

@@ -20,8 +20,7 @@ void CmdController::execute(Message *m)
     std::cout << "execute...\n"; 
     currentMsg_ = m;
     parser_->parse(m->getData());
-    if (parser_->getCommand() == NICK)
-        cmds_[parser_->getCommand()](this);
+    cmds_[parser_->getCommand()](this);
 }
 
 Message* CmdController::getCurrentMsg()

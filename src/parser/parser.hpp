@@ -1,8 +1,10 @@
 #ifndef PARSER_HPP
 # define PARSER_HPP
 
-#include <map>
-#include <sstream>
+# include <map>
+# include <sstream>
+
+# include "commands.hpp"
 
 struct Args {
     Args() : arg1(""), arg2(""), arg3(""), arg4("") {}
@@ -11,26 +13,6 @@ struct Args {
     std::string arg2;
     std::string arg3;
     std::string arg4;
-};
-
-enum CommandType {
-    AWAY,
-    INVITE,
-    JOIN,
-    ME,
-    MSG,
-    NICK,
-    NOTICE,
-    PART,
-    PRIVMSG,
-    QUERY,
-    QUIT,
-    WHOIS,
-    MODE,
-    USER,
-    PING,
-    UNKNOWN,
-    SIZE
 };
 
 class Parser {

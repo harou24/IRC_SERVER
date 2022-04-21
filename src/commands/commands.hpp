@@ -3,8 +3,7 @@
 
 # include "cmd_controller.hpp"
 
-/*
-enum CommandType {
+ enum CommandType {
     AWAY,
     INVITE,
     JOIN,
@@ -23,7 +22,6 @@ enum CommandType {
     UNKNOWN,
     SIZE
 };
-*/
 
 std::string    welcome(CmdController* controller);
 std::string    nick(CmdController* controller);
