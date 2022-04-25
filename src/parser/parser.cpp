@@ -183,7 +183,7 @@ Args& Parser::getArgument() const
     return *this->_mArguments;
 }
 
-CommandType Parser::getCommand() const
+Type Parser::getCommand() const
 {
     return _mCommand;
 }

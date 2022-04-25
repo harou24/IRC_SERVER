@@ -2,7 +2,8 @@
 # define COMMANDS_HPP
 
 # include "cmd_controller.hpp"
-
+# include "command_type.hpp"
+/*
  enum CommandType {
     AWAY,
     INVITE,
@@ -22,7 +23,7 @@
     UNKNOWN,
     SIZE
 };
-
+*/
 std::string    welcome(CmdController* controller);
 std::string    nick(CmdController* controller);
 std::string    user(CmdController* controller);

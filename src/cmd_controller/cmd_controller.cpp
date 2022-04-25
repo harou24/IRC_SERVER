@@ -1,5 +1,4 @@
 #include "cmd_controller.hpp"
-#include "commands.hpp"
 
 CmdController::CmdController(): server_(NULL) { }
 

@@ -5,6 +5,7 @@
 #include "server.hpp"
 #include "client.hpp"
 
+class Client;
 
 class IrcServer{
     public:
