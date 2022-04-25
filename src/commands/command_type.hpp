@@ -1,8 +1,7 @@
 #ifndef COMMAND_TYPE_HPP
 # define COMMAND_TYPE_HPP
 
-// struct Command {
- enum Type {
+ enum CommandType {
     AWAY,
     INVITE,
     JOIN,
@@ -21,5 +20,4 @@
     UNKNOWN,
     SIZE
 };
-// };
 #endif

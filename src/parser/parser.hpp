@@ -23,13 +23,13 @@ class Parser {
         ~Parser();
         void parse(const std::string &inProgram);
         Args&  getArgument() const;
-        CommandType getCommand() const;
+        int getCommand() const;
         std::string getRaw() const;
 
     private:
-        CommandType     _mCommand;
-        Args          *_mArguments;
-        std::string     _mRawText;
+        int         _mCommand;
+        Args        *_mArguments;
+        std::string _mRawText;
 
     private:
         std::string find_command(const std::string& s);

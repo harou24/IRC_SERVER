@@ -3,6 +3,9 @@
 
 # include "cmd_controller.hpp"
 # include "command_type.hpp"
+# include <string>
+
+class CmdController;
 /*
  enum CommandType {
     AWAY,
