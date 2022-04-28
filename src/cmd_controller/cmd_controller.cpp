@@ -19,7 +19,7 @@ void CmdController::execute(Message *m)
     std::cout << "execute...\n"; 
     currentMsg_ = m;
     parser_->parse(m->getData());
-    cmds_[parser_->getCommand()](this);
+    cmds_[5](this);
 }
 
 Message* CmdController::getCurrentMsg()
