@@ -56,7 +56,7 @@ void            Server::stop(){
     _mIsRunning = false;
 }
 
-Message* Server::getNextMsg(void)
+Message& Server::getNextMsg(void)
 {
     Message *msg = NULL;
     
@@ -65,7 +65,7 @@ Message* Server::getNextMsg(void)
         msg = _mQueue.front();
         _mQueue.pop();
     }
-    return msg;
+    return *msg;
 }
 
 void            Server::addClient(){

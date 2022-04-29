@@ -18,7 +18,7 @@ void    IrcServer::start()
     while (1)
     {
         _mServer->runOnce();
-        while (Message *msg = _mServer->getNextMsg())
+        while (Message *msg = &_mServer->getNextMsg())
         {
             if (msg)
             {

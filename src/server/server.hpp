@@ -57,7 +57,7 @@ class Server : public MultiClientHandler
         bool isRunning(void) const;
         int                                 getNbrClients() const;
 
-        Message* getNextMsg(void);
+        Message& getNextMsg(void);
         TcpStream *getStreamFromFd(int fd);
 };
 
