@@ -51,7 +51,7 @@ void  runClient()
     sendMsg();
     sleep(1);
     assert(serv.getQueue().size() == 1);
-    assert(serv.getQueue().front().data == msgToSend);
+    assert(serv.getQueue().front()->getData() == msgToSend);
     stopClient();
 }
 
