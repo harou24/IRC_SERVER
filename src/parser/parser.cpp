@@ -1,5 +1,7 @@
 #include "parser.hpp"
 
+#include <algorithm>
+
 void    Parser::away(const std::string& str) 
 {
     std::istringstream  ss(str);

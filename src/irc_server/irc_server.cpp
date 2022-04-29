@@ -30,7 +30,6 @@ void    IrcServer::start()
             {
                 break;
             }
-            
         }
     }
 }
