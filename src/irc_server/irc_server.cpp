@@ -65,7 +65,7 @@ void IrcServer::addClient(Client *cl)
 
 void IrcServer::removeClient(Client *cl)
 {
-    std::vector<Client *>::const_iterator it = clients_.begin();
+    std::vector<Client *>::iterator it = clients_.begin();
     while (it != clients_.end())
     {
         if (*it == cl)
