@@ -1,19 +1,24 @@
 #include "irc_server.hpp"
 #include "cmd_controller.hpp"
 
-IrcServer::IrcServer(int port, std::string password) : _mServer(port, password) {}
+IrcServer::IrcServer(int port, std::string password)
+{
+    _mServer = new Server(port, password);
+}
 
-IrcServer::~IrcServer() {}
+IrcServer::~IrcServer() 
+{
+}
 
 void    IrcServer::start()
 {
-    _mServer.init();
+    _mServer->init();
     std::cout << "starting server...\n";
     CmdController cmd(this);
     while (1)
     {
-        _mServer.runOnce();
-        while (Message *msg = _mServer.getNextMsg())
+        _mServer->runOnce();
+        while (Message *msg = _mServer->getNextMsg())
         {
             if (msg)
             {
@@ -21,6 +26,11 @@ void    IrcServer::start()
                 cmd.execute(msg);
                 std::cout << "msg->" << msg->getData() << "\n"; 
             }
+            else
+            {
+                break;
+            }
+            
         }
     }
 }
@@ -37,12 +47,12 @@ bool IrcServer::isNickInUse(const std::string &nickname)
     return false;
 }
 
-Client* IrcServer::getClientByStream(TcpStream &stream)
+Client* IrcServer::getClientByStream(TcpStream *stream)
 {
     std::vector<Client *>::const_iterator it = clients_.begin();
     while (it != clients_.end())
     {
-        if ((*it)->getStream() == stream)
+        if ((*it)->getStream() == *stream)
             return *it;
         it++;
     }

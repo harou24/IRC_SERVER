@@ -8,7 +8,7 @@ Server::Server(int port, std::string password) : _mAcceptor(port, HOST), clients
 }
 
 Server::~Server(){
-    
+  /*  
     std::map<int, TcpStream*>::iterator it = clients_ss.begin();
     while (it != clients_ss.end())
     {
@@ -16,6 +16,7 @@ Server::~Server(){
         it++;
     }
     clients_ss.clear();
+    */
 }
 
 void            Server::init(){
@@ -36,7 +37,7 @@ void            Server::runOnce(){
                 }
             }
             catch(std::exception &e){
-                std::cout << e.what() << std::endl;
+                std::cout << e.what() << "FD->" << fd << std::endl;
                 exit(1);
             }
         }
@@ -82,6 +83,7 @@ void            Server::addClient(){
 
 void            Server::removeClient(int fd){
     MultiClientHandler::clearFd(fd);
+    delete clients_ss.at(fd);
     clients_ss.erase(fd);
     close(fd);
     _mNbrClients--;
