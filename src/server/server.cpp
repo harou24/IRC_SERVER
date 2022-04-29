@@ -8,7 +8,6 @@ Server::Server(int port, std::string password) : _mAcceptor(port, HOST), clients
 }
 
 Server::~Server(){
-  /*  
     std::map<int, TcpStream*>::iterator it = clients_ss.begin();
     while (it != clients_ss.end())
     {
@@ -16,7 +15,6 @@ Server::~Server(){
         it++;
     }
     clients_ss.clear();
-    */
 }
 
 void            Server::init(){
