@@ -30,6 +30,8 @@ class CmdController {
         void execute(Message *m);
         Message* getCurrentMsg();
 
+        Parser& getParser();
+        IrcServer& getServer();
 };
 
 #endif

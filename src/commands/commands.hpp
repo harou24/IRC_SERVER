@@ -6,30 +6,12 @@
 # include <string>
 
 class CmdController;
-/*
- enum CommandType {
-    AWAY,
-    INVITE,
-    JOIN,
-    ME,
-    MSG,
-    NICK,
-    NOTICE,
-    PART,
-    PRIVMSG,
-    QUERY,
-    QUIT,
-    WHOIS,
-    MODE,
-    USER,
-    PING,
-    UNKNOWN,
-    SIZE
-};
-*/
-std::string    welcome(CmdController* controller);
+
+std::string    welcome();
+std::string    cap_ls(CmdController* controller);
 std::string    nick(CmdController* controller);
 std::string    user(CmdController* controller);
 std::string    ping(CmdController* controller);
+std::string    mode(CmdController* controller);
 
 #endif

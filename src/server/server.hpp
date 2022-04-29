@@ -21,7 +21,7 @@ class Server : public MultiClientHandler
 {
     private:
         TcpAcceptor                 _mAcceptor;
-        std::map<int, TcpStream*>   _mClientss;
+        std::map<int, TcpStream*>   clients_ss;
         int                         _mNbrClients;
         bool                        _mIsRunning;
         std::string                 _mPassword;

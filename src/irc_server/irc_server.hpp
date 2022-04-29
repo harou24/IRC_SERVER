@@ -14,10 +14,17 @@ class IrcServer{
 
         void    start(void);
 
+        bool isNickInUse(const std::string &nickname);
+        Client* getClientByStream(TcpStream &stream);
+
+        void    addClient(Client* cl);
+        void    removeClient(Client *cl);
+        
+
     private:
         Server                  _mServer;
         int                     _mNbclients;
-        std::vector<Client *>    _mClient;
+        std::vector<Client *>    clients_;
     
         IrcServer();
 };

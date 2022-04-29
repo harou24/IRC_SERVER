@@ -20,15 +20,12 @@
            -        ~      ' '   \n\
        haroutioun eutienne evita\n\n "
 
-std::string    welcome(CmdController* controller)
+std::string    welcome()
 {
     std::string reply("");
 
     reply = NOTICE(std::string(HOST));
+    reply += std::string(LOGOO);
     reply += std::string(LOGO);
-    std::cout << reply << std::endl;
-    TcpStream stream = controller->getCurrentMsg()->getStream();
-    stream.send(reply, reply.length());
-    std::cout << "Stream->" << stream << std::endl;
     return reply;
 }
