@@ -8,7 +8,7 @@
 class Client
 {
     public:
-        Client(const std::string& nick, TcpStream &stream);
+        Client(const std::string& nick, TcpStream *stream);
         Client(const Client& src);
         ~Client();
 
@@ -33,7 +33,7 @@ class Client
         std::string _mHostName;
         std::string _mServerName;
         std::string _mRealName;
-        TcpStream   _mStream;
+        TcpStream   *_mStream;
         bool        _mHandShake;
 
         Client();

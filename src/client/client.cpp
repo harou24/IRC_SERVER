@@ -1,6 +1,6 @@
 #include "client.hpp"
 
-Client::Client(const std::string& nick, TcpStream& stream) : _mNickName(nick), _mUserName(""), _mHostName(""), 
+Client::Client(const std::string& nick, TcpStream* stream) : _mNickName(nick), _mUserName(""), _mHostName(""), 
 _mServerName(""), _mRealName(""), _mStream(stream), _mHandShake(false)
 {
 }
@@ -30,7 +30,7 @@ std::string     Client::getUser() const {return _mUserName;}
 std::string     Client::getHost() const {return _mHostName;}
 std::string     Client::getServer() const {return _mServerName;}
 std::string     Client::getReal() const {return _mRealName;}
-TcpStream&      Client::getStream() {return _mStream;}
+TcpStream&      Client::getStream() {return *_mStream;}
 bool            Client::getHandShake() const {return _mHandShake;}
 
 

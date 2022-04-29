@@ -15,6 +15,7 @@ class Message {
 
         std::string getData() const;
         TcpStream&  getStream() const;
+        TcpStream*  getStreamPtr();
 
 };
 
