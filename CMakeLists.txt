@@ -50,6 +50,7 @@ add_library(ft_irc src/utils/Table/Row.cpp
                     src/commands/ping.cpp
                     src/commands/welcome.cpp
                     src/commands/user.cpp
+                    src/commands/cap_ls.cpp
                     src/cmd_controller/cmd_controller.cpp
 )
 

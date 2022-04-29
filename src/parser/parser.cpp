@@ -233,18 +233,24 @@ std::string Parser::find_command(const std::string& s)
 
 void    Parser::parse(const std::string &inProgram)
 {
-    std::string arg;
+    std::string arg = inProgram;
+    arg.erase(std::remove(arg.begin(), arg.end(), '\r'), arg.end());
     void    (Parser::*p2f[])(const std::string& x) = {&Parser::away, &Parser::invite, \
         &Parser::join, &Parser::me, &Parser::msg, &Parser::nick, &Parser::notice, \
         &Parser::part, &Parser::privmsg, &Parser::query, &Parser::quit, \
         &Parser::whois, &Parser::mode, &Parser::user, &Parser::ping};
 
     this->_mArguments->arg1 = this->_mArguments->arg2 = this->_mArguments->arg3 = this->_mArguments->arg4 = "";
-    this->_mRawText = inProgram;
+    this->_mRawText = arg;
+
     
-    arg = find_command(inProgram);
-    if (this->_mCommand != UNKNOWN)
+    if (arg != "CAP LS")
+        arg = find_command(inProgram);
+    else
+        this->_mCommand = CAP_LS;
+    if (this->_mCommand < 15)
         (this->*p2f[this->_mCommand])(arg);
+    std::cout << this->_mCommand << std::endl;
 }
 
 std::ostream&   operator<<(std::ostream& o, Parser const& src){

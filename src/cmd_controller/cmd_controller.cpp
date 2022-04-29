@@ -5,6 +5,7 @@ CmdController::CmdController(): server_(NULL) { }
 CmdController::CmdController(IrcServer* server): server_(server)
 {   
     parser_ = new Parser();
+    cmds_.insert(std::pair<CommandType, t_ft_ptr>(CAP_LS, t_ft_ptr (cap_ls)));
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(NICK, t_ft_ptr (nick)));
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(MODE, t_ft_ptr (nick)));
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(USER, t_ft_ptr (user)));

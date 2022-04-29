@@ -13,5 +13,6 @@ std::string    nick(CmdController* controller);
 std::string    user(CmdController* controller);
 std::string    ping(CmdController* controller);
 std::string    mode(CmdController* controller);
+std::string    cap_ls(CmdController* controller);
 
 #endif
