@@ -9,7 +9,7 @@
     MSG,
     NICK,
     NOTICE,
-    PART,
+    PONG,
     PRIVMSG,
     QUERY,
     QUIT,

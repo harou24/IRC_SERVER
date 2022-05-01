@@ -24,8 +24,8 @@ void    IrcServer::start()
             {
                 std::cout << "Stream->" << msg->getStream() << std::endl;
                 cmd.execute(msg);
-                delete(msg);
                 std::cout << "msg->" << msg->getData() << "\n"; 
+                delete(msg);
             }
             else
             {

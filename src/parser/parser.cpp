@@ -208,7 +208,7 @@ std::string Parser::find_command(const std::string& s)
     string_to_case.insert(std::make_pair<std::string,CommandType>("MSG",MSG));
     string_to_case.insert(std::make_pair<std::string,CommandType>("NICK",NICK)); 
     string_to_case.insert(std::make_pair<std::string,CommandType>("NOTICE",NOTICE));
-    string_to_case.insert(std::make_pair<std::string,CommandType>("PART",PART));
+    string_to_case.insert(std::make_pair<std::string,CommandType>("PONG",PONG));
     string_to_case.insert(std::make_pair<std::string,CommandType>("PRIVMSG",PRIVMSG));
     string_to_case.insert(std::make_pair<std::string,CommandType>("QUERY",QUERY));
     string_to_case.insert(std::make_pair<std::string,CommandType>("QUIT",QUIT));
@@ -248,6 +248,8 @@ void    Parser::parse(const std::string &inProgram)
     
     if (arg != "CAP LS")
         arg = find_command(inProgram);
+    else if (arg != "CAP END")
+        std::cout << "CAP END" << std::endl;
     else
         this->_mCommand = CAP_LS;
     if (this->_mCommand < 15)
