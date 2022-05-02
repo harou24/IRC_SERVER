@@ -27,7 +27,7 @@ std::string    cap_ls(CmdController* controller)
     if (controller)
         std::cout << "CAP LS cmd!\n";
     std::string s =  NOTICE(std::string(HOST));
-    s += "127.0.0.1 CAP*LS : \nPING : " + gen_random(rand() % 10 + 5) + "\n";
+    s += "CAP * LS :\nPING : " + gen_random(rand() % 10 + 5) + "\n";
     std::cout << s << std::endl;
     return s;
     // return std::string("127.0.0.1 CAP LS :\nPING : " + gen_random(rand() % 10));

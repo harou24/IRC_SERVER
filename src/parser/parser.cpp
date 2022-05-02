@@ -251,7 +251,7 @@ void    Parser::parse(const std::string &inProgram)
     else if (arg == "CAP END")
         std::cout << "CAP END" << std::endl;
     else
-        this->_mCommand = UNKNOWN;
+        this->_mCommand = CAP_LS;
     if (this->_mCommand < 15)
         (this->*p2f[this->_mCommand])(arg);
     std::cout << this->_mCommand << std::endl;

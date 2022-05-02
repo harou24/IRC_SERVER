@@ -3,11 +3,13 @@
 
 # include "cmd_controller.hpp"
 # include "command_type.hpp"
+# include "replies.hpp"
 # include <string>
 
+struct Args;
 class CmdController;
 
-std::string    welcome();
+std::string    welcome(std::string nick, Args& args);
 std::string    cap_ls(CmdController* controller);
 std::string    nick(CmdController* controller);
 std::string    user(CmdController* controller);
