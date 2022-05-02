@@ -248,7 +248,7 @@ void    Parser::parse(const std::string &inProgram)
     
     if (arg != "CAP LS")
         arg = find_command(inProgram);
-    else if (arg != "CAP END")
+    else if (arg == "CAP END")
         std::cout << "CAP END" << std::endl;
     else
         this->_mCommand = CAP_LS;

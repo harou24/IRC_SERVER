@@ -3,6 +3,8 @@
 #include <ctime>
 #include <algorithm>
 
+#define NOTICE(server) server + " NOTICE * :*** Looking up your hostname...\n"
+
 std::string gen_random(const int len) {
     static const char alphanum[] =
         "0123456789"
@@ -24,5 +26,9 @@ std::string    cap_ls(CmdController* controller)
     srand((unsigned)time(NULL) * getpid());
     if (controller)
         std::cout << "CAP LS cmd!\n";
-    return std::string("127.0.0.1 CAP LS\nPING :" + gen_random(rand()));
+    std::string s =  NOTICE(std::string(HOST));
+    s += "127.0.0.1 CAP*LS : \nPING : " + gen_random(rand() % 10 + 5) + "\n";
+    std::cout << s << std::endl;
+    return s;
+    // return std::string("127.0.0.1 CAP LS :\nPING : " + gen_random(rand() % 10));
 }
