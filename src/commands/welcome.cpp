@@ -23,8 +23,9 @@
 std::string    welcome()
 {
     std::string reply("");
-
-    // reply = NOTICE(std::string(HOST));
+    
+    reply = "PING : ABCDE\n";
+    reply += NOTICE(std::string(HOST));
     reply += std::string(LOGOO);
     reply += std::string(LOGO);
     return reply;

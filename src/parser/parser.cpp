@@ -79,12 +79,12 @@ void    Parser::notice(const std::string& str)
 }
 
 
-void    Parser::part(const std::string& str) 
+void    Parser::pong(const std::string& str) 
 {
     std::istringstream  ss(str);
     ss >> this->_mArguments->arg1;
-    if (this->_mArguments->arg1[0] != '#' || ss >> this->_mArguments->arg2)
-        this->_mCommand = UNKNOWN;
+    // if (this->_mArguments->arg1[0] != '#' || ss >> this->_mArguments->arg2)
+    //     this->_mCommand = UNKNOWN;
 }
 
 void    Parser::privmsg(const std::string& str) 
@@ -239,7 +239,7 @@ void    Parser::parse(const std::string &inProgram)
     arg.erase(std::remove(arg.begin(), arg.end(), '\r'), arg.end());
     void    (Parser::*p2f[])(const std::string& x) = {&Parser::away, &Parser::invite, \
         &Parser::join, &Parser::me, &Parser::msg, &Parser::nick, &Parser::notice, \
-        &Parser::part, &Parser::privmsg, &Parser::query, &Parser::quit, \
+        &Parser::pong, &Parser::privmsg, &Parser::query, &Parser::quit, \
         &Parser::whois, &Parser::mode, &Parser::user, &Parser::ping};
 
     this->_mArguments->arg1 = this->_mArguments->arg2 = this->_mArguments->arg3 = this->_mArguments->arg4 = "";
@@ -247,11 +247,11 @@ void    Parser::parse(const std::string &inProgram)
 
     
     if (arg != "CAP LS")
-        arg = find_command(inProgram);
+        arg = find_command(arg);
     else if (arg == "CAP END")
         std::cout << "CAP END" << std::endl;
     else
-        this->_mCommand = CAP_LS;
+        this->_mCommand = UNKNOWN;
     if (this->_mCommand < 15)
         (this->*p2f[this->_mCommand])(arg);
     std::cout << this->_mCommand << std::endl;
