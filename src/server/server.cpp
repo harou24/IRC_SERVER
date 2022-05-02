@@ -15,6 +15,12 @@ Server::~Server(){
         it++;
     }
     clients_ss.clear();
+    while (!_mQueue.empty())
+    {
+        Message *m = _mQueue.front();
+        delete m;
+        _mQueue.pop();
+    }
 }
 
 void            Server::init(){
