@@ -13,6 +13,7 @@ CmdController::CmdController(IrcServer* server): server_(server)
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(PONG, t_ft_ptr (pong)));
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(PRIVMSG, t_ft_ptr (privmsg)));
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(QUIT, t_ft_ptr (quit)));
+    cmds_.insert(std::pair<CommandType, t_ft_ptr>(AWAY, t_ft_ptr (away)));
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(UNKNOWN, t_ft_ptr (unknown)));
 }
 

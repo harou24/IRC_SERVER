@@ -21,6 +21,6 @@ std::string    pong(CmdController* controller);
 std::string    privmsg(CmdController* controller);
 std::string    mode(CmdController* controller);
 std::string    quit(CmdController* controller);
-
+std::string    away(CmdController* controller);
 
 #endif
