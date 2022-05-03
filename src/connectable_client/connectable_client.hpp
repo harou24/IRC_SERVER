@@ -2,6 +2,7 @@
 # define CONNECTABLE_CLIENT_HPP
 
 # include "client.hpp"
+# include "print.hpp"
 
 class ConnectableClient {
 

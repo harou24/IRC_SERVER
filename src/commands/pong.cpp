@@ -3,7 +3,9 @@
 std::string    pong(CmdController* controller)
 {
     srand((unsigned)time(NULL) * getpid());
-    if (controller)
-        std::cout << "PONG\n";
+    #if 1
+        if (controller)
+            print("DEBUG", "PONG");
+    #endif
     return std::string("");
 }

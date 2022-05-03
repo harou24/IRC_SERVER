@@ -5,6 +5,7 @@
 # include "tcp_acceptor.hpp"
 # include "tcp_stream.hpp"
 # include "message.hpp"
+# include "print.hpp"
 
 # include <map>
 # include <iostream>

@@ -21,15 +21,22 @@ CmdController::~CmdController()
 
 void CmdController::execute(Message *m)
 {
-    std::cout << "execute...\n"; 
+    #if 1
+        print("DEBUG", "execute...");
+    #endif
     currentMsg_ = m;
     parser_->parse(m->getData());
     if (parser_->getCommand() == UNKNOWN)
         return ;
     std::string reply = cmds_[parser_->getCommand()](this);
     TcpStream *s = m->getStreamPtr();
-    if (s)
-        std::cout << "STREAM STREAM->"<< *s << "\n";
+    #if 1
+        if (s){
+            std::stringstream ss;
+            ss << "STREAM:\n" << *s;
+            print("DEBUG", ss.str());
+        }
+    #endif
 
     if (!reply.empty())
         m->getStream().send(reply, reply.length());

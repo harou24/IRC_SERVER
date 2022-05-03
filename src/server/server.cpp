@@ -41,7 +41,7 @@ void            Server::runOnce(){
                 }
             }
             catch(std::exception &e){
-                std::cout << e.what() << "FD->" << fd << std::endl;
+                print("ERROR", e.what());
                 exit(1);
             }
         }
@@ -76,7 +76,7 @@ Message& Server::getNextMsg(void)
 
 void            Server::addClient(){
     if (_mNbrClients == MAX_CLIENTS){
-        std::cout << "no space left for another client....\n";
+        print("ERROR", "no space left for another client....");
         return;
     }
     TcpStream *newStream = _mAcceptor.accept();

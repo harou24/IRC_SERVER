@@ -1,5 +1,6 @@
 #include "irc_server.hpp"
 #include "cmd_controller.hpp"
+#include "print.hpp"
 
 IrcServer::IrcServer(int port, std::string password)
 {
@@ -13,7 +14,7 @@ IrcServer::~IrcServer()
 void    IrcServer::start()
 {
     _mServer->init();
-    std::cout << "starting server...\n";
+    print("INFO", "starting server...");
     CmdController cmd(this);
     while (1)
     {
@@ -22,8 +23,10 @@ void    IrcServer::start()
         {
             if (msg)
             {
+                #if 1
+                    print("DEBUG", "incoming msg - " + msg->getData());
+                #endif
                 cmd.execute(msg);
-                std::cout << "msg->" << msg->getData() << "\n"; 
                 delete(msg);
             }
             else

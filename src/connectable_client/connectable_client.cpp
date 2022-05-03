@@ -2,7 +2,9 @@
 
 void    ConnectableClient::send(const std::string message){
     _mStream.send(message.c_str(), message.size());
-    std::cout << "sent - " << message << std::endl;
+    #if 1
+        print("DEBUG", "sent - " + message);
+    #endif
 }
 
 std::string ConnectableClient::receive(){
@@ -11,7 +13,9 @@ std::string ConnectableClient::receive(){
 
     length = _mStream.receive(line, sizeof(line));
     line[length] = '\0';
-    std::cout << "received - " << line << std::endl;
+    #if 1
+        print("DEBUG", "received - " + line);
+    #endif
     return std::string(line);
 }
 
@@ -22,6 +26,7 @@ void    ConnectableClient::connect(int port, std::string host){
         _mStream = connector.connect(port, host);
     }
     catch(std::exception &e){
-        std::cout << e.what() << "\n";
+        print("ERROR", e.what());
+        // std::cout << e.what() << "\n";
     }
 }

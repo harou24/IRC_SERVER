@@ -248,13 +248,18 @@ void    Parser::parse(const std::string &inProgram)
     
     if (arg != "CAP LS")
         arg = find_command(arg);
-    else if (arg == "CAP END")
-        std::cout << "CAP END" << std::endl;
+    else if (arg == "CAP END"){
+        #if 1
+            print("DEBUG", "CAP END detected");
+        #endif
+    }
     else
         this->_mCommand = CAP_LS;
     if (this->_mCommand < 15)
         (this->*p2f[this->_mCommand])(arg);
-    std::cout << this->_mCommand << std::endl;
+    #if 1
+        print("DEBUG", "_mCommand = " + std::to_string(this->_mCommand));
+    #endif
 }
 
 std::ostream&   operator<<(std::ostream& o, Parser const& src){
