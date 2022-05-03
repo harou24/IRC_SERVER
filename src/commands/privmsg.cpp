@@ -2,7 +2,14 @@
 
 std::string    privmsg(CmdController* controller)
 {
-    if (controller)
-        std::cout << "PRIVMSG" << std::endl;
-    return std::string(":PRIVMSG " + controller->getParser().getArgument().arg1 + " " + controller->getParser().getArgument().arg2 + "\n");
+    std::string receiver_name = controller->getParser().getArgument().arg1;
+    std::string msg = controller->getParser().getArgument().arg2;
+    Client *sender = controller->getServer().getClientByStream(controller->getCurrentMsg()->getStreamPtr());
+    Client *receiver = controller->getServer().getClientByName(receiver_name);
+    if (receiver != NULL) 
+    {
+        std::string s = PRIV_MESSAGE(sender->getNick(), receiver_name, sender->getHost(), msg);
+    	receiver->getStream().send(s, s.length());
+    }
+    return ("");
 }

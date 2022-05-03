@@ -16,6 +16,7 @@ class IrcServer{
 
         bool isNickInUse(const std::string &nickname);
         Client* getClientByStream(TcpStream *stream);
+        Client* getClientByName(std::string name);
 
         void    addClient(Client* cl);
         void    removeClient(Client *cl);

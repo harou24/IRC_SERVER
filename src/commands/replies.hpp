@@ -25,7 +25,8 @@
            -        ~      ' '   \n\
        haroutioun eutienne evita\n\n"
 
-// #define RPL_UMODEIS(host, args) ""
 #define RPL_UMODEIS(host, args) ":" + args.arg1 + "!" + args.arg1 + "@" + host + " MODE " + args.arg1 + " :" + args.arg2 +  "\n"
+// #define PRIV_MESSAGE(nick, nick2, host, message) ":" + nick + "!" + nick + "@" + host + "\n*" + nick + "* " + &message[1] + "\n"
+#define PRIV_MESSAGE(nick, nick2, host, message) ":" + nick + "!" + nick + "@" + host + ":PRIVMSG " + nick2 + " " + message + "\n"
 
 #endif

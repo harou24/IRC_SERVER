@@ -49,6 +49,18 @@ bool IrcServer::isNickInUse(const std::string &nickname)
     return false;
 }
 
+Client* IrcServer::getClientByName(std::string name)
+{
+    std::vector<Client *>::const_iterator it = clients_.begin();
+    while (it != clients_.end())
+    {
+        if ((*it)->getNick() == name)
+            return *it;
+        it++;
+    }
+    return NULL;
+}
+
 Client* IrcServer::getClientByStream(TcpStream *stream)
 {
     std::vector<Client *>::const_iterator it = clients_.begin();
