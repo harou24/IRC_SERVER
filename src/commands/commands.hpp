@@ -20,6 +20,7 @@ std::string    unknown(CmdController* controller);
 std::string    pong(CmdController* controller);
 std::string    privmsg(CmdController* controller);
 std::string    mode(CmdController* controller);
+std::string    quit(CmdController* controller);
 
 
 #endif
