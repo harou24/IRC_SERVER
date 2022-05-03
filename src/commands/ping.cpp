@@ -6,5 +6,5 @@ std::string    ping(CmdController* controller)
         if (controller)
             print("DEBUG", "PING");
     #endif
-    return std::string("PONG : " + controller->getParser().getArgument().arg1);
+    return std::string("PONG " + controller->getParser().getArgument().arg1 + "\n");
 }

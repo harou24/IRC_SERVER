@@ -18,6 +18,7 @@ std::string    mode(CmdController* controller);
 std::string    cap_ls(CmdController* controller);
 std::string    unknown(CmdController* controller);
 std::string    pong(CmdController* controller);
+std::string    privmsg(CmdController* controller);
 
 
 #endif

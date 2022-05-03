@@ -83,8 +83,6 @@ void    Parser::pong(const std::string& str)
 {
     std::istringstream  ss(str);
     ss >> this->_mArguments->arg1;
-    // if (this->_mArguments->arg1[0] != '#' || ss >> this->_mArguments->arg2)
-    //     this->_mCommand = UNKNOWN;
 }
 
 void    Parser::privmsg(const std::string& str) 
@@ -166,8 +164,6 @@ void    Parser::ping(const std::string& str)
 {
     std::istringstream  ss(str);
     ss >> this->_mArguments->arg1;
-    if (ss >> this->_mArguments->arg1)
-        this->_mCommand = UNKNOWN;
 }
 
 Parser::Parser() : _mCommand(UNKNOWN), _mArguments(0), _mRawText("")
@@ -224,7 +220,7 @@ std::string Parser::find_command(const std::string& s)
     for (std::string::iterator p = s1.begin(); s1.end() != p; ++p)
         *p = toupper(*p);
 
-    if (s1 == "QUIT" || s1 == "AWAY")
+    if (s1 == "QUIT" || s1 == "AWAY" || (s1 == "PING" && s2 == ""))
         this->_mCommand = string_to_case.find(s1)->second;
     else if (string_to_case.find(s1) != string_to_case.end() && s2 != "")
         this->_mCommand = string_to_case.find(s1)->second;
@@ -236,7 +232,9 @@ std::string Parser::find_command(const std::string& s)
 void    Parser::parse(const std::string &inProgram)
 {
     std::string arg = inProgram;
+
     arg.erase(std::remove(arg.begin(), arg.end(), '\r'), arg.end());
+
     void    (Parser::*p2f[])(const std::string& x) = {&Parser::away, &Parser::invite, \
         &Parser::join, &Parser::me, &Parser::msg, &Parser::nick, &Parser::notice, \
         &Parser::pong, &Parser::privmsg, &Parser::query, &Parser::quit, \
