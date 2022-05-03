@@ -7,6 +7,7 @@
 # define RESET "\033[0m"
 
 # include <iostream>
+# include <cstring>
 
 enum Levels{
     ERROR,
