@@ -55,6 +55,7 @@ add_library(ft_irc src/utils/Table/Row.cpp
                     src/commands/cap_ls.cpp
                     src/commands/pong.cpp
                     src/commands/privmsg.cpp
+                    src/commands/mode.cpp
                     src/commands/unknown.cpp
                     src/cmd_controller/cmd_controller.cpp
                     src/utils/print.cpp

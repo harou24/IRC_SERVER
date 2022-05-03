@@ -23,7 +23,9 @@
         ` @ @\\     a a   ||o_o|| \n\
            >        _)   || = || \n\
            -        ~      ' '   \n\
-       haroutioun eutienne evita\n\n "
+       haroutioun eutienne evita\n\n"
 
+// #define RPL_UMODEIS(host, args) ""
+#define RPL_UMODEIS(host, args) ":" + args.arg1 + "!" + args.arg1 + "@" + host + " MODE " + args.arg1 + " :" + args.arg2 +  "\n"
 
 #endif
