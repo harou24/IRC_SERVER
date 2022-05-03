@@ -258,7 +258,9 @@ void    Parser::parse(const std::string &inProgram)
     if (this->_mCommand < 15)
         (this->*p2f[this->_mCommand])(arg);
     #if 1
-        print("DEBUG", "_mCommand = " + std::to_string(this->_mCommand));
+        std::stringstream ss;
+        ss << "_mCommand = " << this->_mCommand;
+        print("DEBUG", ss.str());
     #endif
 }
 

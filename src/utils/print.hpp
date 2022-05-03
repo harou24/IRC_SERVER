@@ -14,7 +14,7 @@ enum Levels{
     DEBUG
 };
 
-#define USE 1
+#define USE 2
 
 void    print(const char *level, std::string msg);
 
