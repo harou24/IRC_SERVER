@@ -12,11 +12,10 @@ void serverJob()
 
 void clientJob()
 {
-
+    g_client.send("HELLO\n");
 }
 
 int main(void)
 {
-
     return (0);
 }

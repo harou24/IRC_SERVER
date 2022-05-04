@@ -5,18 +5,32 @@ ConnectableClient::ConnectableClient()
 { 
     _port = 8080;
     _host = "127.0.0.1";
-    _client = new Client(_port, _host);
     _connector = new TcpConnector();
-    _stream = NULL;
+    try
+    {
+        _stream = _connector->connect(_port, _host);
+    }
+    catch(std::exception &e)
+    {
+        std::cout << e.what() << "\n";
+    }
+    _client = new Client("DefaultClient", _stream);
 }
 
 ConnectableClient::ConnectableClient(int port, std::string host)
 {
     _port = port;
     _host = host;
-    _client = new Client(port, host);
     _connector = new TcpConnector();
-    _stream = NULL;
+    try
+    {
+        _stream = _connector->connect(_port, _host);
+    }
+    catch(std::exception &e)
+    {
+        std::cout << e.what() << "\n";
+    }
+    _client = new Client("Harou", _stream);
 }
 
 ConnectableClient::~ConnectableClient() { }
@@ -25,7 +39,7 @@ void    ConnectableClient::connect()
 {
     try
     {
-        _stream = _connector.connect(_port, _host);
+        _stream = _connector->connect(_port, _host);
     }
     catch(std::exception &e)
     {
@@ -35,7 +49,7 @@ void    ConnectableClient::connect()
 
 void    ConnectableClient::send(const std::string &message)
 {
-    _stream.send(message.c_str(), message.size());
+    _stream->send(message.c_str(), message.size());
     std::cout << "sent - " << message << std::endl;
 }
 
@@ -44,7 +58,7 @@ std::string ConnectableClient::receive()
     int     length;
     char    line[256];
 
-    length = _stream.receive(line, sizeof(line));
+    length = _stream->receive(line, sizeof(line));
     line[length] = '\0';
     std::cout << "received - " << line << std::endl;
     return std::string(line);
