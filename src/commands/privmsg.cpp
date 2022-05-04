@@ -12,6 +12,7 @@ std::string    privmsg(CmdController* controller)
     	receiver->getStream().send(s, s.length());
         if (receiver->getAway())
             return std::string(RPL_AWAY(receiver->getNick(), sender->getNick(), receiver->getAwayMsg()));
+        return "";
     }
-    return ("");
+    return std::string(ERR_NOSUCHNICK(sender->getNick(), receiver_name));
 }
