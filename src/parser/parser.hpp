@@ -1,8 +1,10 @@
 #ifndef PARSER_HPP
 # define PARSER_HPP
 
-#include <map>
-#include <sstream>
+# include <map>
+# include <sstream>
+
+# include "commands.hpp"
 
 struct Args {
     Args() : arg1(""), arg2(""), arg3(""), arg4("") {}
@@ -13,26 +15,6 @@ struct Args {
     std::string arg4;
 };
 
-enum CommandType {
-    AWAY,
-    INVITE,
-    JOIN,
-    ME,
-    MSG,
-    NICK,
-    NOTICE,
-    PART,
-    PRIVMSG,
-    QUERY,
-    QUIT,
-    WHOIS,
-    MODE,
-    USER,
-    PING,
-    UNKNOWN,
-    SIZE
-};
-
 class Parser {
     private:
 
@@ -41,13 +23,13 @@ class Parser {
         ~Parser();
         void parse(const std::string &inProgram);
         Args&  getArgument() const;
-        CommandType getCommand() const;
+        int getCommand() const;
         std::string getRaw() const;
 
     private:
-        CommandType     _mCommand;
-        Args          *_mArguments;
-        std::string     _mRawText;
+        int         _mCommand;
+        Args        *_mArguments;
+        std::string _mRawText;
 
     private:
         std::string find_command(const std::string& s);
@@ -58,7 +40,7 @@ class Parser {
         void    msg(const std::string& str);
         void    nick(const std::string& str);
         void    notice(const std::string& str);
-        void    part(const std::string& str);
+        void    pong(const std::string& str);
         void    privmsg(const std::string& str);
         void    query(const std::string& str);
         void    quit(const std::string& str);

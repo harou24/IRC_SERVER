@@ -1,7 +1,7 @@
 #ifndef TCPACCEPTOR_HPP
 # define TCPACCEPTOR_HPP
 
-#include "TcpStream.hpp"
+#include "tcp_stream.hpp"
 #include <cstring>
 #include <stdexcept>
 #include <iostream>

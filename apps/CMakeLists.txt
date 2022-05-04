@@ -13,8 +13,8 @@ target_link_libraries(echo_client PRIVATE ft_irc)
 add_executable(server ./server/server.cpp)
 target_link_libraries(server PRIVATE ft_irc)
 
-add_executable(irc ./irc/irc.cpp)
-target_link_libraries(irc PRIVATE ft_irc)
+add_executable(irc_server ./irc/irc_server.cpp)
+target_link_libraries(irc_server PRIVATE ft_irc)
 
 add_executable(infinite_loop.out ./experiment/infinite_loop.cpp)
 add_executable(stop_loop.out ./experiment/stop_loop.cpp)

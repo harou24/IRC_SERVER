@@ -1,6 +1,6 @@
-#include "TcpStream.hpp"
-#include "TcpConnector.hpp"
-#include "TcpAcceptor.hpp"
+#include "tcp_stream.hpp"
+#include "tcp_connector.hpp"
+#include "tcp_acceptor.hpp"
 #include <iostream>
 #include <netinet/in.h>
 #include <sys/socket.h>

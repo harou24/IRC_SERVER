@@ -1,0 +1,92 @@
+#include "irc_server.hpp"
+#include "cmd_controller.hpp"
+#include "print.hpp"
+
+IrcServer::IrcServer(int port, std::string password)
+{
+    _mServer = new Server(port, password);
+}
+
+IrcServer::~IrcServer() 
+{
+}
+
+void    IrcServer::start()
+{
+    _mServer->init();
+    print("INFO", "starting server...");
+    CmdController cmd(this);
+    while (1)
+    {
+        _mServer->runOnce();
+        while (Message *msg = &_mServer->getNextMsg())
+        {
+            if (msg)
+            {
+                #if 1
+                    print("DEBUG", "incoming msg - " + msg->getData());
+                #endif
+                cmd.execute(msg);
+                delete(msg);
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+}
+
+bool IrcServer::isNickInUse(const std::string &nickname)
+{
+    std::vector<Client *>::const_iterator it = clients_.begin();
+    while (it != clients_.end())
+    {
+        if ((*it)->getNick() == nickname)
+            return true;
+        it++;
+    }
+    return false;
+}
+
+Client* IrcServer::getClientByName(std::string name)
+{
+    std::vector<Client *>::const_iterator it = clients_.begin();
+    while (it != clients_.end())
+    {
+        if ((*it)->getNick() == name)
+            return *it;
+        it++;
+    }
+    return NULL;
+}
+
+Client* IrcServer::getClientByStream(TcpStream *stream)
+{
+    std::vector<Client *>::const_iterator it = clients_.begin();
+    while (it != clients_.end())
+    {
+        if ((*it)->getStream() == *stream)
+            return *it;
+        it++;
+    }
+    return NULL;
+}
+
+void IrcServer::addClient(Client *cl)
+{
+    clients_.push_back(cl);
+}
+
+void IrcServer::removeClient(Client *cl)
+{
+    std::vector<Client *>::iterator it = clients_.begin();
+    while (it != clients_.end())
+    {
+        if (*it == cl)
+            break;
+        it++;
+    }
+    if (it != clients_.end())
+        clients_.erase(it);
+}

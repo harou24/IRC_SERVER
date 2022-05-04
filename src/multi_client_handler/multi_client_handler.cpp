@@ -1,4 +1,4 @@
-#include "MultiClientHandler.hpp"
+#include "multi_client_handler.hpp"
 
 MultiClientHandler::MultiClientHandler(void)
 {
@@ -33,7 +33,6 @@ bool    MultiClientHandler::isFdInSet(int fd)
     this->updateFdSet();
     return (FD_ISSET(fd, &this->tmpFds) != 0);
 }
-
 
 void    MultiClientHandler::updateFdSet(void)
 {

@@ -1,6 +1,6 @@
-#include "Server.hpp"
-#include "TcpStream.hpp"
-#include "TcpConnector.hpp"
+#include "server.hpp"
+#include "tcp_stream.hpp"
+#include "tcp_connector.hpp"
 #include <stdexcept>
 
 #include <assert.h>
@@ -51,7 +51,7 @@ void  runClient()
     sendMsg();
     sleep(1);
     assert(serv.getQueue().size() == 1);
-    assert(serv.getQueue().front().data == msgToSend);
+    assert(serv.getQueue().front()->getData() == msgToSend);
     stopClient();
 }
 

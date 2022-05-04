@@ -1,5 +1,7 @@
 #include "parser.hpp"
 
+#include <algorithm>
+
 void    Parser::away(const std::string& str) 
 {
     std::istringstream  ss(str);
@@ -77,12 +79,10 @@ void    Parser::notice(const std::string& str)
 }
 
 
-void    Parser::part(const std::string& str) 
+void    Parser::pong(const std::string& str) 
 {
     std::istringstream  ss(str);
     ss >> this->_mArguments->arg1;
-    if (this->_mArguments->arg1[0] != '#' || ss >> this->_mArguments->arg2)
-        this->_mCommand = UNKNOWN;
 }
 
 void    Parser::privmsg(const std::string& str) 
@@ -164,8 +164,6 @@ void    Parser::ping(const std::string& str)
 {
     std::istringstream  ss(str);
     ss >> this->_mArguments->arg1;
-    if (ss >> this->_mArguments->arg1)
-        this->_mCommand = UNKNOWN;
 }
 
 Parser::Parser() : _mCommand(UNKNOWN), _mArguments(0), _mRawText("")
@@ -183,7 +181,7 @@ Args& Parser::getArgument() const
     return *this->_mArguments;
 }
 
-CommandType Parser::getCommand() const
+int Parser::getCommand() const
 {
     return _mCommand;
 }
@@ -206,7 +204,7 @@ std::string Parser::find_command(const std::string& s)
     string_to_case.insert(std::make_pair<std::string,CommandType>("MSG",MSG));
     string_to_case.insert(std::make_pair<std::string,CommandType>("NICK",NICK)); 
     string_to_case.insert(std::make_pair<std::string,CommandType>("NOTICE",NOTICE));
-    string_to_case.insert(std::make_pair<std::string,CommandType>("PART",PART));
+    string_to_case.insert(std::make_pair<std::string,CommandType>("PONG",PONG));
     string_to_case.insert(std::make_pair<std::string,CommandType>("PRIVMSG",PRIVMSG));
     string_to_case.insert(std::make_pair<std::string,CommandType>("QUERY",QUERY));
     string_to_case.insert(std::make_pair<std::string,CommandType>("QUIT",QUIT));
@@ -222,7 +220,7 @@ std::string Parser::find_command(const std::string& s)
     for (std::string::iterator p = s1.begin(); s1.end() != p; ++p)
         *p = toupper(*p);
 
-    if (s1 == "QUIT" || s1 == "AWAY")
+    if (s1 == "QUIT" || s1 == "AWAY" || (s1 == "PING" && s2 == ""))
         this->_mCommand = string_to_case.find(s1)->second;
     else if (string_to_case.find(s1) != string_to_case.end() && s2 != "")
         this->_mCommand = string_to_case.find(s1)->second;
@@ -233,18 +231,35 @@ std::string Parser::find_command(const std::string& s)
 
 void    Parser::parse(const std::string &inProgram)
 {
-    std::string arg;
+    std::string arg = inProgram;
+
+    arg.erase(std::remove(arg.begin(), arg.end(), '\r'), arg.end());
+
     void    (Parser::*p2f[])(const std::string& x) = {&Parser::away, &Parser::invite, \
         &Parser::join, &Parser::me, &Parser::msg, &Parser::nick, &Parser::notice, \
-        &Parser::part, &Parser::privmsg, &Parser::query, &Parser::quit, \
+        &Parser::pong, &Parser::privmsg, &Parser::query, &Parser::quit, \
         &Parser::whois, &Parser::mode, &Parser::user, &Parser::ping};
 
     this->_mArguments->arg1 = this->_mArguments->arg2 = this->_mArguments->arg3 = this->_mArguments->arg4 = "";
-    this->_mRawText = inProgram;
+    this->_mRawText = arg;
+
     
-    arg = find_command(inProgram);
-    if (this->_mCommand != UNKNOWN)
+    if (arg != "CAP LS")
+        arg = find_command(arg);
+    else if (arg == "CAP END"){
+        #if 1
+            print("DEBUG", "CAP END detected");
+        #endif
+    }
+    else
+        this->_mCommand = CAP_LS;
+    if (this->_mCommand < 15)
         (this->*p2f[this->_mCommand])(arg);
+    #if 1
+        std::stringstream ss;
+        ss << "_mCommand = " << this->_mCommand;
+        print("DEBUG", ss.str());
+    #endif
 }
 
 std::ostream&   operator<<(std::ostream& o, Parser const& src){
