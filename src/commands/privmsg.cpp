@@ -8,8 +8,10 @@ std::string    privmsg(CmdController* controller)
     Client *receiver = controller->getServer().getClientByName(receiver_name);
     if (receiver != NULL) 
     {
-        std::string s = PRIV_MESSAGE(sender->getNick(), receiver_name, sender->getHost(), msg);
+        std::string s = PRIV_MESSAGE(sender->getNick(), receiver_name, sender->getUser(), sender->getHost(), msg);
     	receiver->getStream().send(s, s.length());
+        if (receiver->getAway())
+            return std::string(RPL_AWAY(receiver->getNick(), sender->getNick(), receiver->getAwayMsg()));
     }
     return ("");
 }

@@ -27,8 +27,8 @@
 
 #define RPL_UMODEIS(host, args) ":" + args.arg1 + "!" + args.arg1 + "@" + host + " MODE " + args.arg1 + " :" + args.arg2 +  "\n"
 // #define PRIV_MESSAGE(nick, nick2, host, message) ":" + nick + "!" + nick + "@" + host + "\n*" + nick + "* " + &message[1] + "\n"
-#define PRIV_MESSAGE(nick, nick2, host, message) ":" + nick + "!" + nick + "@" + host + ":PRIVMSG " + nick2 + " " + message + "\n"
-#define RPL_AWAY(nick, msg) nick + " " + msg + "\n"
+#define PRIV_MESSAGE(nick, nick2, user, host, message) ":" + nick + "!" + user + "@" + host + " PRIVMSG " + nick2 + " " + message + "\n"
+#define RPL_AWAY(nick, nick2, msg) ":127.0.0.1 301 *" + nick2 + " " + nick + " " + msg + "\n"
 #define RPL_UNAWAY() ":127.0.0.1 305 * AWAY :You are no longer marked as being away\n"
 #define RPL_NOAWAY() ":127.0.0.1 306 * AWAY :You have been marked as being away\n"
 
