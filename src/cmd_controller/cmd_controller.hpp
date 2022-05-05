@@ -4,6 +4,7 @@
 # include "commands.hpp"
 # include "parser.hpp"
 # include "irc_server.hpp"
+# include "print.hpp"
 
 # include <map>
 

@@ -17,7 +17,7 @@ std::string    execNick(CmdController* controller, const std::string& nickname)
         //create client
         cl = new Client(nickname, stream);
         controller->getServer().addClient(cl);
-        reply = welcome();
+        reply = welcome(nickname, controller->getParser().getArgument());
     }
     else
     {

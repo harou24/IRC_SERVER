@@ -32,6 +32,8 @@ include_directories(src/commands)
 include_directories(src/parser)
 include_directories(src/cmd_controller)
 include_directories(src/message)
+include_directories(src/utils)
+
 
 # example library
 add_library(ft_irc src/utils/Table/Row.cpp
@@ -51,8 +53,14 @@ add_library(ft_irc src/utils/Table/Row.cpp
                     src/commands/welcome.cpp
                     src/commands/user.cpp
                     src/commands/cap_ls.cpp
+                    src/commands/pong.cpp
+                    src/commands/privmsg.cpp
+                    src/commands/mode.cpp
+                    src/commands/quit.cpp
+                    src/commands/away.cpp
                     src/commands/unknown.cpp
                     src/cmd_controller/cmd_controller.cpp
+                    src/utils/print.cpp
 )
 
 # add programs

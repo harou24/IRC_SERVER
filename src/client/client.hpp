@@ -18,6 +18,8 @@ class Client
         void    setServer(const std::string& s);
         void    setReal(const std::string& s);
         void    setHandShake();
+        void    setAway(bool status);
+        void    setAwayMsg(std::string msg);
 
         std::string     getNick() const;
         std::string     getUser() const;
@@ -26,6 +28,8 @@ class Client
         std::string     getReal() const;
         TcpStream&      getStream();
         bool            getHandShake() const;
+        bool            getAway() const;
+        std::string     getAwayMsg() const;
 
     private:
         std::string _mNickName;
@@ -35,6 +39,8 @@ class Client
         std::string _mRealName;
         TcpStream   *_mStream;
         bool        _mHandShake;
+        bool        _mAway;
+        std::string _mAwayMsg;
 
         Client();
 };

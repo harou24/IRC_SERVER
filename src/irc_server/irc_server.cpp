@@ -1,5 +1,6 @@
 #include "irc_server.hpp"
 #include "cmd_controller.hpp"
+#include "print.hpp"
 
 IrcServer::IrcServer(int port, std::string password)
 {
@@ -19,7 +20,7 @@ IrcServer::~IrcServer()
 void    IrcServer::start()
 {
     _mServer->init();
-    std::cout << "starting server...\n";
+    print("INFO", "starting server...");
     CmdController cmd(this);
     while (_mServer->isRunning())
     {
@@ -28,6 +29,9 @@ void    IrcServer::start()
         {
             if (msg)
             {
+                #if 1
+                    print("DEBUG", "incoming msg - " + msg->getData());
+                #endif
                 cmd.execute(msg);
                 delete(msg);
             }
@@ -49,6 +53,18 @@ bool IrcServer::isNickInUse(const std::string &nickname)
         it++;
     }
     return false;
+}
+
+Client* IrcServer::getClientByName(std::string name)
+{
+    std::vector<Client *>::const_iterator it = clients_.begin();
+    while (it != clients_.end())
+    {
+        if ((*it)->getNick() == name)
+            return *it;
+        it++;
+    }
+    return NULL;
 }
 
 Client* IrcServer::getClientByStream(TcpStream *stream)

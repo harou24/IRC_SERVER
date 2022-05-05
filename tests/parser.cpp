@@ -165,22 +165,6 @@ TEST_CASE("Parsing command NOTICE")
     REQUIRE(A.arg4 == "");
 }
 
-TEST_CASE("Parsing command PART")
-{
-    Parser   parser;
-    
-    parser.parse("PART #channel");
-
-    Args A = parser.getArgument();
-
-    REQUIRE(parser.getCommand() == PART);
-    REQUIRE(parser.getRaw() == "PART #channel");
-    REQUIRE(A.arg1 == "#channel");
-    REQUIRE(A.arg2 == "");
-    REQUIRE(A.arg3 == "");
-    REQUIRE(A.arg4 == "");
-}
-
 TEST_CASE("Parsing command PRIVMSG")
 {
     Parser   parser;
