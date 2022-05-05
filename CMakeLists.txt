@@ -57,7 +57,9 @@ add_library(ft_irc src/utils/Table/Row.cpp
                     src/commands/privmsg.cpp
                     src/commands/mode.cpp
                     src/commands/quit.cpp
+                    src/commands/join.cpp
                     src/commands/away.cpp
+                    src/commands/invite.cpp
                     src/commands/unknown.cpp
                     src/cmd_controller/cmd_controller.cpp
                     src/utils/print.cpp

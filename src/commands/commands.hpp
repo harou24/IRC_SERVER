@@ -22,5 +22,7 @@ std::string    privmsg(CmdController* controller);
 std::string    mode(CmdController* controller);
 std::string    quit(CmdController* controller);
 std::string    away(CmdController* controller);
+std::string    join(CmdController* controller);
+std::string    invite(CmdController* controller);
 
 #endif
