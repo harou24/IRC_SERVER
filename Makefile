@@ -27,7 +27,8 @@ func:
 			@mkdir -p build
 			@cmake -S . -B build -DTEST=ON
 			@cmake --build build
-			@./build/apps/test_server_messaging.out "hello what's up!"
+#			@./build/apps/test_server_messaging.out "hello what's up!"
+			@./build/apps/irc_server_test.out
 			
 re: clean all
 

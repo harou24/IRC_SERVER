@@ -6,8 +6,14 @@ IrcServer::IrcServer(int port, std::string password)
     _mServer = new Server(port, password);
 }
 
-IrcServer::~IrcServer() 
+IrcServer::~IrcServer()
 {
+    std::vector<Client *>::iterator it = _clients.begin();
+    while (it != _clients.end())
+    {
+        delete *it;
+        it++;
+    }
 }
 
 void    IrcServer::start()
@@ -15,7 +21,7 @@ void    IrcServer::start()
     _mServer->init();
     std::cout << "starting server...\n";
     CmdController cmd(this);
-    while (1)
+    while (_mServer->isRunning())
     {
         _mServer->runOnce();
         while (Message *msg = &_mServer->getNextMsg())
@@ -35,8 +41,8 @@ void    IrcServer::start()
 
 bool IrcServer::isNickInUse(const std::string &nickname)
 {
-    std::vector<Client *>::const_iterator it = clients_.begin();
-    while (it != clients_.end())
+    std::vector<Client *>::const_iterator it = _clients.begin();
+    while (it != _clients.end())
     {
         if ((*it)->getNick() == nickname)
             return true;
@@ -47,8 +53,8 @@ bool IrcServer::isNickInUse(const std::string &nickname)
 
 Client* IrcServer::getClientByStream(TcpStream *stream)
 {
-    std::vector<Client *>::const_iterator it = clients_.begin();
-    while (it != clients_.end())
+    std::vector<Client *>::const_iterator it = _clients.begin();
+    while (it != _clients.end())
     {
         if ((*it)->getStream() == *stream)
             return *it;
@@ -59,18 +65,26 @@ Client* IrcServer::getClientByStream(TcpStream *stream)
 
 void IrcServer::addClient(Client *cl)
 {
-    clients_.push_back(cl);
+    _clients.push_back(cl);
 }
 
 void IrcServer::removeClient(Client *cl)
 {
-    std::vector<Client *>::iterator it = clients_.begin();
-    while (it != clients_.end())
+    std::vector<Client *>::iterator it = _clients.begin();
+    while (it != _clients.end())
     {
         if (*it == cl)
             break;
         it++;
     }
-    if (it != clients_.end())
-        clients_.erase(it);
+    if (it != _clients.end())
+        _clients.erase(it);
 }
+
+void IrcServer::stop(void)
+{
+    std::cout << "Stopping server...\n";
+     _mServer->stop();
+}
+
+bool IrcServer::isRunning(void) const { return _mServer->isRunning(); }
