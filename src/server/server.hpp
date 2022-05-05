@@ -14,7 +14,7 @@
 # include <queue>
 # include <cerrno>
 
-# define MAX_CLIENTS 5
+# define MAXclients_ 5
 # define HOST "127.0.0.1"
 # define FD_CORRECTION 4
 
@@ -22,7 +22,7 @@ class Server : public MultiClientHandler
 {
     private:
         TcpAcceptor                 _mAcceptor;
-        std::map<int, TcpStream*>   _clientsss;
+        std::map<int, TcpStream*>   clients_ss;
         int                         _mNbrClients;
         bool                        _mIsRunning;
         std::string                 _mPassword;

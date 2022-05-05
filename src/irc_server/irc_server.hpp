@@ -28,7 +28,7 @@ class IrcServer {
     private:
         Server                  *_mServer;
         int                     _mNbclients;
-        std::vector<Client *>    _clients;
+        std::vector<Client *>    clients_;
     
         IrcServer();
 };

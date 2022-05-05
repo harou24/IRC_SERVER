@@ -9,8 +9,8 @@ IrcServer::IrcServer(int port, std::string password)
 
 IrcServer::~IrcServer()
 {
-    std::vector<Client *>::iterator it = _clients.begin();
-    while (it != _clients.end())
+    std::vector<Client *>::iterator it = clients_.begin();
+    while (it != clients_.end())
     {
         delete *it;
         it++;
@@ -45,8 +45,8 @@ void    IrcServer::start()
 
 bool IrcServer::isNickInUse(const std::string &nickname)
 {
-    std::vector<Client *>::const_iterator it = _clients.begin();
-    while (it != _clients.end())
+    std::vector<Client *>::const_iterator it = clients_.begin();
+    while (it != clients_.end())
     {
         if ((*it)->getNick() == nickname)
             return true;
@@ -69,8 +69,8 @@ Client* IrcServer::getClientByName(std::string name)
 
 Client* IrcServer::getClientByStream(TcpStream *stream)
 {
-    std::vector<Client *>::const_iterator it = _clients.begin();
-    while (it != _clients.end())
+    std::vector<Client *>::const_iterator it = clients_.begin();
+    while (it != clients_.end())
     {
         if ((*it)->getStream() == *stream)
             return *it;
@@ -81,20 +81,20 @@ Client* IrcServer::getClientByStream(TcpStream *stream)
 
 void IrcServer::addClient(Client *cl)
 {
-    _clients.push_back(cl);
+    clients_.push_back(cl);
 }
 
 void IrcServer::removeClient(Client *cl)
 {
-    std::vector<Client *>::iterator it = _clients.begin();
-    while (it != _clients.end())
+    std::vector<Client *>::iterator it = clients_.begin();
+    while (it != clients_.end())
     {
         if (*it == cl)
             break;
         it++;
     }
-    if (it != _clients.end())
-        _clients.erase(it);
+    if (it != clients_.end())
+        clients_.erase(it);
 }
 
 void IrcServer::stop(void)

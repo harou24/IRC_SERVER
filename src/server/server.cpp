@@ -2,19 +2,19 @@
 
 #include <sstream>
 
-Server::Server(int port, std::string password) : _mAcceptor(port, HOST), _clientsss(), _mNbrClients(0) {
+Server::Server(int port, std::string password) : _mAcceptor(port, HOST), clients_ss(), _mNbrClients(0) {
     _mIsRunning = false;
     _mPassword = password;
 }
 
 Server::~Server(){
-    std::map<int, TcpStream*>::iterator it = _clientsss.begin();
-    while (it != _clientsss.end())
+    std::map<int, TcpStream*>::iterator it = clients_ss.begin();
+    while (it != clients_ss.end())
     {
         delete it->second;
         it++;
     }
-    _clientsss.clear();
+    clients_ss.clear();
     while (!_mQueue.empty())
     {
         Message *m = _mQueue.front();
@@ -75,20 +75,20 @@ Message& Server::getNextMsg(void)
 }
 
 void            Server::addClient(){
-    if (_mNbrClients == MAX_CLIENTS){
+    if (_mNbrClients == MAXclients_){
         print("ERROR", "no space left for another client....");
         return;
     }
     TcpStream *newStream = _mAcceptor.accept();
     MultiClientHandler::addFdToSet(newStream->getSd());
-    _clientsss.insert(std::make_pair(newStream->getSd(), newStream));
+    clients_ss.insert(std::make_pair(newStream->getSd(), newStream));
     _mNbrClients++;
 }
 
 void            Server::removeClient(int fd){
     MultiClientHandler::clearFd(fd);
-    delete _clientsss.at(fd);
-    _clientsss.erase(fd);
+    delete clients_ss.at(fd);
+    clients_ss.erase(fd);
     close(fd);
     _mNbrClients--;
 }
@@ -107,8 +107,8 @@ std::queue<std::string> Server::split(const std::string &data)
 TcpStream*      Server::getStreamFromFd(int fd)
 {
     TcpStream *stream  = NULL;
-    std::map<int, TcpStream *>::iterator it = _clientsss.find(fd);
-    if (it != _clientsss.end())
+    std::map<int, TcpStream *>::iterator it = clients_ss.find(fd);
+    if (it != clients_ss.end())
         stream = it->second;
     return stream;
 }
@@ -130,17 +130,17 @@ void            Server::handleData(int fd){
 }
 
 void            Server::sendData(int fd, char *buffer, size_t len){
-    if (_clientsss[fd])
-        _clientsss[fd]->send(buffer, len);
+    if (clients_ss[fd])
+        clients_ss[fd]->send(buffer, len);
 }
 
 std::string          Server::receiveData(int fd)
 {
-    if (!_clientsss[fd])
+    if (!clients_ss[fd])
         return std::string("");
 
     char    buffer[512];
-    size_t len = _clientsss[fd]->receive(buffer, 512);
+    size_t len = clients_ss[fd]->receive(buffer, 512);
     buffer[len] = '\0';
     return std::string(buffer);
 }
@@ -150,7 +150,7 @@ bool            Server::isClientConnecting(int fd){
 }
 
 const std::map<int, TcpStream*>&     Server::getClients() const{
-    return _clientsss;
+    return clients_ss;
 }
 
 std::queue<Message *>&     Server::getQueue(){
