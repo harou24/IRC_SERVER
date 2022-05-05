@@ -90,3 +90,33 @@ void IrcServer::removeClient(Client *cl)
     if (it != clients_.end())
         clients_.erase(it);
 }
+
+bool    IrcServer::isChannel(std::string channel)
+{
+    if (this->channel_.find(channel) != this->channel_.end())
+        return true;
+    return false;
+}
+
+bool    IrcServer::isInChannel(std::string channel, std::string nick)
+{
+    if (this->channel_[channel].find(nick) != this->channel_[channel].end())
+        return true;
+    return false;
+}
+
+void    IrcServer::addChannel(std::string channel)
+{
+    std::set<std::string> set;
+    this->channel_.insert(std::make_pair(channel, set));
+}
+
+void    IrcServer::addInChannel(std::string channel, std::string nick)
+{
+    this->channel_[channel].insert(nick);
+}
+
+std::set<std::string>&   IrcServer::getChannel(std::string channel)
+{
+    return this->channel_[channel];
+}
