@@ -9,14 +9,16 @@
 
 class Client;
 
-class IrcServer{
+class IrcServer {
+
     public:
         IrcServer(int port, std::string password);
         ~IrcServer();
 
         void    start(void);
+        void    stop(void);
 
-        bool isNickInUse(const std::string &nickname);
+        bool    isNickInUse(const std::string &nickname);
         Client* getClientByStream(TcpStream *stream);
         Client* getClientByName(std::string name);
 
@@ -32,12 +34,15 @@ class IrcServer{
         std::set<std::string>&   getChannel(std::string channel);
         
 
+        bool    isRunning(void) const;
+        
     private:
         Server                                          *_mServer;
         int                                             _mNbclients;
         std::vector<Client *>                           clients_;
         std::map<std::string, std::set<std::string> >   channel_;
     
+        IrcServer(const IrcServer &server);
         IrcServer();
 };
 

@@ -2,7 +2,7 @@
 
 CmdController::CmdController(): server_(NULL) { }
 
-CmdController::CmdController(IrcServer* server): server_(server)
+CmdController::CmdController(IrcServer &server): server_(&server)
 {   
     parser_ = new Parser();
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(CAP_LS, t_ft_ptr (cap_ls)));
@@ -32,8 +32,6 @@ void CmdController::execute(Message *m)
     #endif
     currentMsg_ = m;
     parser_->parse(m->getData());
-    if (parser_->getCommand() == UNKNOWN)
-        return ;
     std::string reply = cmds_[parser_->getCommand()](this);
     TcpStream *s = m->getStreamPtr();
     #if 1
@@ -46,6 +44,7 @@ void CmdController::execute(Message *m)
 
     if (!reply.empty())
         m->getStream().send(reply, reply.length());
+    else return;
 }
 
 Message* CmdController::getCurrentMsg()

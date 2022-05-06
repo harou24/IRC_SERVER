@@ -4,19 +4,34 @@
 
 IrcServer::IrcServer(int port, std::string password)
 {
+    std::cout << "CALL CONSTRUCTOR...\n";
     _mServer = new Server(port, password);
 }
 
-IrcServer::~IrcServer() 
+IrcServer::IrcServer(const IrcServer &server)
 {
+
+    std::cout << server._mNbclients<< "COPY CONSTRUCTOR...";
+}
+
+IrcServer::~IrcServer()
+{
+    std::vector<Client *>::iterator it = clients_.begin();
+    while (it != clients_.end())
+    {
+        std::cout << "REMOVING->" << *it << "\n";
+        delete *it;
+        it++;
+    }
+    clients_.clear();
 }
 
 void    IrcServer::start()
 {
     _mServer->init();
     print("INFO", "starting server...");
-    CmdController cmd(this);
-    while (1)
+    CmdController cmd(*this);
+    while (_mServer->isRunning())
     {
         _mServer->runOnce();
         while (Message *msg = &_mServer->getNextMsg())
@@ -27,12 +42,15 @@ void    IrcServer::start()
                     print("DEBUG", "incoming msg - " + msg->getData());
                 #endif
                 cmd.execute(msg);
+                std::cout << "AFTER EXEC\n";
                 delete(msg);
             }
             else
             {
+                std::cout << "BREAKING...\n";
                 break;
             }
+            std::cout << "msg\n";
         }
     }
 }
@@ -88,7 +106,10 @@ void IrcServer::removeClient(Client *cl)
         it++;
     }
     if (it != clients_.end())
+    {
+        delete *it;
         clients_.erase(it);
+    }
 }
 
 bool    IrcServer::isChannel(std::string channel)
@@ -130,3 +151,11 @@ std::set<std::string>&   IrcServer::getChannel(std::string channel)
 {
     return this->channel_[channel];
 }
+
+void IrcServer::stop(void)
+{
+    std::cout << "Stopping server...\n";
+     _mServer->stop();
+}
+
+bool IrcServer::isRunning(void) const { return _mServer->isRunning(); }

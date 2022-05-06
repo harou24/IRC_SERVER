@@ -1,32 +1,53 @@
 #include "connectable_client.hpp"
+#include <iostream>
 
-void    ConnectableClient::send(const std::string message){
-    _mStream.send(message.c_str(), message.size());
-    #if 1
-        print("DEBUG", "sent - " + message);
-    #endif
+#define MAX_RECEIVE 2048
+
+
+ConnectableClient::ConnectableClient()
+{ 
+    _port = 8080;
+    _host = "127.0.0.1";
+    _connector = new TcpConnector();
+    _client = new Client("DefaultClient", _stream);
 }
 
-std::string ConnectableClient::receive(){
+ConnectableClient::ConnectableClient(int port, std::string host)
+{
+    _port = port;
+    _host = host;
+    _connector = new TcpConnector();
+    _client = NULL;
+}
+
+ConnectableClient::~ConnectableClient() { }
+
+void    ConnectableClient::connect()
+{
+    try
+    {
+        _stream = _connector->connect(_port, _host);
+    }
+    catch(std::exception &e)
+    {
+        std::cout << e.what() << "\n";
+    }
+    _client = new Client("Harou", _stream);
+}
+
+void    ConnectableClient::send(const std::string &message)
+{
+    _stream->send(message.c_str(), message.size());
+    std::cout << "sent - " << message << std::endl;
+}
+
+std::string ConnectableClient::receive()
+{
     int     length;
-    char    line[256];
+    char    data[MAX_RECEIVE];
 
-    length = _mStream.receive(line, sizeof(line));
-    line[length] = '\0';
-    #if 1
-        print("DEBUG", "received - " + line);
-    #endif
-    return std::string(line);
-}
-
-void    ConnectableClient::connect(int port, std::string host){
-    TcpConnector connector;
-
-    try {
-        _mStream = connector.connect(port, host);
-    }
-    catch(std::exception &e){
-        print("ERROR", e.what());
-        // std::cout << e.what() << "\n";
-    }
+    length = _stream->receive(data, sizeof(data));
+    data[length] = '\0';
+    //std::cout << "received - " << data << "\nLength->"<< length << std::endl;
+    return std::string(data);
 }
