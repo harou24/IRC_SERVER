@@ -10,13 +10,14 @@ std::string    execNick(CmdController* controller, const std::string& nickname)
     std::string reply("");
 
     TcpStream *stream = controller->getCurrentMsg()->getStreamPtr();
-    Client *cl = controller->getServer().getClientByStream(stream);
+    Client *cl = controller->getServer()->getClientByStream(stream);
 
     if (!cl)
     {
         //create client
+        std::cout << "CREATING CLIENT GO\n";
         cl = new Client(nickname, stream);
-        controller->getServer().addClient(cl);
+        controller->getServer()->addClient(cl);
         reply = welcome(nickname, controller->getParser().getArgument());
     }
     else
@@ -38,8 +39,8 @@ std::string    nick(CmdController* controller)
     if (nickname.length() > MAX_NICK_LENGTH)
         return std::string(ERR_ERRONEUSNICKNAME(nickname));
 
-    IrcServer server = controller->getServer();
-    if (server.isNickInUse(nickname))
+    IrcServer *server = controller->getServer();
+    if (server->isNickInUse(nickname))
         return std::string(ERR_NICKNAMEINUSE(nickname));
 
     return execNick(controller, nickname);

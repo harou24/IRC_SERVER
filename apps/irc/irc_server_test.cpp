@@ -19,9 +19,17 @@ void clientJob()
 {
     assert(g_server.isRunning());
     g_client.connect();
-    g_client.send("NICK Test\n");
+    g_client.send("NICK Test\nUSER usr usr usr :usr");
     sleep(1);
     std::string response = g_client.receive();
+    assert(!response.empty());
+    std::cout << response << "\n";
+
+
+    g_client.send("NICK harou\n");
+
+    sleep(1);
+    response = g_client.receive();
     assert(!response.empty());
     std::cout << response << "\n";
 }

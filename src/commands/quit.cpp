@@ -6,7 +6,7 @@ std::string    quit(CmdController* controller)
     if (controller)
         print("DEBUG", "QUIT");
     #endif
-    Client *cl = controller->getServer().getClientByStream(controller->getCurrentMsg()->getStreamPtr());
-    controller->getServer().removeClient(cl);
+    Client *cl = controller->getServer()->getClientByStream(controller->getCurrentMsg()->getStreamPtr());
+    controller->getServer()->removeClient(cl);
     return "";
 }

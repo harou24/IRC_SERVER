@@ -30,6 +30,7 @@ class IrcServer {
         int                     _mNbclients;
         std::vector<Client *>    clients_;
     
+        IrcServer(const IrcServer &server);
         IrcServer();
 };
 

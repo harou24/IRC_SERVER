@@ -3,7 +3,7 @@
 std::string     away(CmdController* controller)
 {
     TcpStream *stream = controller->getCurrentMsg()->getStreamPtr();
-    Client *cl = controller->getServer().getClientByStream(stream);
+    Client *cl = controller->getServer()->getClientByStream(stream);
     std::string msg = controller->getParser().getArgument().arg1;
 
     if (cl)

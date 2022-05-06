@@ -3,7 +3,7 @@
 std::string    user(CmdController* controller)
 {
     TcpStream *stream = controller->getCurrentMsg()->getStreamPtr();
-    Client *cl = controller->getServer().getClientByStream(stream);
+    Client *cl = controller->getServer()->getClientByStream(stream);
 
     if (cl)
     {

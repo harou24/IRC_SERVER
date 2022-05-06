@@ -4,7 +4,14 @@
 
 IrcServer::IrcServer(int port, std::string password)
 {
+    std::cout << "CALL CONSTRUCTOR...\n";
     _mServer = new Server(port, password);
+}
+
+IrcServer::IrcServer(const IrcServer &server)
+{
+
+    std::cout << server._mNbclients<< "COPY CONSTRUCTOR...|||||||||||||||||||||||||||||||||||||||||||||";
 }
 
 IrcServer::~IrcServer()
@@ -12,16 +19,18 @@ IrcServer::~IrcServer()
     std::vector<Client *>::iterator it = clients_.begin();
     while (it != clients_.end())
     {
+        std::cout << "REMOVING->" << *it << "\n";
         delete *it;
         it++;
     }
+    clients_.clear();
 }
 
 void    IrcServer::start()
 {
     _mServer->init();
     print("INFO", "starting server...");
-    CmdController cmd(this);
+    CmdController cmd(*this);
     while (_mServer->isRunning())
     {
         _mServer->runOnce();
@@ -33,12 +42,15 @@ void    IrcServer::start()
                     print("DEBUG", "incoming msg - " + msg->getData());
                 #endif
                 cmd.execute(msg);
+                std::cout << "AFTER EXEC\n";
                 delete(msg);
             }
             else
             {
+                std::cout << "BREAKING...\n";
                 break;
             }
+            std::cout << "msg\n";
         }
     }
 }
@@ -94,7 +106,10 @@ void IrcServer::removeClient(Client *cl)
         it++;
     }
     if (it != clients_.end())
+    {
+        delete *it;
         clients_.erase(it);
+    }
 }
 
 void IrcServer::stop(void)
