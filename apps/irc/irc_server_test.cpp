@@ -40,11 +40,16 @@ void clientJob()
     assert(!response.empty() && response == ":nickTooLongToBeValid... Error nickname is not valid\n");
     std::cout << response << "\n";
 
+    g_client.send("AWAY :I'm back in 20min\n");
+    sleep(1);
+    response = g_client.receive();
+    assert(!response.empty() && response == ":127.0.0.1 306 :You have been marked as being away\n");
+    std::cout << response << "\n";
+
     g_client.send("AWAY\n");
     sleep(1);
-    //when I do receive it is crashing because of the return empty string in AWAY.
-    //Doesnt AWAY always return a non empty string ?
     response = g_client.receive();
+    assert(!response.empty() && response == ":127.0.0.1 305 :You are no longer marked as being away\n");
     std::cout << response << "\n";
 }
 
