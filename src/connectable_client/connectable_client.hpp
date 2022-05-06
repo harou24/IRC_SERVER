@@ -2,21 +2,27 @@
 # define CONNECTABLE_CLIENT_HPP
 
 # include "client.hpp"
-# include "print.hpp"
+# include "tcp_connector.hpp"
+
+# include <string>
 
 class ConnectableClient {
 
+    private:
+        int _port;
+        std::string _host;
+        Client* _client;
+        TcpConnector* _connector;
+        TcpStream* _stream;
+
     public:
         ConnectableClient();
-        ConnectableClient(const std::string& nick, TcpStream &stream);
+        ConnectableClient(int port, std::string host);
         ~ConnectableClient();
 
-        void    connect(int port, const std::string host);
-        void    send(const std::string message);
+        void    connect();
+        void    send(const std::string &message);
         std::string receive();
-
-    private:
-        Client *cl;
 
 };
 

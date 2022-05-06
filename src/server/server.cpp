@@ -75,7 +75,7 @@ Message& Server::getNextMsg(void)
 }
 
 void            Server::addClient(){
-    if (_mNbrClients == MAX_CLIENTS){
+    if (_mNbrClients == MAXclients_){
         print("ERROR", "no space left for another client....");
         return;
     }

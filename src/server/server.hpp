@@ -14,7 +14,7 @@
 # include <queue>
 # include <cerrno>
 
-# define MAX_CLIENTS 5
+# define MAXclients_ 5
 # define HOST "127.0.0.1"
 # define FD_CORRECTION 4
 
