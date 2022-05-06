@@ -143,6 +143,10 @@ void    Parser::mode(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
+void    Parser::part(const std::string& str) 
+{
+    this->_mArguments->arg1 = str;
+}
 
 void    Parser::user(const std::string& str) 
 {
@@ -212,6 +216,7 @@ std::string Parser::find_command(const std::string& s)
     string_to_case.insert(std::make_pair<std::string,CommandType>("MODE",MODE));
     string_to_case.insert(std::make_pair<std::string,CommandType>("USER",USER));
     string_to_case.insert(std::make_pair<std::string,CommandType>("PING",PING));
+    string_to_case.insert(std::make_pair<std::string,CommandType>("PART",PART));
     
     ss >> s1;
     if (ss>>s2)
@@ -238,7 +243,7 @@ void    Parser::parse(const std::string &inProgram)
     void    (Parser::*p2f[])(const std::string& x) = {&Parser::away, &Parser::invite, \
         &Parser::join, &Parser::me, &Parser::msg, &Parser::nick, &Parser::notice, \
         &Parser::pong, &Parser::privmsg, &Parser::query, &Parser::quit, \
-        &Parser::whois, &Parser::mode, &Parser::user, &Parser::ping};
+        &Parser::whois, &Parser::mode, &Parser::user, &Parser::ping, &Parser::part};
 
     this->_mArguments->arg1 = this->_mArguments->arg2 = this->_mArguments->arg3 = this->_mArguments->arg4 = "";
     this->_mRawText = arg;
@@ -253,7 +258,7 @@ void    Parser::parse(const std::string &inProgram)
     }
     else
         this->_mCommand = CAP_LS;
-    if (this->_mCommand < 15)
+    if (this->_mCommand < 16)
         (this->*p2f[this->_mCommand])(arg);
     #if 1
         std::stringstream ss;

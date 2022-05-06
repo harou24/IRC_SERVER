@@ -24,5 +24,6 @@ std::string    quit(CmdController* controller);
 std::string    away(CmdController* controller);
 std::string    join(CmdController* controller);
 std::string    invite(CmdController* controller);
+std::string    part(CmdController* controller);
 
 #endif

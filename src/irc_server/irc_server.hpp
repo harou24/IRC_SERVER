@@ -27,6 +27,7 @@ class IrcServer{
         bool    isInChannel(std::string channel, std::string nick);
         void    addChannel(std::string channel);
         void    addInChannel(std::string channel, std::string nick);
+        void    removeInChannel(std::string channel, std::string nick);
         
         std::set<std::string>&   getChannel(std::string channel);
         

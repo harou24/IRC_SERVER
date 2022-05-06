@@ -116,6 +116,11 @@ void    IrcServer::addInChannel(std::string channel, std::string nick)
     this->channel_[channel].insert(nick);
 }
 
+void    IrcServer::removeInChannel(std::string channel, std::string nick)
+{
+    this->channel_[channel].erase(nick);
+}
+
 std::set<std::string>&   IrcServer::getChannel(std::string channel)
 {
     return this->channel_[channel];
