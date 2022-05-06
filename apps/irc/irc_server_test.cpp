@@ -30,7 +30,7 @@ void clientJob()
 
     sleep(1);
     response = g_client.receive();
-    assert(!response.empty());
+    assert(!response.empty() && response == ":Test NICK harou\n");
     std::cout << response << "\n";
 }
 

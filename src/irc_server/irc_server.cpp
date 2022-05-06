@@ -11,7 +11,7 @@ IrcServer::IrcServer(int port, std::string password)
 IrcServer::IrcServer(const IrcServer &server)
 {
 
-    std::cout << server._mNbclients<< "COPY CONSTRUCTOR...|||||||||||||||||||||||||||||||||||||||||||||";
+    std::cout << server._mNbclients<< "COPY CONSTRUCTOR...";
 }
 
 IrcServer::~IrcServer()
