@@ -102,6 +102,8 @@ bool    IrcServer::isInChannel(std::string channel, std::string nick)
 {
     if (this->channel_[channel].find(nick) != this->channel_[channel].end())
         return true;
+    else if (this->channel_[channel].find("@" + nick) != this->channel_[channel].end())
+        return true;
     return false;
 }
 
@@ -118,7 +120,10 @@ void    IrcServer::addInChannel(std::string channel, std::string nick)
 
 void    IrcServer::removeInChannel(std::string channel, std::string nick)
 {
-    this->channel_[channel].erase(nick);
+    if (this->channel_[channel].find(nick) != this->channel_[channel].end())
+        this->channel_[channel].erase(nick);
+    else if (this->channel_[channel].find("@" + nick) != this->channel_[channel].end())
+        this->channel_[channel].erase('@' + nick);
 }
 
 std::set<std::string>&   IrcServer::getChannel(std::string channel)

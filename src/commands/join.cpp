@@ -4,7 +4,10 @@ static void sendReplyJoin(CmdController* controller, std::set<std::string> &chan
 {
     for(std::set<std::string>::const_iterator it = channel.begin(); it != channel.end(); it++)
     {
-        Client *receiver = controller->getServer().getClientByName(*it);
+        std::string name = *it;
+        if (name[0] == '@')
+            name = &name[1];
+        Client *receiver = controller->getServer().getClientByName(name);
         receiver->getStream().send(msg, msg.length());
     }
 }
@@ -32,15 +35,19 @@ std::string    join(CmdController* controller)
 
     Client *cl = controller->getServer().getClientByStream(controller->getCurrentMsg()->getStreamPtr());
     std::string channel = controller->getParser().getArgument().arg1;
-    std::string names;
+    std::string names, name = cl->getNick();
 
     if (!controller->getServer().isChannel(channel))
+    {
         controller->getServer().addChannel(channel);
+        name = "@" + name;
+    }
     if (!controller->getServer().isInChannel(channel, cl->getNick()))
     {
         names = getAllNamesChannel(controller->getServer().getChannel(channel));
         sendReplyJoin(controller, controller->getServer().getChannel(channel), RPL_JOIN(cl, channel));
-        controller->getServer().addInChannel(channel, cl->getNick());
+        controller->getServer().addInChannel(channel, name);
+        names = name + " " + names;
     }
     
     return std::string(RPL_JOIN(cl, channel) + RPL_NAMREPLY(cl->getNick(), channel) + names + "\n" + RPL_ENDOFNAMES(cl->getNick(), channel));

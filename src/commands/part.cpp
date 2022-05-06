@@ -1,5 +1,17 @@
 #include "commands.hpp"
 
+static void sendReplyPart(CmdController& controller, std::set<std::string> &channel, std::string msg)
+{
+    for(std::set<std::string>::const_iterator it = channel.begin(); it != channel.end(); it++)
+    {
+        std::string name = *it;
+        if (name[0] == '@')
+            name = &name[1];
+        Client *receiver = controller.getServer().getClientByName(name);
+        receiver->getStream().send(msg, msg.length());
+    }
+}
+
 static void     removeClient(CmdController &controller, std::string channel)
 {
     Client *cl = controller.getServer().getClientByStream(controller.getCurrentMsg()->getStreamPtr());
@@ -8,8 +20,12 @@ static void     removeClient(CmdController &controller, std::string channel)
     {
         if (controller.getServer().isInChannel(channel, cl->getNick()))
         {
-            controller.getServer().removeInChannel(channel, cl->getNick());
+            if (cl->getNick()[0] == '@')
+                controller.getServer().removeInChannel(channel, '@' + cl->getNick());
+            else
+                controller.getServer().removeInChannel(channel, cl->getNick());
             reply = RPL_PART(cl, channel);
+            sendReplyPart(controller, controller.getServer().getChannel(channel), reply);
         }
         else
             reply = ERR_NOTONCHANNEL(cl->getNick(), channel);

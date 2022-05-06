@@ -33,13 +33,13 @@
 # define RPL_JOIN(cl, channel) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " JOIN :" + channel + "\n"
 # define RPL_NAMREPLY(nick, channel) ":" + std::string(HOST) + " 353 " + nick + " = " + channel + " :"
 # define RPL_ENDOFNAMES(nick, channel) ":" + std::string(HOST) + " 366 " + nick + " " + channel + " :End of /NAMES list\n"
-# define RPL_INVITING(nick, nick2, channel) " :" + std::string(HOST) + " 341 " + nick + " " + nick2 + " " + channel + "\n"
+# define RPL_INVITING(nick, nick2, channel) ":" + std::string(HOST) + " 341 " + nick + " " + nick2 + " " + channel + "\n"
 # define INVITE_MESSAGE(nick, nick2, user, host, channel) ":" + nick + "!" + user + "@" + host + " INVITE " + nick2 + " " + channel + "\n"
-# define ERR_NOSUCHNICK(nick, nick2) ":127.0.0.1 401 " + nick + " " + nick2 + " :No such nick/channel\n"
+# define ERR_NOSUCHNICK(nick, nick2) ":" + std::string(HOST) + " 401 " + nick + " " + nick2 + " :No such nick/channel\n"
 # define RPL_PART(cl, channel) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " PART " + channel + " :\n"
 
-# define ERR_NOSUCHCHANNEL(nick, channel) ":127.0.0.1 403 " + nick + " " + channel + " :No such channel\n"
-# define ERR_NOTONCHANNEL(nick, channel) ":127.0.0.1 442 " + nick + " " + channel + " :You're not on that channel\n"
-// # define ERR_NEEDMOREPARAMS
+# define ERR_NOSUCHCHANNEL(nick, channel) ":" + std::string(HOST) + " 403 " + nick + " " + channel + " :No such channel\n"
+# define ERR_NOTONCHANNEL(nick, channel) ":" + std::string(HOST) + " 442 " + nick + " " + channel + " :You're not on that channel\n"
+# define ERR_NEEDMOREPARAMS(nick, channel) ":" + std::string(HOST) + " 461 " + nick + " " + channel + " :Not enough parameters\n"
 
 #endif

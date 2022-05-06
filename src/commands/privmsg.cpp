@@ -16,10 +16,13 @@ static std::string channelPrivmsg(CmdController &controller, std::string channel
     std::set<std::string> channel = controller.getServer().getChannel(channel_name);
     for (std::set<std::string>::const_iterator it = channel.begin(); it != channel.end(); it++)
     {
-        if (*it != sender.getNick())
+        if (*it != sender.getNick() && *it != '@' + sender.getNick())
         {
             std::cout << sender.getNick() << std::endl;
-            Client *receiver = controller.getServer().getClientByName(*it);
+            std::string name = *it;
+            if (name[0] == '@')
+                name = &name[1];
+            Client *receiver = controller.getServer().getClientByName(name);
             std::string s = PRIV_MESSAGE(sender.getNick(), channel_name, sender.getUser(), sender.getHost(), msg);
             receiver->getStream().send(s, s.length());
         }
