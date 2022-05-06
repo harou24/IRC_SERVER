@@ -41,7 +41,6 @@ void CmdController::execute(Message *m)
 
     if (!reply.empty())
         m->getStream().send(reply, reply.length());
-    else return;
 }
 
 Message* CmdController::getCurrentMsg()
