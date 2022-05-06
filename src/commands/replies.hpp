@@ -30,7 +30,7 @@
 # define RPL_AWAY(nick, nick2, msg) ":" + std::string(HOST) + " 301 " + nick2 + " " + nick + " " + msg + "\n"
 # define RPL_UNAWAY() ":" + std::string(HOST) + " 305 :You are no longer marked as being away\n"
 # define RPL_NOAWAY() ":" + std::string(HOST) + " 306 :You have been marked as being away\n"
-# define RPL_JOIN(cl, channel) ":" + cl->getUser() + "!~" + cl->getHost() + "@" + cl->getServer() + " JOIN :" + channel + "\n"
+# define RPL_JOIN(cl, channel) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " JOIN :" + channel + "\n"
 # define RPL_NAMREPLY(nick, channel) ":" + std::string(HOST) + " 353 " + nick + " = " + channel + " :"
 # define RPL_ENDOFNAMES(nick, channel) ":" + std::string(HOST) + " 366 " + nick + " " + channel + " :End of /NAMES list\n"
 # define RPL_INVITING(nick, nick2, channel) " :" + std::string(HOST) + " 341 " + nick + " " + nick2 + " " + channel + "\n"

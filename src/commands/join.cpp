@@ -1,23 +1,24 @@
 #include "commands.hpp"
 
-std::string getAllNamesChannel(std::set<std::string> &channel, std::string s, CmdController* controller)
+static void sendReplyJoin(CmdController* controller, std::set<std::string> &channel, std::string msg)
 {
-    std::set<std::string>::const_iterator it = channel.begin();
-    std::string names;
-    Client *receiver = controller->getServer().getClientByName(*it);
-
-    if (it != channel.end())
+    for(std::set<std::string>::const_iterator it = channel.begin(); it != channel.end(); it++)
     {
-        receiver->getStream().send(s, s.length());
-        names = *it;
-        it++;
+        Client *receiver = controller->getServer().getClientByName(*it);
+        receiver->getStream().send(msg, msg.length());
     }
-    
-    for(; it != channel.end(); it++)
+}
+
+static std::string getAllNamesChannel(std::set<std::string> &channel)
+{
+    std::string names = "";
+
+    for(std::set<std::string>::const_iterator it = channel.begin(); it != channel.end(); it++)
     {
-        receiver = controller->getServer().getClientByName(*it);
-        receiver->getStream().send(s, s.length());
-        names += " " + *it;
+        if (names.length() > 0)
+            names += " " + *it;
+        else
+            names = *it;
     }
     return names;
 }
@@ -37,9 +38,10 @@ std::string    join(CmdController* controller)
         controller->getServer().addChannel(channel);
     if (!controller->getServer().isInChannel(channel, cl->getNick()))
     {
-        names = getAllNamesChannel(controller->getServer().getChannel(channel), RPL_JOIN(cl, channel), controller);
+        names = getAllNamesChannel(controller->getServer().getChannel(channel));
+        sendReplyJoin(controller, controller->getServer().getChannel(channel), RPL_JOIN(cl, channel));
         controller->getServer().addInChannel(channel, cl->getNick());
     }
-
+    
     return std::string(RPL_JOIN(cl, channel) + RPL_NAMREPLY(cl->getNick(), channel) + names + "\n" + RPL_ENDOFNAMES(cl->getNick(), channel));
 }
