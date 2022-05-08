@@ -69,7 +69,7 @@ bool IrcServer::isNickInUse(const std::string &nickname)
     return false;
 }
 
-Client* IrcServer::getClientByName(std::string name)
+Client* IrcServer::getClientByName(std::string name) const
 {
     std::vector<Client *>::const_iterator it = clients_.begin();
     while (it != clients_.end())
@@ -81,7 +81,7 @@ Client* IrcServer::getClientByName(std::string name)
     return NULL;
 }
 
-Client* IrcServer::getClientByStream(TcpStream *stream)
+Client* IrcServer::getClientByStream(TcpStream *stream) const
 {
     std::vector<Client *>::const_iterator it = clients_.begin();
     while (it != clients_.end())

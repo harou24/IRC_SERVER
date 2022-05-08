@@ -12,20 +12,19 @@ class Channel
         Channel(std::string name, Client& cl);
         ~Channel();
 
-        void                addClient(Client& cl);
-        void                removeClient(Client& cl);
-        void                addOperator(Client &cl);
-        void                removeOperator(Client &cl);
+        void                            addClient(Client& cl);
+        void                            removeClient(Client& cl);
+        void                            addOperator(Client &cl);
+        void                            removeOperator(Client &cl);
 
-        bool                isInChannel(std::string nick);
+        void                            sendMessage(Client& cl, std::string msg);
 
-        bool                isOperator(Client& cl) const;
-        bool                isActive() const;
+        bool                            isInChannel(std::string nick);
+        bool                            isOperator(Client& cl) const;
+        bool                            isActive() const;
 
-        std::string         getNames();
-
-        void                sendMessage(Client& cl, std::string msg);
-        std::set<Client *>::iterator    getClientByName(std::set<Client *>& set, std::string name);
+        std::string                     getNames() const;
+        std::set<Client *>::iterator    getClientByName(std::set<Client *>& set, std::string name) const;
 
     private:
 

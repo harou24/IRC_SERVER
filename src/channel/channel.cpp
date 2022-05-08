@@ -14,7 +14,7 @@ Channel::~Channel()
     operators_.clear();
 }
 
-std::set<Client *>::iterator    Channel::getClientByName(std::set<Client *>& set, std::string name)
+std::set<Client *>::iterator    Channel::getClientByName(std::set<Client *>& set, std::string name) const
 {
     for (std::set<Client *>::iterator it = set.begin(); it != set.end(); it++)
     {
@@ -77,7 +77,7 @@ bool        Channel::isActive() const
     return false;
 }
 
-std::string Channel::getNames()
+std::string Channel::getNames() const
 {
     std::string names = "";
 
