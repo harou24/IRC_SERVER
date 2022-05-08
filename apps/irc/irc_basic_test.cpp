@@ -18,7 +18,7 @@ void serverJob()
 void clientJob()
 {
     assert(g_server.isRunning());
-    g_client.connect();
+    g_client.connect("Test");
 
     g_client.send("CAP LS\nNICK Test\nUSER usr usr usr :usr");
     sleep(1);
