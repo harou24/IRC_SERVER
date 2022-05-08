@@ -1,37 +1,26 @@
 #include "commands.hpp"
 
-static void sendReplyPart(const CmdController& controller, std::set<std::string> &channel, std::string msg)
-{
-    for(std::set<std::string>::const_iterator it = channel.begin(); it != channel.end(); it++)
-    {
-        std::string name = *it;
-        if (name[0] == '@')
-            name = &name[1];
-        Client *receiver = controller.getServer().getClientByName(name);
-        receiver->getStream().send(msg, msg.length());
-    }
-}
-
-static void     removeClient(const CmdController& controller, std::string channel)
+static void     removeClient(const CmdController& controller, std::string channel_name)
 {
     Client *cl = controller.getServer().getClientByStream(controller.getCurrentMsg().getStreamPtr());
     std::string reply;
-    if (controller.getServer().isChannel(channel))
+    if (controller.getServer().isChannel(channel_name))
     {
-        if (controller.getServer().isInChannel(channel, cl->getNick()))
+        Channel *channel = &controller.getServer().getChannel(channel_name);
+        if (channel->isInChannel(cl->getNick()))
         {
-            if (cl->getNick()[0] == '@')
-                controller.getServer().removeInChannel(channel, '@' + cl->getNick());
+            channel->removeClient(*cl);
+            reply = RPL_PART(cl, channel_name);
+            if (channel->isActive())
+                channel->sendMessage(*cl, reply);
             else
-                controller.getServer().removeInChannel(channel, cl->getNick());
-            reply = RPL_PART(cl, channel);
-            sendReplyPart(controller, controller.getServer().getChannel(channel), reply);
+                controller.getServer().removeChannel(channel_name);
         }
         else
-            reply = ERR_NOTONCHANNEL(cl->getNick(), channel);
+            reply = ERR_NOTONCHANNEL(cl->getNick(), channel_name);
     }
     else
-        reply = ERR_NOSUCHCHANNEL(cl->getNick(), channel);
+        reply = ERR_NOSUCHCHANNEL(cl->getNick(), channel_name);
     cl->getStream().send(reply, reply.length());
 }
 

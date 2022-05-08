@@ -1,31 +1,5 @@
 #include "commands.hpp"
 
-static void sendReplyJoin(const CmdController& controller, std::set<std::string> &channel, std::string msg)
-{
-    for(std::set<std::string>::const_iterator it = channel.begin(); it != channel.end(); it++)
-    {
-        std::string name = *it;
-        if (name[0] == '@')
-            name = &name[1];
-        Client *receiver = controller.getServer().getClientByName(name);
-        receiver->getStream().send(msg, msg.length());
-    }
-}
-
-static std::string getAllNamesChannel(std::set<std::string> &channel)
-{
-    std::string names = "";
-
-    for(std::set<std::string>::const_iterator it = channel.begin(); it != channel.end(); it++)
-    {
-        if (names.length() > 0)
-            names += " " + *it;
-        else
-            names = *it;
-    }
-    return names;
-}
-
 std::string    join(const CmdController& controller)
 {
     #if 1
@@ -33,21 +7,14 @@ std::string    join(const CmdController& controller)
     #endif
 
     Client *cl = controller.getServer().getClientByStream(controller.getCurrentMsg().getStreamPtr());
-    std::string channel = controller.getParser().getArgument().arg1;
-    std::string names, name = cl->getNick();
+    std::string channel_name = controller.getParser().getArgument().arg1;
 
-    if (!controller.getServer().isChannel(channel))
-    {
-        controller.getServer().addChannel(channel);
-        name = "@" + name;
-    }
-    if (!controller.getServer().isInChannel(channel, cl->getNick()))
-    {
-        names = getAllNamesChannel(controller.getServer().getChannel(channel));
-        sendReplyJoin(controller, controller.getServer().getChannel(channel), RPL_JOIN(cl, channel));
-        controller.getServer().addInChannel(channel, name);
-        names = name + " " + names;
-    }
+    if (!controller.getServer().isChannel(channel_name))
+        controller.getServer().addChannel(channel_name, *cl);
+    Channel *channel = &controller.getServer().getChannel(channel_name);
+    channel->addClient(*cl);
+    std::cout << "NAMES = " << channel->getNames() << std::endl;
+    channel->sendMessage(*cl, std::string(RPL_JOIN(cl, channel_name)));
     
-    return std::string(RPL_JOIN(cl, channel) + RPL_NAMREPLY(cl->getNick(), channel) + names + "\n" + RPL_ENDOFNAMES(cl->getNick(), channel));
+    return std::string(RPL_JOIN(cl, channel_name) + RPL_NAMREPLY(cl->getNick(), channel_name) + channel->getNames() + "\n" + RPL_ENDOFNAMES(cl->getNick(), channel_name));
 }

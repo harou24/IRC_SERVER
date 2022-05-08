@@ -33,6 +33,7 @@ include_directories(src/parser)
 include_directories(src/cmd_controller)
 include_directories(src/message)
 include_directories(src/utils)
+include_directories(src/channel)
 
 
 # example library
@@ -64,6 +65,7 @@ add_library(ft_irc src/utils/Table/Row.cpp
                     src/commands/unknown.cpp
                     src/cmd_controller/cmd_controller.cpp
                     src/utils/print.cpp
+                    src/channel/channel.cpp
 )
 
 # add programs

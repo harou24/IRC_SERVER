@@ -39,7 +39,7 @@
 # define RPL_PART(cl, channel) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " PART " + channel + " :\n"
 
 # define ERR_NOSUCHCHANNEL(nick, channel) ":" + std::string(HOST) + " 403 " + nick + " " + channel + " :No such channel\n"
-# define ERR_NOTONCHANNEL(nick, channel) ":" + std::string(HOST) + " 442 " + nick + " " + channel + " :You're not on that channel\n"
+# define ERR_NOTONCHANNEL(nick, channel) ":" + nick + " " + channel + " You're not on that channel\n"
 # define ERR_NEEDMOREPARAMS(nick, channel) ":" + std::string(HOST) + " 461 " + nick + " " + channel + " :Not enough parameters\n"
 
 #endif

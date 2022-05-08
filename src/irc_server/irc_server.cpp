@@ -16,14 +16,16 @@ IrcServer::IrcServer(const IrcServer &server)
 
 IrcServer::~IrcServer()
 {
-    std::vector<Client *>::iterator it = clients_.begin();
-    while (it != clients_.end())
+    for(std::vector<Client *>::iterator it = clients_.begin(); it != clients_.end(); it++)
     {
         std::cout << "REMOVING->" << *it << "\n";
         delete *it;
-        it++;
     }
     clients_.clear();
+
+    for (std::map<std::string, Channel*>::iterator it = channels_.begin(); it != channels_.end(); it++)
+        delete it->second;
+    channels_.clear();
 }
 
 void    IrcServer::start()
@@ -114,42 +116,28 @@ void IrcServer::removeClient(Client *cl)
 
 bool    IrcServer::isChannel(std::string channel)
 {
-    if (this->channel_.find(channel) != this->channel_.end())
+    if (channels_.find(channel) != channels_.end())
         return true;
     return false;
 }
 
-bool    IrcServer::isInChannel(std::string channel, std::string nick)
+void    IrcServer::addChannel(std::string channel, Client &cl)
 {
-    if (this->channel_[channel].find(nick) != this->channel_[channel].end())
-        return true;
-    else if (this->channel_[channel].find("@" + nick) != this->channel_[channel].end())
-        return true;
-    return false;
+    Channel *c = new Channel(channel, cl);
+    channels_.insert(std::make_pair(channel, c));
 }
 
-void    IrcServer::addChannel(std::string channel)
+void    IrcServer::removeChannel(std::string channel)
 {
-    std::set<std::string> set;
-    this->channel_.insert(std::make_pair(channel, set));
+    //LEAK
+    Channel *tmp = &this->getChannel(channel);
+    channels_.erase(channel);
+    delete tmp;
 }
 
-void    IrcServer::addInChannel(std::string channel, std::string nick)
+Channel&    IrcServer::getChannel(std::string channel)
 {
-    this->channel_[channel].insert(nick);
-}
-
-void    IrcServer::removeInChannel(std::string channel, std::string nick)
-{
-    if (this->channel_[channel].find(nick) != this->channel_[channel].end())
-        this->channel_[channel].erase(nick);
-    else if (this->channel_[channel].find("@" + nick) != this->channel_[channel].end())
-        this->channel_[channel].erase('@' + nick);
-}
-
-std::set<std::string>&   IrcServer::getChannel(std::string channel)
-{
-    return this->channel_[channel];
+    return *channels_[channel];
 }
 
 void IrcServer::stop(void)
