@@ -1,16 +1,15 @@
 #include "commands.hpp"
 
-std::string    invite(CmdController* controller)
+std::string    invite(const CmdController& controller)
 {
     #if 1
-    if (controller)
         print("DEBUG", "INVITE");
     #endif
 
-    std::string receiver_name = controller->getParser().getArgument().arg1;
-    std::string channel = controller->getParser().getArgument().arg2;
-    Client *sender = controller->getServer().getClientByStream(controller->getCurrentMsg()->getStreamPtr());
-    Client *receiver = controller->getServer().getClientByName(receiver_name);
+    std::string receiver_name = controller.getParser().getArgument().arg1;
+    std::string channel = controller.getParser().getArgument().arg2;
+    Client *sender = controller.getServer().getClientByStream(controller.getCurrentMsg().getStreamPtr());
+    Client *receiver = controller.getServer().getClientByName(receiver_name);
     if (receiver != NULL) 
     {
         std::string s = INVITE_MESSAGE(sender->getNick(), receiver_name, sender->getUser(), sender->getHost(), channel);

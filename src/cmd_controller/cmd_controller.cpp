@@ -32,7 +32,9 @@ void CmdController::execute(Message *m)
     #endif
     currentMsg_ = m;
     parser_->parse(m->getData());
-    std::string reply = cmds_[parser_->getCommand()](this);
+    if (parser_->getCommand() == UNKNOWN)
+        return ;
+    std::string reply = cmds_[parser_->getCommand()](*this);
     TcpStream *s = m->getStreamPtr();
     #if 1
         if (s){
@@ -47,17 +49,17 @@ void CmdController::execute(Message *m)
     else return;
 }
 
-Message* CmdController::getCurrentMsg()
+Message& CmdController::getCurrentMsg() const
 {
-    return currentMsg_;
+    return *currentMsg_;
 }
 
-Parser& CmdController::getParser()
+Parser& CmdController::getParser() const
 {
     return *parser_;
 }
 
-IrcServer&  CmdController::getServer()
+IrcServer&  CmdController::getServer() const
 {
     return *server_;
 }

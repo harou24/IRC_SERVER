@@ -10,20 +10,20 @@ struct Args;
 class CmdController;
 
 std::string    welcome(std::string nick, Args& args);
-std::string    cap_ls(CmdController* controller);
-std::string    nick(CmdController* controller);
-std::string    user(CmdController* controller);
-std::string    ping(CmdController* controller);
-std::string    mode(CmdController* controller);
-std::string    cap_ls(CmdController* controller);
-std::string    unknown(CmdController* controller);
-std::string    pong(CmdController* controller);
-std::string    privmsg(CmdController* controller);
-std::string    mode(CmdController* controller);
-std::string    quit(CmdController* controller);
-std::string    away(CmdController* controller);
-std::string    join(CmdController* controller);
-std::string    invite(CmdController* controller);
-std::string    part(CmdController* controller);
+std::string    cap_ls(const CmdController& controller);
+std::string    nick(const CmdController& controller);
+std::string    user(const CmdController& controller);
+std::string    ping(const CmdController& controller);
+std::string    mode(const CmdController& controller);
+std::string    cap_ls(const CmdController& controller);
+std::string    unknown(const CmdController& controller);
+std::string    pong(const CmdController& controller);
+std::string    privmsg(const CmdController& controller);
+std::string    mode(const CmdController& controller);
+std::string    quit(const CmdController& controller);
+std::string    away(const CmdController& controller);
+std::string    join(const CmdController& controller);
+std::string    invite(const CmdController& controller);
+std::string    part(const CmdController& controller);
 
 #endif

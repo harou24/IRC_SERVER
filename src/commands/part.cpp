@@ -1,6 +1,6 @@
 #include "commands.hpp"
 
-static void sendReplyPart(CmdController& controller, std::set<std::string> &channel, std::string msg)
+static void sendReplyPart(const CmdController& controller, std::set<std::string> &channel, std::string msg)
 {
     for(std::set<std::string>::const_iterator it = channel.begin(); it != channel.end(); it++)
     {
@@ -12,9 +12,9 @@ static void sendReplyPart(CmdController& controller, std::set<std::string> &chan
     }
 }
 
-static void     removeClient(CmdController &controller, std::string channel)
+static void     removeClient(const CmdController& controller, std::string channel)
 {
-    Client *cl = controller.getServer().getClientByStream(controller.getCurrentMsg()->getStreamPtr());
+    Client *cl = controller.getServer().getClientByStream(controller.getCurrentMsg().getStreamPtr());
     std::string reply;
     if (controller.getServer().isChannel(channel))
     {
@@ -35,17 +35,17 @@ static void     removeClient(CmdController &controller, std::string channel)
     cl->getStream().send(reply, reply.length());
 }
 
-std::string    part(CmdController* controller)
+std::string    part(const CmdController& controller)
 {
-    std::string channels_list = controller->getParser().getArgument().arg1;
+    std::string channels_list = controller.getParser().getArgument().arg1;
 
     size_t pos = 0;
     while ((pos = channels_list.find(',')) != std::string::npos)
     {
         std::string channel = channels_list.substr(0, pos);
         channels_list = &channels_list[pos + 1];
-        removeClient(*controller, channel);
+        removeClient(controller, channel);
     }
-    removeClient(*controller, channels_list);
+    removeClient(controller, channels_list);
     return "";
 }

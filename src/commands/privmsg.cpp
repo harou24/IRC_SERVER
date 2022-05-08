@@ -1,6 +1,6 @@
 #include "commands.hpp"
 
-static std::string userPrivmsg(CmdController &controller, Client &sender, Client &receiver)
+static std::string userPrivmsg(const CmdController& controller, Client &sender, Client &receiver)
 {
     std::string msg = controller.getParser().getArgument().arg2;
     std::string s = PRIV_MESSAGE(sender.getNick(), receiver.getNick(), sender.getUser(), sender.getHost(), msg);
@@ -10,7 +10,7 @@ static std::string userPrivmsg(CmdController &controller, Client &sender, Client
     return "";
 }
 
-static std::string channelPrivmsg(CmdController &controller, std::string channel_name, Client &sender)
+static std::string channelPrivmsg(const CmdController& controller, std::string channel_name, Client &sender)
 {
     std::string msg = controller.getParser().getArgument().arg2;
     std::set<std::string> channel = controller.getServer().getChannel(channel_name);
@@ -30,14 +30,14 @@ static std::string channelPrivmsg(CmdController &controller, std::string channel
     return "";
 }
 
-std::string    privmsg(CmdController* controller)
+std::string    privmsg(const CmdController& controller)
 {
-    std::string receiver_name = controller->getParser().getArgument().arg1;
-    Client *sender = controller->getServer().getClientByStream(controller->getCurrentMsg()->getStreamPtr());
-    Client *receiver = controller->getServer().getClientByName(receiver_name);
+    std::string receiver_name = controller.getParser().getArgument().arg1;
+    Client *sender = controller.getServer().getClientByStream(controller.getCurrentMsg().getStreamPtr());
+    Client *receiver = controller.getServer().getClientByName(receiver_name);
     if (receiver != NULL) 
-        return userPrivmsg(*controller, *sender, *receiver);
-    else if (controller->getServer().isChannel(receiver_name))
-        return channelPrivmsg(*controller, receiver_name, *sender);
+        return userPrivmsg(controller, *sender, *receiver);
+    else if (controller.getServer().isChannel(receiver_name))
+        return channelPrivmsg(controller, receiver_name, *sender);
     return std::string(ERR_NOSUCHNICK(sender->getNick(), receiver_name));
 }

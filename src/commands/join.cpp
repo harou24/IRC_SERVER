@@ -1,13 +1,13 @@
 #include "commands.hpp"
 
-static void sendReplyJoin(CmdController* controller, std::set<std::string> &channel, std::string msg)
+static void sendReplyJoin(const CmdController& controller, std::set<std::string> &channel, std::string msg)
 {
     for(std::set<std::string>::const_iterator it = channel.begin(); it != channel.end(); it++)
     {
         std::string name = *it;
         if (name[0] == '@')
             name = &name[1];
-        Client *receiver = controller->getServer().getClientByName(name);
+        Client *receiver = controller.getServer().getClientByName(name);
         receiver->getStream().send(msg, msg.length());
     }
 }
@@ -26,27 +26,26 @@ static std::string getAllNamesChannel(std::set<std::string> &channel)
     return names;
 }
 
-std::string    join(CmdController* controller)
+std::string    join(const CmdController& controller)
 {
     #if 1
-    if (controller)
         print("DEBUG", "JOIN");
     #endif
 
-    Client *cl = controller->getServer().getClientByStream(controller->getCurrentMsg()->getStreamPtr());
-    std::string channel = controller->getParser().getArgument().arg1;
+    Client *cl = controller.getServer().getClientByStream(controller.getCurrentMsg().getStreamPtr());
+    std::string channel = controller.getParser().getArgument().arg1;
     std::string names, name = cl->getNick();
 
-    if (!controller->getServer().isChannel(channel))
+    if (!controller.getServer().isChannel(channel))
     {
-        controller->getServer().addChannel(channel);
+        controller.getServer().addChannel(channel);
         name = "@" + name;
     }
-    if (!controller->getServer().isInChannel(channel, cl->getNick()))
+    if (!controller.getServer().isInChannel(channel, cl->getNick()))
     {
-        names = getAllNamesChannel(controller->getServer().getChannel(channel));
-        sendReplyJoin(controller, controller->getServer().getChannel(channel), RPL_JOIN(cl, channel));
-        controller->getServer().addInChannel(channel, name);
+        names = getAllNamesChannel(controller.getServer().getChannel(channel));
+        sendReplyJoin(controller, controller.getServer().getChannel(channel), RPL_JOIN(cl, channel));
+        controller.getServer().addInChannel(channel, name);
         names = name + " " + names;
     }
     
