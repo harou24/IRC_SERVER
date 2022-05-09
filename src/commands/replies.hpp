@@ -42,5 +42,7 @@
 # define ERR_NOSUCHCHANNEL(nick, channel) ":" + std::string(HOST) + " 403 " + nick + " " + channel + " :No such channel\n"
 # define ERR_NOTONCHANNEL(nick, channel) ":" + nick + " " + channel + " You're not on that channel\n"
 # define ERR_NEEDMOREPARAMS(nick, channel) ":" + std::string(HOST) + " 461 " + nick + " " + channel + " :Not enough parameters\n"
+# define ERR_USERSDONTMATCH(nick) ":" + std::string(HOST) + " 502 " + nick + " :Can't change mode for other users\n"
+# define ERR_CHANOPRIVSNEEDED(channel) ": 482 " + channel + " :You're not channel operator\n"
 
 #endif

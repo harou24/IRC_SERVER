@@ -1,8 +1,8 @@
 #include "channel.hpp"
 
-Channel::Channel() {}
+Channel::Channel() :Invite_(false){}
 
-Channel::Channel(std::string name, Client& cl) : name_(name)
+Channel::Channel(std::string name, Client& cl) : name_(name), Invite_(false)
 {
     clients_.insert(&cl);
     operators_.insert(&cl);
@@ -101,13 +101,14 @@ std::string Channel::getNames()
 
 void        Channel::sendMessage(Client& cl, std::string msg)
 {
-    std::cout << "SENDING PRIV CHAN MSG\n";
-    for(std::set<Client *>::const_iterator it = clients_.begin(); it != clients_.end(); it++)
-        std::cout << "name = " << (*it)->getNick() << std::endl;
     for(std::set<Client *>::const_iterator it = clients_.begin(); it != clients_.end(); it++)
     {
-        std::cout << (*it)->getNick() << " SENDING PRIV CHAN MSG\n";
         if ((*it)->getNick() != cl.getNick())
             (*it)->getStream().send(msg, msg.length());
     }
+}
+
+bool    Channel::isInvite() const
+{
+    return Invite_;
 }

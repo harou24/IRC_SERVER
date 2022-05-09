@@ -23,6 +23,7 @@ class Channel
         bool                            isInChannel(std::string nick);
         bool                            isOperator(Client& cl);
         bool                            isActive() const;
+        bool                            isInvite() const;
 
         std::string                     getNames();
         std::set<Client *>::iterator    getClientByName(std::set<Client *>& set, std::string name) const;
@@ -32,6 +33,7 @@ class Channel
         std::string         name_;
         std::set<Client *>  clients_;
         std::set<Client *>  operators_;
+        bool                Invite_;
 
 };
 
