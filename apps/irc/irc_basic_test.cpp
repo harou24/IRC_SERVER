@@ -18,8 +18,9 @@ void serverJob()
 void clientJob()
 {
     assert(g_server.isRunning());
-    g_client.connect();
-    g_client.send("NICK Test\nUSER usr usr usr :usr");
+    g_client.connect("Test");
+
+    g_client.send("CAP LS\nNICK Test\nUSER usr usr usr :usr");
     sleep(1);
     std::string response = g_client.receive();
     assert(!response.empty());
@@ -27,10 +28,28 @@ void clientJob()
 
 
     g_client.send("NICK harou\n");
-
     sleep(1);
     response = g_client.receive();
     assert(!response.empty() && response == ":Test NICK harou\n");
+    std::cout << response << "\n";
+
+
+    g_client.send("NICK nickTooLongToBeValid...\n");
+    sleep(1);
+    response = g_client.receive();
+    assert(!response.empty() && response == ":nickTooLongToBeValid... Error nickname is not valid\n");
+    std::cout << response << "\n";
+
+    g_client.send("AWAY :I'm back in 20min\n");
+    sleep(1);
+    response = g_client.receive();
+    assert(!response.empty() && response == ":127.0.0.1 306 :You have been marked as being away\n");
+    std::cout << response << "\n";
+
+    g_client.send("AWAY\n");
+    sleep(1);
+    response = g_client.receive();
+    assert(!response.empty() && response == ":127.0.0.1 305 :You are no longer marked as being away\n");
     std::cout << response << "\n";
 }
 
