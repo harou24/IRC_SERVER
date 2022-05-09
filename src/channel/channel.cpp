@@ -18,8 +18,9 @@ std::set<Client *>::iterator    Channel::getClientByName(std::set<Client *>& set
 {
     for (std::set<Client *>::iterator it = set.begin(); it != set.end(); it++)
     {
-        if (std::strcmp((*it)->getNick().c_str(), name.c_str()) == 0) 
+        if (std::strcmp((*it)->getNick().c_str(), name.c_str()) == 0) {
             return it;
+        }
     }
     return set.end();
 }
@@ -38,10 +39,12 @@ void        Channel::removeClient(Client& cl, std::string reply)
     {
         if (isActive())
             sendMessage(cl, reply);
-        clients_.erase(it);
+        clients_.erase(*it);
     }
     if (it_op != operators_.end())
-        operators_.erase(it_op);
+        operators_.erase(*it_op);
+    for (std::set<Client *>::iterator it = clients_.begin(); it != clients_.end(); it++)
+        std::cout << "client in channel-remove " << (*it)->getNick() << std::endl;
 }
 
 void        Channel::addOperator(Client& cl)
@@ -58,6 +61,8 @@ void        Channel::removeOperator(Client& cl)
 
 bool        Channel::isInChannel(std::string nick)
 {
+    for (std::set<Client *>::iterator it = clients_.begin(); it != clients_.end(); it++)
+        std::cout << "client in channel-isinchannel " << (*it)->getNick() << std::endl;
     for (std::set<Client *>::iterator it = clients_.begin(); it != clients_.end(); it++)
     {
         if ((*it)->getNick() == nick)
@@ -98,6 +103,12 @@ std::string Channel::getNames()
     }
     return names;
 }
+
+std::string Channel::getChannelName() const
+{
+    return name_;
+}
+
 
 void        Channel::sendMessage(Client& cl, std::string msg)
 {
