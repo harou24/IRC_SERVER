@@ -11,9 +11,7 @@ static void     removeClient(const CmdController& controller, std::string channe
         {
             channel->removeClient(*cl);
             reply = RPL_PART(cl, channel_name);
-            if (channel->isActive())
-                channel->sendMessage(*cl, reply);
-            else
+            if (!channel->isActive())
                 controller.getServer().removeChannel(channel_name);
         }
         else

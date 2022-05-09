@@ -2,6 +2,7 @@
 # define CHANNEL_HPP
 
 # include "client.hpp"
+# include "replies.hpp"
 
 class Client;
 

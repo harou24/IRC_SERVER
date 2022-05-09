@@ -35,7 +35,12 @@ void        Channel::removeClient(Client& cl)
     std::set<Client *>::iterator it = getClientByName(clients_, cl.getNick());
     std::set<Client *>::iterator it_op = getClientByName(operators_, cl.getNick());
     if (it != clients_.end())
+    {
+        std::string reply = RPL_PART((*it), name_);
+        if (isActive())
+            sendMessage(cl, reply);
         clients_.erase(it);
+    }
     if (it_op != operators_.end())
         operators_.erase(it_op);
 }

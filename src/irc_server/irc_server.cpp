@@ -140,6 +140,12 @@ Channel&    IrcServer::getChannel(std::string channel)
     return *channels_[channel];
 }
 
+std::map<std::string, Channel*>&    IrcServer::getAllChannels()
+{
+    return channels_;
+}
+
+
 void IrcServer::stop(void)
 {
     std::cout << "Stopping server...\n";

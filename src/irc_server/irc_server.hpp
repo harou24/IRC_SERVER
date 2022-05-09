@@ -30,6 +30,7 @@ class IrcServer {
         void        addChannel(std::string channel, Client& cl);
         void        removeChannel(std::string channel);
         Channel&    getChannel(std::string channel);
+        std::map<std::string, Channel*>&    getAllChannels();
         
         bool        isRunning(void) const;
         
