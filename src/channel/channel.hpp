@@ -14,17 +14,17 @@ class Channel
         ~Channel();
 
         void                            addClient(Client& cl);
-        void                            removeClient(Client& cl);
+        void                            removeClient(Client& cl, std::string reply);
         void                            addOperator(Client &cl);
         void                            removeOperator(Client &cl);
 
         void                            sendMessage(Client& cl, std::string msg);
 
         bool                            isInChannel(std::string nick);
-        bool                            isOperator(Client& cl) const;
+        bool                            isOperator(Client& cl);
         bool                            isActive() const;
 
-        std::string                     getNames() const;
+        std::string                     getNames();
         std::set<Client *>::iterator    getClientByName(std::set<Client *>& set, std::string name) const;
 
     private:

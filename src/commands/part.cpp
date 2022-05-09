@@ -9,8 +9,8 @@ static void     removeClient(const CmdController& controller, std::string channe
         Channel *channel = &controller.getServer().getChannel(channel_name);
         if (channel->isInChannel(cl->getNick()))
         {
-            channel->removeClient(*cl);
             reply = RPL_PART(cl, channel_name);
+            channel->removeClient(*cl, reply);
             if (!channel->isActive())
                 controller.getServer().removeChannel(channel_name);
         }

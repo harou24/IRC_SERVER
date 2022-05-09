@@ -30,13 +30,12 @@ void        Channel::addClient(Client& cl)
     clients_.insert(&cl);
 }
 
-void        Channel::removeClient(Client& cl)
+void        Channel::removeClient(Client& cl, std::string reply)
 {
     std::set<Client *>::iterator it = getClientByName(clients_, cl.getNick());
     std::set<Client *>::iterator it_op = getClientByName(operators_, cl.getNick());
     if (it != clients_.end())
     {
-        std::string reply = RPL_PART((*it), name_);
         if (isActive())
             sendMessage(cl, reply);
         clients_.erase(it);
@@ -52,7 +51,7 @@ void        Channel::addOperator(Client& cl)
 
 void        Channel::removeOperator(Client& cl)
 {
-    std::set<Client *>::iterator it = operators_.find(&cl);
+    std::set<Client *>::iterator it = getClientByName(operators_, cl.getNick());
     if (it != operators_.end())
         operators_.erase(it);
 }
@@ -67,9 +66,9 @@ bool        Channel::isInChannel(std::string nick)
     return false;
 }
 
-bool        Channel::isOperator(Client& cl) const
+bool        Channel::isOperator(Client& cl)
 {
-    std::set<Client *>::iterator it = operators_.find(&cl);
+    std::set<Client *>::iterator it = getClientByName(operators_, cl.getNick());
     if (it != operators_.end())
         return true;
     return false;
@@ -82,7 +81,7 @@ bool        Channel::isActive() const
     return false;
 }
 
-std::string Channel::getNames() const
+std::string Channel::getNames()
 {
     std::string names = "";
 
