@@ -24,6 +24,8 @@ class ConnectableClient {
         void    send(const std::string &message);
         std::string receive();
 
+        Client& getClient();
+
 };
 
 #endif

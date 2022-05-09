@@ -51,3 +51,5 @@ std::string ConnectableClient::receive()
     //std::cout << "received - " << data << "\nLength->"<< length << std::endl;
     return std::string(data);
 }
+
+Client& ConnectableClient::getClient() { return *_client; }
