@@ -17,6 +17,7 @@
     MODE,
     USER,
     PING,
+    PART,
     CAP_LS,
     UNKNOWN,
     SIZE

@@ -18,12 +18,11 @@ std::string gen_random(const int len) {
     return tmp_s;
 }
 
-std::string    cap_ls(CmdController* controller)
+std::string    cap_ls(const CmdController& controller)
 {
     srand((unsigned)time(NULL) * getpid());
     #if 1
-        if (controller)
-            print("DEBUG", "CAP LS cmd!");
+            print("DEBUG", "CAP LS cmd! " + controller.getCurrentMsg().getData());
     #endif
     return std::string(NOTICE(std::string(HOST)) + "CAP * LS :\nPING : " + gen_random(rand() % 10 + 5) + "\n");
 }

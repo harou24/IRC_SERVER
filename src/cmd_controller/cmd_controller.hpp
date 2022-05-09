@@ -14,7 +14,7 @@ class IrcServer;
 class CmdController {
 
     private:
-        typedef std::string (*t_ft_ptr)(const CmdController*);
+        typedef std::string (*t_ft_ptr)(const CmdController&);
         std::map<int, t_ft_ptr> cmds_;
         IrcServer *server_;
         Parser* parser_;
@@ -29,10 +29,10 @@ class CmdController {
         ~CmdController();
 
         void execute(Message *m);
-        Message* getCurrentMsg();
-
-        Parser& getParser();
-        IrcServer* getServer();
+        
+        Message& getCurrentMsg() const;
+        Parser& getParser() const;
+        IrcServer& getServer() const;
 };
 
 #endif

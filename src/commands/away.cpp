@@ -1,10 +1,10 @@
 #include "commands.hpp"
 
-std::string     away(CmdController* controller)
+std::string     away(const CmdController& controller)
 {
-    TcpStream *stream = controller->getCurrentMsg()->getStreamPtr();
-    Client *cl = controller->getServer()->getClientByStream(stream);
-    std::string msg = controller->getParser().getArgument().arg1;
+    TcpStream *stream = controller.getCurrentMsg().getStreamPtr();
+    Client *cl = controller.getServer().getClientByStream(stream);
+    std::string msg = controller.getParser().getArgument().arg1;
 
     if (cl)
     {

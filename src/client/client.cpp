@@ -32,7 +32,7 @@ std::string     Client::getUser() const {return _mUserName;}
 std::string     Client::getHost() const {return _mHostName;}
 std::string     Client::getServer() const {return _mServerName;}
 std::string     Client::getReal() const {return _mRealName;}
-TcpStream&      Client::getStream() {return *_mStream;}
+TcpStream&      Client::getStream() const {return *_mStream;}
 bool            Client::getHandShake() const {return _mHandShake;}
 bool            Client::getAway() const {return _mAway;}
 std::string     Client::getAwayMsg() const {return _mAwayMsg;}

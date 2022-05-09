@@ -26,7 +26,7 @@ class Client
         std::string     getHost() const;
         std::string     getServer() const;
         std::string     getReal() const;
-        TcpStream&      getStream();
+        TcpStream&      getStream() const;
         bool            getHandShake() const;
         bool            getAway() const;
         std::string     getAwayMsg() const;

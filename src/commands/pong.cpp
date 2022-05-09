@@ -1,11 +1,10 @@
 #include "commands.hpp"
 
-std::string    pong(CmdController* controller)
+std::string    pong(const CmdController& controller)
 {
     srand((unsigned)time(NULL) * getpid());
     #if 1
-        if (controller)
-            print("DEBUG", "PONG");
+            print("DEBUG", "PONG " + controller.getCurrentMsg().getData());
     #endif
     return std::string("");
 }

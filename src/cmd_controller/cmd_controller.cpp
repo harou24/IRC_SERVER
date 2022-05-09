@@ -14,6 +14,9 @@ CmdController::CmdController(IrcServer &server): server_(&server)
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(PRIVMSG, t_ft_ptr (privmsg)));
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(QUIT, t_ft_ptr (quit)));
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(AWAY, t_ft_ptr (away)));
+    cmds_.insert(std::pair<CommandType, t_ft_ptr>(JOIN, t_ft_ptr (join)));
+    cmds_.insert(std::pair<CommandType, t_ft_ptr>(INVITE, t_ft_ptr (invite)));
+    cmds_.insert(std::pair<CommandType, t_ft_ptr>(PART, t_ft_ptr (part)));
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(UNKNOWN, t_ft_ptr (unknown)));
 }
 
@@ -29,7 +32,9 @@ void CmdController::execute(Message *m)
     #endif
     currentMsg_ = m;
     parser_->parse(m->getData());
-    std::string reply = cmds_[parser_->getCommand()](this);
+    if (parser_->getCommand() == UNKNOWN)
+        return ;
+    std::string reply = cmds_[parser_->getCommand()](*this);
     TcpStream *s = m->getStreamPtr();
     #if 1
         if (s){
@@ -41,20 +46,19 @@ void CmdController::execute(Message *m)
 
     if (!reply.empty())
         m->getStream().send(reply, reply.length());
-    else return;
 }
 
-Message* CmdController::getCurrentMsg()
+Message& CmdController::getCurrentMsg() const
 {
-    return currentMsg_;
+    return *currentMsg_;
 }
 
-Parser& CmdController::getParser()
+Parser& CmdController::getParser() const
 {
     return *parser_;
 }
 
-IrcServer*  CmdController::getServer()
+IrcServer&  CmdController::getServer() const
 {
-    return server_;
+    return *server_;
 }

@@ -1,10 +1,9 @@
 #include "commands.hpp"
 
-std::string    ping(CmdController* controller)
+std::string    ping(const CmdController& controller)
 {
     #if 1
-        if (controller)
             print("DEBUG", "PING");
     #endif
-    return std::string("PONG " + controller->getParser().getArgument().arg1 + "\n");
+    return std::string("PONG " + controller.getParser().getArgument().arg1 + "\n");
 }

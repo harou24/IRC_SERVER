@@ -5,20 +5,20 @@
 #define ERR_NICKNAMEINUSE(nickname) ":" + nickname + " Nickname is already in use\n"
 #define ERR_ERRONEUSNICKNAME(nickname) ":" + nickname + " Error nickname is not valid\n"
 
-std::string    execNick(CmdController* controller, const std::string& nickname)
+std::string    execNick(const CmdController& controller, const std::string& nickname)
 {
     std::string reply("");
 
-    TcpStream *stream = controller->getCurrentMsg()->getStreamPtr();
-    Client *cl = controller->getServer()->getClientByStream(stream);
+    TcpStream *stream = controller.getCurrentMsg().getStreamPtr();
+    Client *cl = controller.getServer().getClientByStream(stream);
 
     if (!cl)
     {
         //create client
         std::cout << "CREATING CLIENT GO\n";
         cl = new Client(nickname, stream);
-        controller->getServer()->addClient(cl);
-        reply = welcome(nickname, controller->getParser().getArgument());
+        controller.getServer().addClient(cl);
+        reply = welcome(nickname, controller.getParser().getArgument());
     }
     else
     {
@@ -29,17 +29,16 @@ std::string    execNick(CmdController* controller, const std::string& nickname)
     return reply;
 }
 
-std::string    nick(CmdController* controller)
+std::string    nick(const CmdController& controller)
 {
-//    return std::string("NICK CMD\n");
-    std::string nickname = controller->getParser().getArgument().arg1;
+    std::string nickname = controller.getParser().getArgument().arg1;
     if (nickname.empty())
         return std::string(ERR_NONICKNAMEGIVEN);
 
     if (nickname.length() > MAX_NICK_LENGTH)
         return std::string(ERR_ERRONEUSNICKNAME(nickname));
 
-    IrcServer *server = controller->getServer();
+    IrcServer *server = &controller.getServer();
     if (server->isNickInUse(nickname))
         return std::string(ERR_NICKNAMEINUSE(nickname));
 
