@@ -22,30 +22,36 @@ void testChannel()
 {
     assert(g_server.isRunning());
 
-    //connecting two users to the server
     g_client.connect("User1");
     g_client.send("CAP LS\nNICK User1\nUSER usr usr usr :usr\n");
     sleep(1);
+    std::string response = g_client.receive();
+    assert(!response.empty());
+    std::cout << response << "\n";
+
 
     g_client_2.connect("User2");
     g_client_2.send("CAP LS\nNICK User2\nUSER usr2 usr2 usr2 :usr2\n");
-    assert(g_client_2.getClient().getNick() == "User2");
     sleep(1);
+    response = g_client_2.receive();
+    assert(!response.empty());
+    std::cout << response << "\n";
 
-    //User2 joins the channel first, so should be operator...
     g_client_2.send("JOIN #channel\n");
-    std::string response = g_client_2.receive();
-   // assert(g_server.getChannel("#channel").isActive() == true);
-    
-    assert(g_server.getChannel("#channel").isInChannel("User2") == true);
-    /*
-    assert(g_server.getChannel("#channel").isOperator(g_client_2.getClient()) == true);
+    sleep(1);
+    response = g_client_2.receive();
+    assert(!response.empty());
+    std::cout << response << "\n";
 
     g_client.send("JOIN #channel\n");
+    sleep(1);
+    response = g_client.receive();
+    assert(!response.empty());
+    std::cout << response << "\n";
+
     assert(g_server.getChannel("#channel").isInChannel("User1") == true);
     assert(g_server.getChannel("#channel").isInChannel("User2") == true);
     assert(g_server.getChannel("#channel").isOperator(g_client_2.getClient()) == true);
-    */
 }
 
 int main(void)
