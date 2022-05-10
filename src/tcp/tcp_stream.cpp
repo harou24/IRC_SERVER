@@ -1,17 +1,21 @@
 #include "tcp_stream.hpp"
 #include <iostream>
+#include <fcntl.h>
+
 TcpStream::TcpStream(){}
 
 TcpStream::TcpStream(int sd, struct sockaddr_in* address){
     _mPeerIP = inet_ntoa(address->sin_addr);//converts host address in byte order to string
     _mPeerPort = ntohs(address->sin_port);//converst network byte order to host byte order
     _mSd = sd; 
+    fcntl(_mSd, F_SETFL, O_NONBLOCK);
 }
 
 TcpStream::TcpStream(const TcpStream& src){
     _mPeerPort = src.getPeerPort();
     _mPeerIP = src.getPeerIP();
     _mSd = src._mSd;
+    fcntl(_mSd, F_SETFL, O_NONBLOCK);
 }
 
 TcpStream&      TcpStream::operator=(const TcpStream& src){

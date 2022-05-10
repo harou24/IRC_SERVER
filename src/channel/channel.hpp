@@ -39,6 +39,7 @@ class Channel
 
         std::string                     getNames();
         std::set<Client *>::iterator    getClientByName(std::set<Client *>& set, std::string name) const;
+        std::string                     getChannelName() const;
 
     private:
 

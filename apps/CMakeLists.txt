@@ -27,6 +27,12 @@ if(TEST)
     add_executable(test_server_messaging.out ./server/test_server_messaging.cpp)
     target_link_libraries(test_server_messaging.out PRIVATE ft_irc)
 
-    add_executable(irc_server_test.out ./irc/irc_server_test.cpp)
-    target_link_libraries(irc_server_test.out PRIVATE ft_irc)
+    add_executable(irc_basic_test.out ./irc/irc_basic_test.cpp)
+    target_link_libraries(irc_basic_test.out PRIVATE ft_irc)
+
+    add_executable(irc_messaging_test.out ./irc/irc_messaging_test.cpp)
+    target_link_libraries(irc_messaging_test.out PRIVATE ft_irc)
+
+    add_executable(irc_channel_test.out ./irc/irc_channel_test.cpp)
+    target_link_libraries(irc_channel_test.out PRIVATE ft_irc)
 endif()

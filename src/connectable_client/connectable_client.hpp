@@ -20,9 +20,11 @@ class ConnectableClient {
         ConnectableClient(int port, std::string host);
         ~ConnectableClient();
 
-        void    connect();
+        void    connect(const std::string &nick);
         void    send(const std::string &message);
         std::string receive();
+
+        Client& getClient();
 
 };
 

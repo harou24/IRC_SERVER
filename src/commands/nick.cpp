@@ -31,7 +31,6 @@ std::string    execNick(const CmdController& controller, const std::string& nick
 
 std::string    nick(const CmdController& controller)
 {
-//    return std::string("NICK CMD\n");
     std::string nickname = controller.getParser().getArgument().arg1;
     if (nickname.empty())
         return std::string(ERR_NONICKNAMEGIVEN);
