@@ -38,9 +38,11 @@
 # define ERR_NOSUCHNICK(nick, nick2) ":" + std::string(HOST) + " 401 " + nick + " " + nick2 + " :No such nick/channel\n"
 # define RPL_PART(cl, channel) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " PART " + channel + " :\n"
 # define RPL_QUIT(cl, msg) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " QUIT :Quit: " + &msg[1] + "\n"
-
 # define ERR_NOSUCHCHANNEL(nick, channel) ":" + std::string(HOST) + " 403 " + nick + " " + channel + " :No such channel\n"
 # define ERR_NOTONCHANNEL(nick, channel) ":" + nick + " " + channel + " You're not on that channel\n"
 # define ERR_NEEDMOREPARAMS(nick, channel) ":" + std::string(HOST) + " 461 " + nick + " " + channel + " :Not enough parameters\n"
 
+# define RPL_KICK(cl, channel, user, msg) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " KICK " + channel + " " + user + " " + msg + "\n"
+# define ERR_CHANOPRIVSNEEDED(nick, channel) ":" + std::string(HOST) + " 482 " + nick + " " + channel + " :You must be a channel half-operator\n"
+# define ERR_USERNOTINCHANNEL(nick, nick2, channel)  ":" + std::string(HOST) + " 441 " + nick + " " + nick2 + " " + channel + " :They are not on that channel\n"
 #endif

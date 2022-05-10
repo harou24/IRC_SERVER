@@ -18,6 +18,7 @@
     USER,
     PING,
     PART,
+    KICK,
     CAP_LS,
     UNKNOWN,
     SIZE

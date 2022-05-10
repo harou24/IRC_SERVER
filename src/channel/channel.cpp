@@ -18,7 +18,7 @@ std::set<Client *>::iterator    Channel::getClientByName(std::set<Client *>& set
 {
     for (std::set<Client *>::iterator it = set.begin(); it != set.end(); it++)
     {
-        if (std::strcmp((*it)->getNick().c_str(), name.c_str()) == 0) 
+        if (std::strcmp((*it)->getNick().c_str(), name.c_str()) == 0)
             return it;
     }
     return set.end();
@@ -38,10 +38,10 @@ void        Channel::removeClient(Client& cl, std::string reply)
     {
         if (isActive())
             sendMessage(cl, reply);
-        clients_.erase(it);
+        clients_.erase(*it);
     }
     if (it_op != operators_.end())
-        operators_.erase(it_op);
+        operators_.erase(*it_op);
 }
 
 void        Channel::addOperator(Client& cl)
@@ -99,14 +99,16 @@ std::string Channel::getNames()
     return names;
 }
 
+std::string Channel::getChannelName() const
+{
+    return name_;
+}
+
+
 void        Channel::sendMessage(Client& cl, std::string msg)
 {
-    std::cout << "SENDING PRIV CHAN MSG\n";
-    for(std::set<Client *>::const_iterator it = clients_.begin(); it != clients_.end(); it++)
-        std::cout << "name = " << (*it)->getNick() << std::endl;
     for(std::set<Client *>::const_iterator it = clients_.begin(); it != clients_.end(); it++)
     {
-        std::cout << (*it)->getNick() << " SENDING PRIV CHAN MSG\n";
         if ((*it)->getNick() != cl.getNick())
             (*it)->getStream().send(msg, msg.length());
     }

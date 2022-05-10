@@ -25,5 +25,6 @@ std::string    away(const CmdController& controller);
 std::string    join(const CmdController& controller);
 std::string    invite(const CmdController& controller);
 std::string    part(const CmdController& controller);
+std::string    kick(const CmdController& controller);
 
 #endif
