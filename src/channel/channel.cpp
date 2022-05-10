@@ -1,8 +1,8 @@
 #include "channel.hpp"
 
-Channel::Channel() :Invite_(false){}
+Channel::Channel() :opper_(0){}
 
-Channel::Channel(std::string name, Client& cl) : name_(name), Invite_(false)
+Channel::Channel(std::string name, Client& cl) : name_(name), opper_(0)
 {
     clients_.insert(&cl);
     operators_.insert(&cl);
@@ -108,7 +108,78 @@ void        Channel::sendMessage(Client& cl, std::string msg)
     }
 }
 
-bool    Channel::isInvite() const
+bool    Channel::Invite() const
 {
-    return Invite_;
+    std::cout << opper_ << std::endl;
+    return (opper_ & (1<<1));
+}
+
+bool    Channel::isInvite(const Client& cl)
+{
+    for(std::set<Client *>::iterator it = inventation_.begin(); it != inventation_.end(); it++)
+    {
+        if ((*it)->getNick() == cl.getNick())
+        {
+            this->inventation_.erase(it);
+            return true;
+        }
+    }
+    return false;
+}
+
+void    Channel::addInvite(Client& cl)
+{
+    inventation_.insert(&cl);
+}
+
+void    Channel::seton(std::string str)
+{
+    for (size_t i = 0; i < str.length(); i++)
+    {
+        switch (str[i])
+        {
+            case 'o': opper_ |= (1 << 0);
+                break;
+            case 'i': opper_ |= (1 << 1);
+                break;
+            case 't': opper_ |= (1 << 2);
+                break;
+            case 'n': opper_ |= (1 << 3);
+                break;
+            case 'l': opper_ |= (1 << 4);
+                break;
+            case 'b': opper_ |= (1 << 5);
+                break;
+            case 'k': opper_ |= (1 << 6);            
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+void    Channel::setoff(std::string str)
+{
+    for (size_t i = 0; i < str.length(); i++)
+    {
+        switch (str[i])
+        {
+            case 'o': opper_ &= ~(1 << 0);
+                break;
+            case 'i': opper_ &= ~(1 << 1);
+                break;
+            case 't': opper_ &= ~(1 << 2);
+                break;
+            case 'n': opper_ &= ~(1 << 3);
+                break;
+            case 'l': opper_ &= ~(1 << 4);
+                break;
+            case 'b': opper_ &= ~(1 << 5);
+                break;
+            case 'k': opper_ &= ~(1 << 6);            
+                break;
+            default:
+                break;
+        }
+    }
 }
