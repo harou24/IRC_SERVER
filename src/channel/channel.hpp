@@ -34,8 +34,9 @@ class Channel
         bool                            isInvite(const Client& cl);
         bool                            Invite() const;
         void                            addInvite(Client& cl);
-        void                            seton(std::string str);
-        void                            setoff(std::string str);
+        void                            setMode(std::string str);
+        void                            seton(char c);
+        void                            setoff(char c);
 
         std::string                     getNames();
         std::set<Client *>::iterator    getClientByName(std::set<Client *>& set, std::string name) const;

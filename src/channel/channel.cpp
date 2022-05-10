@@ -138,54 +138,67 @@ void    Channel::addInvite(Client& cl)
     inventation_.insert(&cl);
 }
 
-void    Channel::seton(std::string str)
+void    Channel::seton(char c)
 {
-    for (size_t i = 0; i < str.length(); i++)
+    switch (c)
     {
-        switch (str[i])
-        {
-            case 'o': opper_ |= (1 << 0);
-                break;
-            case 'i': opper_ |= (1 << 1);
-                break;
-            case 't': opper_ |= (1 << 2);
-                break;
-            case 'n': opper_ |= (1 << 3);
-                break;
-            case 'l': opper_ |= (1 << 4);
-                break;
-            case 'b': opper_ |= (1 << 5);
-                break;
-            case 'k': opper_ |= (1 << 6);            
-                break;
-            default:
-                break;
-        }
+        case 'o': opper_ |= (1 << 0);
+            break;
+        case 'i': opper_ |= (1 << 1);
+            break;
+        case 't': opper_ |= (1 << 2);
+            break;
+        case 'n': opper_ |= (1 << 3);
+            break;
+        case 'l': opper_ |= (1 << 4);
+            break;
+        case 'b': opper_ |= (1 << 5);
+            break;
+        case 'k': opper_ |= (1 << 6);            
+            break;
+        default:
+            break;
     }
 }
 
-void    Channel::setoff(std::string str)
+void    Channel::setoff(char c)
+{
+    switch (c)
+    {
+        case 'o': opper_ &= ~(1 << 0);
+            break;
+        case 'i': opper_ &= ~(1 << 1);
+            break;
+        case 't': opper_ &= ~(1 << 2);
+            break;
+        case 'n': opper_ &= ~(1 << 3);
+            break;
+        case 'l': opper_ &= ~(1 << 4);
+            break;
+        case 'b': opper_ &= ~(1 << 5);
+            break;
+        case 'k': opper_ &= ~(1 << 6);            
+            break;
+        default:
+            break;
+    }
+}
+
+void    Channel::setMode(std::string str)
 {
     for (size_t i = 0; i < str.length(); i++)
     {
-        switch (str[i])
+        if (str[i] == '-')
         {
-            case 'o': opper_ &= ~(1 << 0);
-                break;
-            case 'i': opper_ &= ~(1 << 1);
-                break;
-            case 't': opper_ &= ~(1 << 2);
-                break;
-            case 'n': opper_ &= ~(1 << 3);
-                break;
-            case 'l': opper_ &= ~(1 << 4);
-                break;
-            case 'b': opper_ &= ~(1 << 5);
-                break;
-            case 'k': opper_ &= ~(1 << 6);            
-                break;
-            default:
-                break;
+            i++;
+            while(i < str.length() && str[i] != '+')
+                setoff(str[i++]);
+        }
+        if (i < str.length() && str[i] == '+')
+        {
+            i++;
+            while(i < str.length() && str[i] != '-')
+                seton(str[i++]);
         }
     }
 }
