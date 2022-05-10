@@ -15,7 +15,7 @@ std::string    invite(const CmdController& controller)
         if (receiver != NULL) 
         {
             if (!controller.getServer().getChannel(channel).isOperator(*sender))
-                return std::string(ERR_CHANOPRIVSNEEDED(channel));
+                return std::string(ERR_CHANOPRIVSNEEDED(sender->getNick(),channel));
             controller.getServer().getChannel(channel).addInvite(*receiver);
             std::string s = INVITE_MESSAGE(sender->getNick(), receiver_name, sender->getUser(), sender->getHost(), channel);
             receiver->getStream().send(s, s.length());

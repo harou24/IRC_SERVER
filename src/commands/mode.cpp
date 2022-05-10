@@ -14,7 +14,7 @@ static std::string  channel_mode(Channel& channel, Args& arg, Client& cl)
             channel.setoff(&arg.arg2[1]);
     }
     else if (channel.isInChannel(cl.getNick()))
-        reply = ERR_CHANOPRIVSNEEDED(arg.arg1);
+        reply = ERR_CHANOPRIVSNEEDED(cl.getNick(), arg.arg1);
     else
         reply = ERR_NOTONCHANNEL(cl.getNick(), arg.arg1);
     return reply;
