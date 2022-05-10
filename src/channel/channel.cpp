@@ -43,8 +43,6 @@ void        Channel::removeClient(Client& cl, std::string reply)
     }
     if (it_op != operators_.end())
         operators_.erase(*it_op);
-    for (std::set<Client *>::iterator it = clients_.begin(); it != clients_.end(); it++)
-        std::cout << "client in channel-remove " << (*it)->getNick() << std::endl;
 }
 
 void        Channel::addOperator(Client& cl)
@@ -61,8 +59,6 @@ void        Channel::removeOperator(Client& cl)
 
 bool        Channel::isInChannel(std::string nick)
 {
-    for (std::set<Client *>::iterator it = clients_.begin(); it != clients_.end(); it++)
-        std::cout << "client in channel-isinchannel " << (*it)->getNick() << std::endl;
     for (std::set<Client *>::iterator it = clients_.begin(); it != clients_.end(); it++)
     {
         if ((*it)->getNick() == nick)
@@ -112,12 +108,8 @@ std::string Channel::getChannelName() const
 
 void        Channel::sendMessage(Client& cl, std::string msg)
 {
-    std::cout << "SENDING PRIV CHAN MSG\n";
-    for(std::set<Client *>::const_iterator it = clients_.begin(); it != clients_.end(); it++)
-        std::cout << "name = " << (*it)->getNick() << std::endl;
     for(std::set<Client *>::const_iterator it = clients_.begin(); it != clients_.end(); it++)
     {
-        std::cout << (*it)->getNick() << " SENDING PRIV CHAN MSG\n";
         if ((*it)->getNick() != cl.getNick())
             (*it)->getStream().send(msg, msg.length());
     }
