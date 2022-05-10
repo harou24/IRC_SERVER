@@ -153,3 +153,5 @@ void IrcServer::stop(void)
 }
 
 bool IrcServer::isRunning(void) const { return _mServer->isRunning(); }
+
+size_t    IrcServer::getNbClients(void) const { return clients_.size(); }
