@@ -134,13 +134,12 @@ void    Parser::whois(const std::string& str)
 void    Parser::mode(const std::string& str) 
 {
     std::istringstream  ss(str);
+    std::string word;
     ss >> this->_mArguments->arg1;
     ss >> this->_mArguments->arg2;
     ss >> this->_mArguments->arg3;
-    ss >> this->_mArguments->arg4;
-
-    if (this->_mArguments->arg4 != "")
-        this->_mCommand = UNKNOWN;
+    while (ss>>word)
+        this->_mArguments->arg3 += " " + word;
 }
 
 void    Parser::part(const std::string& str) 

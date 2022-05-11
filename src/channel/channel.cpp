@@ -1,12 +1,12 @@
 #include "channel.hpp"
 
-Channel::Channel() {mode_ = new channel_mode();}
+Channel::Channel() {mode_ = new ChannelMode();}
 
 Channel::Channel(std::string name, Client& cl) : name_(name)
 {
     clients_.insert(&cl);
     operators_.insert(&cl);
-    mode_ = new channel_mode();
+    mode_ = new ChannelMode();
 }
 
 Channel::~Channel()
@@ -44,6 +44,7 @@ void        Channel::removeClient(Client& cl, std::string reply)
     }
     if (it_op != operators_.end())
         operators_.erase(*it_op);
+    this->getMode().removeInvite(cl);
 }
 
 void        Channel::addOperator(Client& cl)
@@ -116,7 +117,12 @@ void        Channel::sendMessage(Client& cl, std::string msg)
     }
 }
 
-channel_mode&   Channel::getMode() const
+ChannelMode&   Channel::getMode() const
 {
     return *mode_;
+}
+
+int             Channel::NbrClients() const
+{
+    return clients_.size();
 }

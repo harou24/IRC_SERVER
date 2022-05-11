@@ -1,6 +1,6 @@
 #include "commands.hpp"
 
-static std::string  channel_mode(Channel& channel, Args& arg, Client& cl)
+static std::string  ChannelMode(Channel& channel, Args& arg, Client& cl)
 {
     std::string reply = RPL_UMODEIS(arg.arg1, arg);
     if (arg.arg2 == "")
@@ -8,7 +8,7 @@ static std::string  channel_mode(Channel& channel, Args& arg, Client& cl)
     if (channel.isOperator(cl))
     {
         channel.sendMessage(cl, reply);
-        channel.getMode().setMode(arg.arg2);
+        channel.getMode().setMode(arg.arg2, arg.arg3);
     }
     else if (channel.isInChannel(cl.getNick()))
         reply = ERR_CHANOPRIVSNEEDED(cl.getNick(), arg.arg1);
@@ -29,7 +29,7 @@ std::string         mode(const CmdController& controller)
     if (controller.getParser().getArgument().arg1[0] == '#')
     {
         if (controller.getServer().isChannel(controller.getParser().getArgument().arg1))
-            reply = channel_mode(controller.getServer().getChannel(controller.getParser().getArgument().arg1), controller.getParser().getArgument(), *cl);
+            reply = ChannelMode(controller.getServer().getChannel(controller.getParser().getArgument().arg1), controller.getParser().getArgument(), *cl);
         else
             reply = ERR_NOSUCHCHANNEL(cl->getNick(), controller.getParser().getArgument().arg1);
     }

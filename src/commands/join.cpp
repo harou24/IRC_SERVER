@@ -1,6 +1,60 @@
 #include "commands.hpp"
 
-std::string    join(const CmdController& controller)
+
+/*
+    if 'L' set cehck current number of not bigger return err
+    if user in ban mask return
+    if user not in invite return and invite on
+    if password is set blabalbla
+
+
+    l   4
+    b   5
+    i   1
+    k   6
+
+    switch(opper_):
+
+    case 4:
+        if (nospace)
+            return err;
+    case 5:
+        if (banned)
+            return err;
+    case 1:
+        if isInvited || !invite
+            continue
+        else
+            return err;
+    case 6:
+        if (key && keycorrect)
+            conitinue;
+        else
+            return err;
+    default:
+        good;
+    return ""
+*/
+
+static std::string  modeHandler(Channel& channel, Client& cl, const CmdController& controller)
+{
+    char modus = channel.getMode().getModus();
+    std::string reply = "";
+    std::string password = controller.getParser().getArgument().arg2;
+
+    if (modus & (1<<4) && channel.getMode().getClientLimit() <= channel.NbrClients())
+        return std::string(ERR_CHANNELISFULL(cl.getNick(), channel.getChannelName()));
+    if (modus & (1<<5))
+        return "BAN";
+    if (modus & (1<<1) && !channel.getMode().isInvite(cl))
+        return std::string(ERR_INVITEONLYCHAN(cl.getNick(), channel.getChannelName()));
+    if (modus & (1<<6) && channel.getMode().getPassword() != password && !channel.getMode().isInvite(cl))
+        return std::string(ERR_BADCHANNELKEY(cl.getNick(), channel.getChannelName()));
+    channel.addClient(cl);
+    return "";
+}
+
+std::string         join(const CmdController& controller)
 {
     #if 1
         print("DEBUG", "JOIN");
@@ -12,10 +66,9 @@ std::string    join(const CmdController& controller)
     if (!controller.getServer().isChannel(channel_name))
         controller.getServer().addChannel(channel_name, *cl);
     Channel *channel = &controller.getServer().getChannel(channel_name);
-    if (channel->getMode().isInvite(*cl) || (!channel->getMode().Invite()))
-        channel->addClient(*cl);
-    else
-        return std::string(ERR_INVITEONLYCHAN(cl->getNick(), channel_name));
+    std::string reply = modeHandler(*channel, *cl, controller);
+    if (!reply.empty())
+        return reply;
     std::cout << "NAMES = " << channel->getNames() << std::endl;
     channel->sendMessage(*cl, std::string(RPL_JOIN(cl, channel_name)));
     
