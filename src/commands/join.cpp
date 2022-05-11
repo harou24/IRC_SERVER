@@ -12,8 +12,7 @@ std::string    join(const CmdController& controller)
     if (!controller.getServer().isChannel(channel_name))
         controller.getServer().addChannel(channel_name, *cl);
     Channel *channel = &controller.getServer().getChannel(channel_name);
-    std::cout << channel->Invite() << std::endl;
-    if (channel->isInvite(*cl) || (!channel->Invite()))
+    if (channel->getMode().isInvite(*cl) || (!channel->getMode().Invite()))
         channel->addClient(*cl);
     else
         return std::string(ERR_INVITEONLYCHAN(cl->getNick(), channel_name));

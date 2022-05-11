@@ -67,6 +67,7 @@ add_library(ft_irc src/utils/Table/Row.cpp
                     src/cmd_controller/cmd_controller.cpp
                     src/utils/print.cpp
                     src/channel/channel.cpp
+                    src/channel/channel_mode.cpp
 )
 
 # add programs

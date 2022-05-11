@@ -8,7 +8,7 @@ static std::string  channel_mode(Channel& channel, Args& arg, Client& cl)
     if (channel.isOperator(cl))
     {
         channel.sendMessage(cl, reply);
-        channel.setMode(arg.arg2);
+        channel.getMode().setMode(arg.arg2);
     }
     else if (channel.isInChannel(cl.getNick()))
         reply = ERR_CHANOPRIVSNEEDED(cl.getNick(), arg.arg1);
