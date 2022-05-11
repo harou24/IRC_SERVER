@@ -18,6 +18,7 @@ CmdController::CmdController(IrcServer &server): server_(&server)
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(INVITE, t_ft_ptr (invite)));
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(PART, t_ft_ptr (part)));
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(KICK, t_ft_ptr (kick)));
+    cmds_.insert(std::pair<CommandType, t_ft_ptr>(PASS, t_ft_ptr (pass)));
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(UNKNOWN, t_ft_ptr (unknown)));
 }
 

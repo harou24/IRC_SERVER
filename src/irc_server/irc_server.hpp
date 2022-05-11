@@ -33,6 +33,8 @@ class IrcServer {
         std::map<std::string, Channel*>&    getAllChannels();
         
         bool        isRunning(void) const;
+
+        bool        isPasswordOk(const std::string &password) const;
         
     private:
         Server                                          *_mServer;

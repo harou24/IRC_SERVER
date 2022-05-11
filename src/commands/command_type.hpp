@@ -20,6 +20,7 @@
     PART,
     KICK,
     CAP_LS,
+    PASS,
     UNKNOWN,
     SIZE
 };
