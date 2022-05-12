@@ -7,6 +7,7 @@ Channel::Channel(std::string name, Client& cl) : name_(name)
     clients_.insert(&cl);
     operators_.insert(&cl);
     mode_ = new ChannelMode();
+    mode_->setChan(name);
 }
 
 Channel::~Channel()

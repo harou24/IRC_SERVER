@@ -8,6 +8,12 @@ ChannelMode::~ChannelMode()
 {
 }
 
+void    ChannelMode::setChan(std::string name)
+{
+    channel_ = name;
+}
+
+
 bool    ChannelMode::Invite() const
 {
     std::cout << opper_ << std::endl;
@@ -41,7 +47,7 @@ void    ChannelMode::addInvite(Client& cl)
     inventation_.insert(&cl);
 }
 
-void    ChannelMode::seton(char c, std::istringstream& ss)
+void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::string& reply)
 {
     std::string word;
     switch (c)
@@ -66,7 +72,12 @@ void    ChannelMode::seton(char c, std::istringstream& ss)
             break;
         case 'b':
             if (ss>>word && word.size() > 0)
+            {
+                setBan(word);
                 opper_ |= (1 << 5);
+            }
+            else
+                getBan(cl.getNick(), reply);
                 //addword to banlist
             break;
         case 'k':
@@ -108,7 +119,7 @@ void    ChannelMode::setoff(char c, std::istringstream& ss)
     }
 }
 
-void    ChannelMode::setMode(std::string str, std::string arg)
+void    ChannelMode::setMode(std::string str, std::string arg, Client& cl, std::string& reply)
 {
     std::istringstream  ss(arg);
     for (size_t i = 0; i < str.length(); i++)
@@ -123,7 +134,7 @@ void    ChannelMode::setMode(std::string str, std::string arg)
         {
             i++;
             while(i < str.length() && str[i] != '-')
-                seton(str[i++], ss);
+                seton(str[i++], ss, cl, reply);
         }
     }
 }
@@ -151,4 +162,25 @@ std::string     ChannelMode::getPassword() const
 void    ChannelMode::setPassword(std::string str)
 {
     password_ = str;
+}
+
+void    ChannelMode::setBan(std::string name)
+{
+    name += "!*@*";
+    for (std::set<std::pair<std::string, unsigned int> >::iterator it = banList_.begin(); it != banList_.end(); it++)
+    {
+        if (it->first == name)
+            return;
+    }
+    banList_.insert(std::make_pair(name, (unsigned)time(NULL)));
+}
+
+
+std::string ChannelMode::getBan(std::string nick, std::string& reply)
+{
+    reply = "";
+    for (std::set<std::pair<std::string, unsigned int> >::iterator it = banList_.begin(); it != banList_.end(); it++)
+        reply += RPL_BANLIST(nick, channel_, it->first, std::to_string(it->second));
+    reply += RPL_ENDOFBANLIST(nick, channel_);
+    return reply;
 }
