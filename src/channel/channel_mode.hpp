@@ -14,22 +14,32 @@
 */
 class Client;
 
-class channel_mode
+class ChannelMode
 {
     public:
-        channel_mode();
-        ~channel_mode();
+        ChannelMode();
+        ~ChannelMode();
 
         bool    isInvite(const Client& cl);
+        void    removeInvite(const Client& cl);
         bool    Invite() const;
         void    addInvite(Client& cl);
-        void    setMode(std::string str);
-        void    seton(char c);
-        void    setoff(char c);
+        void    setMode(std::string str, std::string arg);
+        void    seton(char c, std::istringstream& ss);
+        void    setoff(char c, std::istringstream& ss);
+        char    getModus() const;
+
+        int     getClientLimit() const;
+        void    setClientLimit(int limit);
+
+        std::string getPassword() const;
+        void        setPassword(std::string str);
 
     private:
         std::set<Client *>  inventation_;
         char                opper_;
+        int                 clientLimit_;
+        std::string         password_;
 };
 
 

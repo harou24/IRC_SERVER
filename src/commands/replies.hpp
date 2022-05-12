@@ -47,4 +47,10 @@
 # define RPL_KICK(cl, channel, user, msg) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " KICK " + channel + " " + user + " " + msg + "\n"
 # define ERR_CHANOPRIVSNEEDED(nick, channel) ":" + std::string(HOST) + " 482 " + nick + " " + channel + " :You must be a channel half-operator\n"
 # define ERR_USERNOTINCHANNEL(nick, nick2, channel)  ":" + std::string(HOST) + " 441 " + nick + " " + nick2 + " " + channel + " :They are not on that channel\n"
+
+# define ERR_BADCHANNELKEY(nick, channel) ":" + std::string(HOST) + " 475 " + nick + " " + channel + " :Cannot join channel (+k)\n"
+# define ERR_CHANNELISFULL(nick, channel) ":" + std::string(HOST) + " 471 " + nick + " " + channel + " :Cannot join channel (+l)\n"
+
+
+
 #endif

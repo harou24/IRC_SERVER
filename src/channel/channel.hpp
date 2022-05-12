@@ -4,7 +4,7 @@
 # include "channel_mode.hpp"
 
 class Client;
-class channel_mode;
+class ChannelMode;
 
 class Channel
 {
@@ -23,17 +23,20 @@ class Channel
         bool                            isInChannel(std::string nick);
         bool                            isOperator(Client& cl);
         bool                            isActive() const;
-        channel_mode&                   getMode() const;
+        ChannelMode&                    getMode() const;
 
         std::string                     getNames();
         std::set<Client *>::iterator    getClientByName(std::set<Client *>& set, std::string name) const;
         std::string                     getChannelName() const;
 
+        int                             NbrClients() const;
+
+
     private:
         std::string         name_;
         std::set<Client *>  clients_;
         std::set<Client *>  operators_;
-        channel_mode        *mode_;
+        ChannelMode        *mode_;
 };
 
 #endif
