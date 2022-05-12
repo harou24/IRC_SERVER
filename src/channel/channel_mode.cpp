@@ -175,12 +175,19 @@ void    ChannelMode::setBan(std::string name)
     banList_.insert(std::make_pair(name, (unsigned)time(NULL)));
 }
 
+template<typename T>
+static std::string to_string(const T & value) {
+    std::ostringstream oss;
+    oss << value;
+    return oss.str();
+}
+
 
 std::string ChannelMode::getBan(std::string nick, std::string& reply)
 {
     reply = "";
     for (std::set<std::pair<std::string, unsigned int> >::iterator it = banList_.begin(); it != banList_.end(); it++)
-        reply += RPL_BANLIST(nick, channel_, it->first, std::to_string(it->second));
+        reply += RPL_BANLIST(nick, channel_, it->first, to_string(it->second));
     reply += RPL_ENDOFBANLIST(nick, channel_);
     return reply;
 }
