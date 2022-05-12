@@ -65,6 +65,13 @@ void    Parser::nick(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
+void    Parser::pass(const std::string& str) 
+{
+    std::istringstream  ss(str);
+    ss >> this->_mArguments->arg1;
+    if (ss >> this->_mArguments->arg2)
+        this->_mCommand = UNKNOWN;
+}
 
 void    Parser::notice(const std::string& str) 
 {
@@ -230,6 +237,7 @@ std::string Parser::find_command(const std::string& s)
     string_to_case.insert(std::make_pair<std::string,CommandType>("PING",PING));
     string_to_case.insert(std::make_pair<std::string,CommandType>("PART",PART));
     string_to_case.insert(std::make_pair<std::string,CommandType>("KICK",KICK));
+    string_to_case.insert(std::make_pair<std::string,CommandType>("PASS",PASS));
     
     ss >> s1;
     if (ss>>s2)
@@ -256,7 +264,7 @@ void    Parser::parse(const std::string &inProgram)
     void    (Parser::*p2f[])(const std::string& x) = {&Parser::away, &Parser::invite, \
         &Parser::join, &Parser::me, &Parser::msg, &Parser::nick, &Parser::notice, \
         &Parser::pong, &Parser::privmsg, &Parser::query, &Parser::quit, \
-        &Parser::whois, &Parser::mode, &Parser::user, &Parser::ping, &Parser::part, &Parser::kick};
+        &Parser::whois, &Parser::mode, &Parser::user, &Parser::ping, &Parser::part, &Parser::kick, &Parser::pass};
 
     this->_mArguments->arg1 = this->_mArguments->arg2 = this->_mArguments->arg3 = this->_mArguments->arg4 = "";
     this->_mRawText = arg;

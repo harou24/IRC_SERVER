@@ -39,6 +39,7 @@ class Parser {
         void    me(const std::string& str);
         void    msg(const std::string& str);
         void    nick(const std::string& str);
+        void    pass(const std::string& str);
         void    notice(const std::string& str);
         void    pong(const std::string& str);
         void    privmsg(const std::string& str);

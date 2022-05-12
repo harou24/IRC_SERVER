@@ -63,6 +63,7 @@ add_library(ft_irc src/utils/Table/Row.cpp
                     src/commands/invite.cpp
                     src/commands/part.cpp
                     src/commands/kick.cpp
+                    src/commands/pass.cpp
                     src/commands/unknown.cpp
                     src/cmd_controller/cmd_controller.cpp
                     src/utils/print.cpp
@@ -74,9 +75,9 @@ add_library(ft_irc src/utils/Table/Row.cpp
 add_subdirectory(apps)
 
 # for unitests
-if(TEST)
-	message("running tests")
-	include(CTest)
-	include(FetchContent)
-	add_subdirectory(tests)
-endif()
+#if(TEST)
+#	message("running tests")
+#	include(CTest)
+#	include(FetchContent)
+#	add_subdirectory(tests)
+#endif()
