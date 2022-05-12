@@ -19,8 +19,8 @@
     PING,
     PART,
     KICK,
-    CAP_LS,
     PASS,
+    CAP_LS,
     UNKNOWN,
     SIZE
 };
