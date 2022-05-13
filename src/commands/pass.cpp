@@ -7,7 +7,7 @@ std::string    pass(const CmdController& controller)
 
     if (!controller.getServer().isPasswordOk(password))
     {
-        reply = ":Password incorrect";
+        reply = ":Password incorrect\n";
         std::cout << "---------PASSS INCORRECT-------------\n";
     }
     return reply;

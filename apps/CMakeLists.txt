@@ -35,4 +35,7 @@ if(TEST)
 
     add_executable(irc_channel_test.out ./irc/irc_channel_test.cpp)
     target_link_libraries(irc_channel_test.out PRIVATE ft_irc)
+
+    add_executable(irc_password_test.out ./irc/irc_password_test.cpp)
+    target_link_libraries(irc_password_test.out PRIVATE ft_irc)
 endif()
