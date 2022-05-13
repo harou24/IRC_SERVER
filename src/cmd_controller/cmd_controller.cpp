@@ -47,7 +47,15 @@ void CmdController::execute(Message *m)
     #endif
 
     if (!reply.empty())
+    {
+        std::cout << "REPLY------------------------>" << reply << "\n";
         m->getStream().send(reply, reply.length());
+    }
+    /*
+    if (reply == ":Password incorrect\n")
+        sleep(2);
+        server_->disconnect(m->getStream().getSd());
+        */
 }
 
 Message& CmdController::getCurrentMsg() const
