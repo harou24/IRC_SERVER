@@ -2,6 +2,8 @@
 
 #include <sstream>
 
+# define MAXclients_ 5
+
 Server::Server(int port, std::string password) : _mAcceptor(port, HOST), clients_ss(), _mNbrClients(0) {
     _mIsRunning = false;
     _mPassword = password;
@@ -34,6 +36,14 @@ void            Server::runOnce(){
         for (size_t fd = 0; fd <= MultiClientHandler::getFdmax(); fd++){
             try{
                 if (MultiClientHandler::isFdReadyToCommunicate(fd)){
+
+                    if (isClientConnecting(fd) && _mNbrClients == MAXclients_)
+                    {
+                        close(fd);
+                        MultiClientHandler::clearFd(fd);
+                        continue;
+
+                    }
                     if (isClientConnecting(fd))
                         addClient();
                     else

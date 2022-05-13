@@ -9,7 +9,7 @@ ConnectableClient::ConnectableClient()
     _port = 8080;
     _host = "127.0.0.1";
     _connector = new TcpConnector();
-    _client = new Client("DefaultClient", _stream);
+    _client = NULL;
 }
 
 ConnectableClient::ConnectableClient(int port, std::string host)
@@ -20,7 +20,12 @@ ConnectableClient::ConnectableClient(int port, std::string host)
     _client = NULL;
 }
 
-ConnectableClient::~ConnectableClient() { }
+ConnectableClient::~ConnectableClient()
+{
+    delete _stream;
+    delete _client;
+    delete _connector;
+}
 
 void    ConnectableClient::connect(const std::string &nick)
 {
@@ -48,7 +53,6 @@ std::string ConnectableClient::receive()
 
     length = _stream->receive(data, sizeof(data));
     data[length] = '\0';
-    //std::cout << "received - " << data << "\nLength->"<< length << std::endl;
     return std::string(data);
 }
 

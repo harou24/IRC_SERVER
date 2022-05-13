@@ -35,6 +35,7 @@ class IrcServer {
         bool        isRunning(void) const;
 
         bool        isPasswordOk(const std::string &password) const;
+        size_t      getNbClients(void) const;
         
     private:
         Server                                          *_mServer;
