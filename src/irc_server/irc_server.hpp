@@ -33,6 +33,8 @@ class IrcServer {
         std::map<std::string, Channel*>&    getAllChannels();
         
         bool        isRunning(void) const;
+
+        size_t      getNbClients(void) const;
         
     private:
         Server                                          *_mServer;
