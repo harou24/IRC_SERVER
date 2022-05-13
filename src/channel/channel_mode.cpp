@@ -1,5 +1,12 @@
 #include "channel_mode.hpp"
 
+template<typename T>
+static std::string to_string(const T & value) {
+    std::ostringstream oss;
+    oss << value;
+    return oss.str();
+}
+
 ChannelMode::ChannelMode() : opper_(0)
 {
 }
@@ -68,17 +75,15 @@ void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::stri
             }
             else
                 std::cout << "invalid size\n";
-                // return;//eerrror
             break;
         case 'b':
             if (ss>>word && word.size() > 0)
             {
-                setBan(word);
+                setBan(word, cl.getNick());
                 opper_ |= (1 << 5);
             }
             else
                 getBan(cl.getNick(), reply);
-                //addword to banlist
             break;
         case 'k':
             if (ss>>word && word.size() > 0)
@@ -109,8 +114,9 @@ void    ChannelMode::setoff(char c, std::istringstream& ss)
             break;
         case 'b':
             if (ss>>word && word.size() > 0)
+                offBan(word);
+            if (banList_.size() == 0)
                 opper_ &= ~(1 << 5);
-                //remove word from banlist
             break;
         case 'k': opper_ &= ~(1 << 6);            
             break;
@@ -164,30 +170,69 @@ void    ChannelMode::setPassword(std::string str)
     password_ = str;
 }
 
-void    ChannelMode::setBan(std::string name)
+void    ChannelMode::setBan(std::string name, std::string nick)
 {
     name += "!*@*";
-    for (std::set<std::pair<std::string, unsigned int> >::iterator it = banList_.begin(); it != banList_.end(); it++)
+    for (ban_type::iterator it = banList_.begin(); it != banList_.end(); it++)
     {
         if (it->first == name)
             return;
     }
-    banList_.insert(std::make_pair(name, (unsigned)time(NULL)));
+    banList_.insert(std::make_pair(name, std::make_pair((unsigned)time(NULL), nick)));
 }
 
-template<typename T>
-static std::string to_string(const T & value) {
-    std::ostringstream oss;
-    oss << value;
-    return oss.str();
+void    ChannelMode::offBan(std::string name)
+{
+    for (ban_type::iterator it = banList_.begin(); it != banList_.end(); it++)
+    {
+        if (it->first == name)
+        {
+            banList_.erase(it);
+            return;
+        }
+    }
 }
+
+
 
 
 std::string ChannelMode::getBan(std::string nick, std::string& reply)
 {
     reply = "";
-    for (std::set<std::pair<std::string, unsigned int> >::iterator it = banList_.begin(); it != banList_.end(); it++)
-        reply += RPL_BANLIST(nick, channel_, it->first, to_string(it->second));
+    for (ban_type::iterator it = banList_.begin(); it != banList_.end(); it++)
+        reply += RPL_BANLIST(it->second.second, channel_, it->first, to_string(it->second.first));
     reply += RPL_ENDOFBANLIST(nick, channel_);
+    return reply;
+}
+
+bool        ChannelMode::isBan(std::string name)
+{
+    name += "!*@*";
+    for (ban_type::iterator it = banList_.begin(); it != banList_.end(); it++)
+    {
+        if (it->first == name)
+            return true;
+    }
+    return false;
+}
+
+std::string     ChannelMode::isModeOn()
+{
+    std::string reply = "";
+
+    if (opper_ & (1<<0))
+        reply += "o";
+    if (opper_ & (1<<1))
+        reply += "i";
+    if (opper_ & (1<<2))
+        reply += "t";
+    if (opper_ & (1<<3))
+        reply += "n";
+    if (opper_ & (1<<4))
+        reply += "l";
+    if (opper_ & (1<<5))
+        reply += "b";
+    if (opper_ & (1<<6))
+        reply += "k";
     return reply;
 }

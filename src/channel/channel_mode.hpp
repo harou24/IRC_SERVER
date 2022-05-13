@@ -16,6 +16,7 @@ class Client;
 
 class ChannelMode
 {
+    typedef std::set<std::pair<std::string, std::pair<unsigned int, std::string> > > ban_type;
     public:
         ChannelMode();
         ~ChannelMode();
@@ -30,11 +31,15 @@ class ChannelMode
         void        seton(char c, std::istringstream& ss, Client& cl, std::string& reply);
         void        setoff(char c, std::istringstream& ss);
         char        getModus() const;
+        std::string isModeOn();
+
 
         int         getClientLimit() const;
         void        setClientLimit(int limit);
         
-        void        setBan(std::string name);
+        void        setBan(std::string name, std::string nick);
+        void        offBan(std::string name);
+        bool        isBan(std::string name);
         std::string getBan(std::string nick, std::string& reply);
         
 
@@ -42,12 +47,12 @@ class ChannelMode
         void        setPassword(std::string str);
 
     private:
-        std::set<Client *>                              inventation_;
-        char                                            opper_;
-        int                                             clientLimit_;
-        std::string                                     password_;
-        std::string                                     channel_;
-        std::set<std::pair<std::string, unsigned int> > banList_;
+        std::set<Client *>  inventation_;
+        char                opper_;
+        int                 clientLimit_;
+        std::string         password_;
+        std::string         channel_;
+        ban_type            banList_;
 };
 
 

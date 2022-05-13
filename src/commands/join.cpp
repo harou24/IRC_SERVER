@@ -44,7 +44,7 @@ static std::string  modeHandler(Channel& channel, Client& cl, const CmdControlle
 
     if (modus & (1<<4) && channel.getMode().getClientLimit() <= channel.NbrClients())
         return std::string(ERR_CHANNELISFULL(cl.getNick(), channel.getChannelName()));
-    if (modus & (1<<5))
+    if (modus & (1<<5) && channel.getMode().isBan(cl.getNick()) && !channel.getMode().isInvite(cl))
         return std::string(ERR_BANNEDFROMCHAN(cl.getNick(), channel.getChannelName()));
     if (modus & (1<<1) && !channel.getMode().isInvite(cl))
         return std::string(ERR_INVITEONLYCHAN(cl.getNick(), channel.getChannelName()));

@@ -4,8 +4,12 @@ static std::string  ChannelMode(Channel& channel, Args& arg, Client& cl)
 {
     std::string reply = RPL_UMODEIS(arg.arg1, arg);
     if (arg.arg2 == "")
+    {
+        arg.arg3 = channel.getMode().isModeOn();
+        reply = RPL_UMODEIS(cl.getNick(), arg);
         return reply;
-    if (channel.isOperator(cl))
+    }
+    if (channel.isOperator(cl) || (arg.arg2 == "+b" && arg.arg3 == ""))
     {
         channel.getMode().setMode(arg.arg2, arg.arg3, cl, reply);
         channel.sendMessage(cl, reply);
