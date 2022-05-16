@@ -29,7 +29,7 @@
        haroutioun eutienne evita\n\n"
 
 # define RPL_UMODEIS(cl, args) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " MODE " + args.arg1 + " " + args.arg2 + " :" + args.arg3 + "\n"
-# define RPL_UMODEIS2(cl, args) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " MODE " + args.arg1 + " :" + args.arg3 + "\n"
+# define RPL_UMODEIS2(cl, args) ": 324 " + cl->getNick() + " " + args.arg1 + " :" + args.arg3 + "\n"
 # define PRIV_MESSAGE(nick, nick2, user, host, message) ":" + nick + "!" + user + "@" + host + " PRIVMSG " + nick2 + " " + message + "\n"
 # define RPL_AWAY(nick, nick2, msg) ":" + std::string(HOST) + " 301 " + nick2 + " " + nick + " " + msg + "\n"
 # define RPL_UNAWAY() ":" + std::string(HOST) + " 305 :You are no longer marked as being away\n"
@@ -56,7 +56,7 @@
 # define ERR_CHANNELISFULL(nick, channel) ":" + std::string(HOST) + " 471 " + nick + " " + channel + " :Cannot join channel (+l)\n"
 # define ERR_BANNEDFROMCHAN(nick, channel) ":" + std::string(HOST) + " 474 " + nick + " " + channel + " :Cannot join channel (+b)\n"
 
-# define RPL_BANLIST(nick, channel, name, time)  ":" + std::string(HOST) + " 367 " + nick + " " + channel + " " + name + " " + nick + " :" + time + "\n"
+# define RPL_BANLIST(user, nick, channel, name, time)  ":" + std::string(HOST) + " 367 " + user + " " + channel + " " + name + " " + nick + " :" + time + "\n"
 # define RPL_ENDOFBANLIST(nick, channel) ":" + std::string(HOST) + " 368 " + nick + " " + channel + " :End of channel ban list\n"
 # define RPL_CREATIONTIME(nick, channel, time) ":" + std::string(HOST) + " 329 " + nick + " " + channel + " :" + time + "\n"
 

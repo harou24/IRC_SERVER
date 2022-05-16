@@ -200,7 +200,7 @@ std::string ChannelMode::getBan(std::string nick, std::string& reply)
 {
     reply = "";
     for (ban_type::iterator it = banList_.begin(); it != banList_.end(); it++)
-        reply += RPL_BANLIST(it->second.second, channel_, it->first, to_string(it->second.first));
+        reply += RPL_BANLIST(nick, it->second.second, channel_, it->first, to_string(it->second.first));
     reply += RPL_ENDOFBANLIST(nick, channel_);
     return reply;
 }
