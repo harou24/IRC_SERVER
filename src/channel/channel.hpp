@@ -10,7 +10,7 @@ class Channel
 {
     public:
         Channel();
-        Channel(std::string name, Client& cl);
+        Channel(std::string name, Client& cl, unsigned int time);
         ~Channel();
 
         void                            addClient(Client& cl);
@@ -30,6 +30,7 @@ class Channel
         std::string                     getChannelName() const;
 
         int                             NbrClients() const;
+        unsigned int                    getCreationTime() const;
 
 
     private:
@@ -37,6 +38,7 @@ class Channel
         std::set<Client *>  clients_;
         std::set<Client *>  operators_;
         ChannelMode        *mode_;
+        unsigned int        creationTime_;
 };
 
 #endif

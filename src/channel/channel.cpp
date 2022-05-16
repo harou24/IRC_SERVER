@@ -2,12 +2,13 @@
 
 Channel::Channel() {mode_ = new ChannelMode();}
 
-Channel::Channel(std::string name, Client& cl) : name_(name)
+Channel::Channel(std::string name, Client& cl, unsigned int time) : name_(name)
 {
     clients_.insert(&cl);
     operators_.insert(&cl);
     mode_ = new ChannelMode();
     mode_->setChan(name);
+    creationTime_ = time;
 }
 
 Channel::~Channel()
@@ -126,4 +127,9 @@ ChannelMode&   Channel::getMode() const
 int             Channel::NbrClients() const
 {
     return clients_.size();
+}
+
+unsigned int    Channel::getCreationTime() const
+{
+    return creationTime_;
 }

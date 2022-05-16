@@ -64,7 +64,7 @@ std::string         join(const CmdController& controller)
     std::string channel_name = controller.getParser().getArgument().arg1;
 
     if (!controller.getServer().isChannel(channel_name))
-        controller.getServer().addChannel(channel_name, *cl);
+        controller.getServer().addChannel(channel_name, *cl, (unsigned)time(NULL));
     Channel *channel = &controller.getServer().getChannel(channel_name);
     std::string reply = modeHandler(*channel, *cl, controller);
     if (!reply.empty())

@@ -120,9 +120,9 @@ bool    IrcServer::isChannel(std::string channel)
     return false;
 }
 
-void    IrcServer::addChannel(std::string channel, Client &cl)
+void    IrcServer::addChannel(std::string channel, Client &cl, unsigned int time)
 {
-    Channel *c = new Channel(channel, cl);
+    Channel *c = new Channel(channel, cl, time);
     channels_.insert(std::make_pair(channel, c));
 }
 
