@@ -1,23 +1,24 @@
 #include "commands.hpp"
 
-static std::string  ChannelMode(Channel& channel, Args& arg, Client& cl)
+static std::string  ChannelMode(const CmdController& controller)
 {
-    std::string reply = RPL_UMODEIS(arg.arg1, arg);
+    Channel *channel = &controller.getServer().getChannel(controller.getParser().getArgument().arg1);
+    Args    arg = controller.getParser().getArgument();
+    Client *cl = controller.getServer().getClientByStream(controller.getCurrentMsg().getStreamPtr());
+    std::string reply = RPL_UMODEIS(cl, arg);
+
     if (arg.arg2 == "")
+        return "";
+    if (channel->isOperator(*cl) || (arg.arg2 == "+b" && arg.arg3 == ""))
     {
-        arg.arg3 = channel.getMode().isModeOn();
-        reply = RPL_UMODEIS(cl.getNick(), arg);
-        return reply;
+        channel->getMode().setMode(arg.arg2, arg.arg3, *cl, reply);
+        if (!(arg.arg2 == "+b" && arg.arg3 == ""))
+            channel->sendMessage(*cl, reply);
     }
-    if (channel.isOperator(cl) || (arg.arg2 == "+b" && arg.arg3 == ""))
-    {
-        channel.getMode().setMode(arg.arg2, arg.arg3, cl, reply);
-        channel.sendMessage(cl, reply);
-    }
-    else if (channel.isInChannel(cl.getNick()))
-        reply = ERR_CHANOPRIVSNEEDED(cl.getNick(), arg.arg1);
+    else if (channel->isInChannel(cl->getNick()))
+        reply = ERR_CHANOPRIVSNEEDED(cl->getNick(), arg.arg1);
     else
-        reply = ERR_NOTONCHANNEL(cl.getNick(), arg.arg1);
+        reply = ERR_NOTONCHANNEL(cl->getNick(), arg.arg1);
     return reply;
 }
 
@@ -29,11 +30,11 @@ std::string         mode(const CmdController& controller)
         print("DEBUG", "MODE");
     #endif
     Client *cl = controller.getServer().getClientByStream(controller.getCurrentMsg().getStreamPtr());
-    std::string reply = RPL_UMODEIS(controller.getParser().getArgument().arg1, controller.getParser().getArgument());
+    std::string reply = RPL_UMODEIS(cl, controller.getParser().getArgument());
     if (controller.getParser().getArgument().arg1[0] == '#')
     {
         if (controller.getServer().isChannel(controller.getParser().getArgument().arg1))
-            reply = ChannelMode(controller.getServer().getChannel(controller.getParser().getArgument().arg1), controller.getParser().getArgument(), *cl);
+            reply = ChannelMode(controller);
         else
             reply = ERR_NOSUCHCHANNEL(cl->getNick(), controller.getParser().getArgument().arg1);
     }
