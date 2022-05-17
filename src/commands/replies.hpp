@@ -66,4 +66,6 @@
 # define RPL_TOPICWHOTIME(nick, channel, topic) ": 333 " + nick + " " + channel + " " + topic.topic_nick + "!~" + topic.writer->getHost() + "@" + topic.writer->getServer() + " :" + topic.creationTimeTopic + "\n" 
 # define RPL_TOPICSET(cl, channel, message) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " TOPIC " + channel + " " + message + "\n"
 
+# define ERR_CANNOTSENDTOCHAN(nick, channel)  ":" + std::string(HOST) + " 404 " + nick + " " + channel + " :You cannot send external messages to this channel whilst the +n (noextmsg) mode is set.\n"
+
 #endif

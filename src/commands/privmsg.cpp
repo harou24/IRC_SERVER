@@ -15,6 +15,8 @@ static std::string channelPrivmsg(const CmdController& controller, std::string c
     std::cout << "PRIV CHAN MSG\n";
     std::string msg = controller.getParser().getArgument().arg2;
     Channel *channel = &controller.getServer().getChannel(channel_name);
+    if (channel->getMode().getModus() & (1<<3) && !channel->isInChannel(sender.getNick()))
+        return std::string(ERR_CANNOTSENDTOCHAN(sender.getNick(), channel_name));
     std::string full_msg = PRIV_MESSAGE(sender.getNick(), channel_name, sender.getUser(), sender.getHost(), msg);
     channel->sendMessage(sender, std::string(PRIV_MESSAGE(sender.getNick(), channel_name, sender.getUser(), sender.getHost(), msg)));
     return "";
