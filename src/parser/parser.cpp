@@ -159,6 +159,16 @@ void    Parser::kick(const std::string& str)
         this->_mArguments->arg3 += " " + word;
 }
 
+void    Parser::topic(const std::string& str) 
+{
+    std::istringstream  ss(str);
+    std::string         word;
+    ss >> this->_mArguments->arg1;
+    ss>>this->_mArguments->arg2;
+    while (ss>>word)
+        this->_mArguments->arg2 += " " + word;
+}
+
 void    Parser::user(const std::string& str) 
 {
     std::istringstream  ss(str);
@@ -229,6 +239,7 @@ std::string Parser::find_command(const std::string& s)
     string_to_case.insert(std::make_pair<std::string,CommandType>("PART",PART));
     string_to_case.insert(std::make_pair<std::string,CommandType>("KICK",KICK));
     string_to_case.insert(std::make_pair<std::string,CommandType>("PASS",PASS));
+    string_to_case.insert(std::make_pair<std::string,CommandType>("TOPIC",TOPIC));
     
     ss >> s1;
     if (ss>>s2)
@@ -237,7 +248,7 @@ std::string Parser::find_command(const std::string& s)
     for (std::string::iterator p = s1.begin(); s1.end() != p; ++p)
         *p = toupper(*p);
 
-    if (s1 == "QUIT" || s1 == "AWAY" || (s1 == "PING" && s2 == ""))
+    if (s1 == "QUIT" || s1 == "AWAY" || s1 == "TOPIC" || (s1 == "PING" && s2 == ""))
         this->_mCommand = string_to_case.find(s1)->second;
     else if (string_to_case.find(s1) != string_to_case.end() && s2 != "")
         this->_mCommand = string_to_case.find(s1)->second;
@@ -255,7 +266,7 @@ void    Parser::parse(const std::string &inProgram)
     void    (Parser::*p2f[])(const std::string& x) = {&Parser::away, &Parser::invite, \
         &Parser::join, &Parser::me, &Parser::msg, &Parser::nick, &Parser::notice, \
         &Parser::pong, &Parser::privmsg, &Parser::query, &Parser::quit, \
-        &Parser::whois, &Parser::mode, &Parser::user, &Parser::ping, &Parser::part, &Parser::kick, &Parser::pass};
+        &Parser::whois, &Parser::mode, &Parser::user, &Parser::ping, &Parser::part, &Parser::kick, &Parser::pass, &Parser::topic};
 
     this->_mArguments->arg1 = this->_mArguments->arg2 = this->_mArguments->arg3 = this->_mArguments->arg4 = "";
     this->_mRawText = arg;

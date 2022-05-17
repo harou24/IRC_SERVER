@@ -36,5 +36,11 @@ std::string         join(const CmdController& controller)
     std::cout << "NAMES = " << channel->getNames() << std::endl;
     channel->sendMessage(*cl, std::string(RPL_JOIN(cl, channel_name)));
     
-    return std::string(RPL_JOIN(cl, channel_name) + RPL_NAMREPLY(cl->getNick(), channel_name) + channel->getNames() + "\n" + RPL_ENDOFNAMES(cl->getNick(), channel_name));
+    std::string topic_reply = "";
+    if (!channel->getMode().getTopic().topic.empty())
+    {
+        topic_reply = std::string(RPL_TOPIC(cl->getNick(), channel_name, channel->getMode().getTopic().topic));
+        topic_reply += std::string(RPL_TOPICWHOTIME(cl->getNick(), channel_name, channel->getMode().getTopic()));
+    }
+    return std::string(RPL_JOIN(cl, channel_name) + topic_reply + RPL_NAMREPLY(cl->getNick(), channel_name) + channel->getNames() + "\n" + RPL_ENDOFNAMES(cl->getNick(), channel_name));
 }

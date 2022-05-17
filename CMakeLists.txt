@@ -64,11 +64,13 @@ add_library(ft_irc src/utils/Table/Row.cpp
                     src/commands/part.cpp
                     src/commands/kick.cpp
                     src/commands/pass.cpp
+                    src/commands/topic.cpp
                     src/commands/unknown.cpp
                     src/cmd_controller/cmd_controller.cpp
                     src/utils/print.cpp
                     src/channel/channel.cpp
                     src/channel/channel_mode.cpp
+                    src/channel/channel_topic.cpp
 )
 
 # add programs
