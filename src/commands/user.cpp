@@ -12,6 +12,13 @@ std::string    user(const CmdController& controller)
         cl->setHost(args.arg2);
         cl->setServer(args.arg3);
         cl->setReal(args.arg4);
+
+        /*
+        std::string password = controller.getParser().getArgument().arg1;
+
+        if (!controller.getServer().isPasswordOk(password))
+            return quit(controller);
+*/
     }
     return ("");
 }

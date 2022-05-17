@@ -59,6 +59,8 @@ class Server : public MultiClientHandler
 
         Message& getNextMsg(void);
         TcpStream *getStreamFromFd(int fd);
+
+        void    disconnect(int fd);
 };
 
 std::ostream&   operator<<(std::ostream& o, Server const& src);

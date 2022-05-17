@@ -13,6 +13,7 @@ class Client
         ~Client();
 
         void    setNick(const std::string& s);
+        void    setPasswordUsedToConnect(const std::string& s);
         void    setUser(const std::string& s);
         void    setHost(const std::string& s);
         void    setServer(const std::string& s);
@@ -30,6 +31,9 @@ class Client
         bool            getHandShake() const;
         bool            getAway() const;
         std::string     getAwayMsg() const;
+        std::string     getPasswordUsedToConnect() const;
+
+        bool hasSetIncorrectPassword(const std::string serverPassword) const;
 
     private:
         std::string _mNickName;
@@ -41,6 +45,7 @@ class Client
         bool        _mHandShake;
         bool        _mAway;
         std::string _mAwayMsg;
+        std::string _passwordUsedToConnect;
 
         Client();
 };

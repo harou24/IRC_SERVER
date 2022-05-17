@@ -39,8 +39,7 @@ void            Server::runOnce(){
 
                     if (isClientConnecting(fd) && _mNbrClients == MAXclients_)
                     {
-                        close(fd);
-                        MultiClientHandler::clearFd(fd);
+                        disconnect(fd);
                         continue;
 
                     }
@@ -96,10 +95,9 @@ void            Server::addClient(){
 }
 
 void            Server::removeClient(int fd){
-    MultiClientHandler::clearFd(fd);
+    disconnect(fd);
     delete clients_ss.at(fd);
     clients_ss.erase(fd);
-    close(fd);
     _mNbrClients--;
 }
 
@@ -168,6 +166,12 @@ std::queue<Message *>&     Server::getQueue(){
 }
 
 std::string Server::getPassword(void) const { return _mPassword; }
+
+void Server::disconnect(int fd)
+{
+    close(fd);
+    MultiClientHandler::clearFd(fd);
+}
 
 bool Server::isRunning(void) const { return _mIsRunning; }
 

@@ -10,7 +10,6 @@ IrcServer::IrcServer(int port, std::string password)
 
 IrcServer::IrcServer(const IrcServer &server)
 {
-
     std::cout << server._mNbclients<< "COPY CONSTRUCTOR...";
 }
 
@@ -154,4 +153,15 @@ void IrcServer::stop(void)
 
 bool IrcServer::isRunning(void) const { return _mServer->isRunning(); }
 
+bool        IrcServer::isPasswordOk(const std::string &password) const
+{
+    return _mServer->getPassword() == password;
+}
 size_t    IrcServer::getNbClients(void) const { return clients_.size(); }
+
+
+
+void        IrcServer::disconnect(int fd)
+{
+    _mServer->disconnect(fd);
+}
