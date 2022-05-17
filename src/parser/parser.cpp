@@ -31,7 +31,6 @@ void    Parser::join(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-
 void    Parser::nick(const std::string& str) 
 {
     std::istringstream  ss(str);
