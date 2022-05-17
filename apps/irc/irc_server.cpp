@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 
-#include <limits.h>
+#define MAX_PORT_NB 65536
 
 int     main(int argc, char **argv)
 {
@@ -15,7 +15,7 @@ int     main(int argc, char **argv)
     }
 
     int port = atoi(argv[1]);
-    if (!(port > 1000 && port < INT_MAX))
+    if (!(port > 1000 && port < MAX_PORT_NB))
     {
         std::cout << "The given port is not valide, it needs to be above 1000 and under MAX_INT\n";
         exit(1);
