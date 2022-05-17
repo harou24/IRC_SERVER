@@ -1,41 +1,5 @@
 #include "commands.hpp"
 
-
-/*
-    if 'L' set cehck current number of not bigger return err
-    if user in ban mask return
-    if user not in invite return and invite on
-    if password is set blabalbla
-
-
-    l   4
-    b   5
-    i   1
-    k   6
-
-    switch(opper_):
-
-    case 4:
-        if (nospace)
-            return err;
-    case 5:
-        if (banned)
-            return err;
-    case 1:
-        if isInvited || !invite
-            continue
-        else
-            return err;
-    case 6:
-        if (key && keycorrect)
-            conitinue;
-        else
-            return err;
-    default:
-        good;
-    return ""
-*/
-
 static std::string  modeHandler(Channel& channel, Client& cl, const CmdController& controller)
 {
     char modus = channel.getMode().getModus();
@@ -44,7 +8,7 @@ static std::string  modeHandler(Channel& channel, Client& cl, const CmdControlle
 
     if (modus & (1<<4) && channel.getMode().getClientLimit() <= channel.NbrClients())
         return std::string(ERR_CHANNELISFULL(cl.getNick(), channel.getChannelName()));
-    if (modus & (1<<5) && channel.getMode().isBan(cl.getNick()) && !channel.getMode().isInvite(cl))
+    if (channel.getMode().isBan(cl.getNick()) && !channel.getMode().isInvite(cl))
         return std::string(ERR_BANNEDFROMCHAN(cl.getNick(), channel.getChannelName()));
     if (modus & (1<<1) && !channel.getMode().isInvite(cl))
         return std::string(ERR_INVITEONLYCHAN(cl.getNick(), channel.getChannelName()));
