@@ -18,7 +18,6 @@ class Client
         void    setHost(const std::string& s);
         void    setServer(const std::string& s);
         void    setReal(const std::string& s);
-        void    setHandShake();
         void    setAway(bool status);
         void    setAwayMsg(std::string msg);
 
@@ -28,7 +27,6 @@ class Client
         std::string     getServer() const;
         std::string     getReal() const;
         TcpStream&      getStream() const;
-        bool            getHandShake() const;
         bool            getAway() const;
         std::string     getAwayMsg() const;
         std::string     getPasswordUsedToConnect() const;
@@ -42,7 +40,6 @@ class Client
         std::string _mServerName;
         std::string _mRealName;
         TcpStream   *_mStream;
-        bool        _mHandShake;
         bool        _mAway;
         std::string _mAwayMsg;
         std::string _passwordUsedToConnect;

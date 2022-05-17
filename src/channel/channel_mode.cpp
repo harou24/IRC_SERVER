@@ -117,8 +117,6 @@ void    ChannelMode::setoff(char c, std::istringstream& ss)
         case 'b':
             if (ss>>word && word.size() > 0)
                 offBan(word);
-            // if (banList_.size() == 0)
-                // opper_ &= ~(1 << 5);
             break;
         case 'k': opper_ &= ~(1 << 6);            
             break;
@@ -180,7 +178,7 @@ void    ChannelMode::setBan(std::string name, std::string nick)
         if (it->first == name)
             return;
     }
-    banList_.insert(std::make_pair(name, std::make_pair((unsigned)time(NULL), nick)));
+    banList_.push_back(std::make_pair(name, std::make_pair((unsigned)time(NULL), nick)));
 }
 
 void    ChannelMode::offBan(std::string name)

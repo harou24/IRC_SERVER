@@ -101,53 +101,6 @@ TEST_CASE("Parsing command INVITE")
     REQUIRE(A.arg4 == "");
 }
 
-TEST_CASE("Parsing command MSG")
-{
-    Parser   parser;
-    
-    parser.parse("MSG name :message second");
-
-    Args A = parser.getArgument();
-
-    REQUIRE(parser.getCommand() == MSG);
-    REQUIRE(parser.getRaw() == "MSG name :message second");
-    REQUIRE(A.arg1 == "name");
-    REQUIRE(A.arg2 == ":message second");
-    REQUIRE(A.arg3 == "");
-    REQUIRE(A.arg4 == "");
-}
-
-TEST_CASE("Parsing command ME")
-{
-    Parser   parser;
-    
-    parser.parse("ME :message second");
-
-    Args A = parser.getArgument();
-
-    REQUIRE(parser.getCommand() == ME);
-    REQUIRE(parser.getRaw() == "ME :message second");
-    REQUIRE(A.arg1 == ":message second");
-    REQUIRE(A.arg2 == "");
-    REQUIRE(A.arg3 == "");
-    REQUIRE(A.arg4 == "");
-}
-
-TEST_CASE("Parsing command ME_WRONG")
-{
-    Parser   parser;
-    
-    parser.parse("ME message second");
-
-    Args A = parser.getArgument();
-
-    REQUIRE(parser.getCommand() == UNKNOWN);
-    REQUIRE(parser.getRaw() == "ME message second");
-    REQUIRE(A.arg1 == "message second");
-    REQUIRE(A.arg2 == "");
-    REQUIRE(A.arg3 == "");
-    REQUIRE(A.arg4 == "");
-}
 
 TEST_CASE("Parsing command NOTICE")
 {
@@ -175,22 +128,6 @@ TEST_CASE("Parsing command PRIVMSG")
 
     REQUIRE(parser.getCommand() == PRIVMSG);
     REQUIRE(parser.getRaw() == "PRIVMSG name :message");
-    REQUIRE(A.arg1 == "name");
-    REQUIRE(A.arg2 == ":message");
-    REQUIRE(A.arg3 == "");
-    REQUIRE(A.arg4 == "");
-}
-
-TEST_CASE("Parsing command QUERY")
-{
-    Parser   parser;
-    
-    parser.parse("QUERY name :message");
-
-    Args A = parser.getArgument();
-
-    REQUIRE(parser.getCommand() == QUERY);
-    REQUIRE(parser.getRaw() == "QUERY name :message");
     REQUIRE(A.arg1 == "name");
     REQUIRE(A.arg2 == ":message");
     REQUIRE(A.arg3 == "");

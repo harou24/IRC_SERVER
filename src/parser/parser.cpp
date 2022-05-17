@@ -31,28 +31,6 @@ void    Parser::join(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-void    Parser::me(const std::string& str) 
-{
-    std::istringstream  ss(str);
-    std::string         word;
-    ss>>this->_mArguments->arg1;
-    while (ss>>word)
-        this->_mArguments->arg1 += " " + word;
-    if (this->_mArguments->arg1 == "" || this->_mArguments->arg1[0] != ':')
-        this->_mCommand = UNKNOWN;
-}
-
-void    Parser::msg(const std::string& str) 
-{
-    std::istringstream  ss(str);
-    std::string         word;
-    ss >> this->_mArguments->arg1;
-    ss>>this->_mArguments->arg2;
-    while (ss>>word)
-        this->_mArguments->arg2 += " " + word;
-    if (this->_mArguments->arg2 == "" || this->_mArguments->arg2[0] != ':')
-        this->_mCommand = UNKNOWN;
-}
 
 void    Parser::nick(const std::string& str) 
 {
@@ -89,18 +67,6 @@ void    Parser::pong(const std::string& str)
 }
 
 void    Parser::privmsg(const std::string& str) 
-{
-    std::istringstream  ss(str);
-    std::string         word;
-    ss >> this->_mArguments->arg1;
-    ss>>this->_mArguments->arg2;
-    while (ss>>word)
-        this->_mArguments->arg2 += " " + word;
-    if (this->_mArguments->arg2 == "" || this->_mArguments->arg2[0] != ':')
-        this->_mCommand = UNKNOWN;
-}
-
-void    Parser::query(const std::string& str) 
 {
     std::istringstream  ss(str);
     std::string         word;
@@ -224,13 +190,10 @@ std::string Parser::find_command(const std::string& s)
     string_to_case.insert(std::make_pair<std::string,CommandType>("AWAY",AWAY)); 
     string_to_case.insert(std::make_pair<std::string,CommandType>("INVITE",INVITE));
     string_to_case.insert(std::make_pair<std::string,CommandType>("JOIN",JOIN)); 
-    string_to_case.insert(std::make_pair<std::string,CommandType>("ME",ME));
-    string_to_case.insert(std::make_pair<std::string,CommandType>("MSG",MSG));
     string_to_case.insert(std::make_pair<std::string,CommandType>("NICK",NICK)); 
     string_to_case.insert(std::make_pair<std::string,CommandType>("NOTICE",NOTICE));
     string_to_case.insert(std::make_pair<std::string,CommandType>("PONG",PONG));
     string_to_case.insert(std::make_pair<std::string,CommandType>("PRIVMSG",PRIVMSG));
-    string_to_case.insert(std::make_pair<std::string,CommandType>("QUERY",QUERY));
     string_to_case.insert(std::make_pair<std::string,CommandType>("QUIT",QUIT));
     string_to_case.insert(std::make_pair<std::string,CommandType>("WHOIS",WHOIS));
     string_to_case.insert(std::make_pair<std::string,CommandType>("MODE",MODE));
@@ -264,8 +227,7 @@ void    Parser::parse(const std::string &inProgram)
     arg.erase(std::remove(arg.begin(), arg.end(), '\r'), arg.end());
 
     void    (Parser::*p2f[])(const std::string& x) = {&Parser::away, &Parser::invite, \
-        &Parser::join, &Parser::me, &Parser::msg, &Parser::nick, &Parser::notice, \
-        &Parser::pong, &Parser::privmsg, &Parser::query, &Parser::quit, \
+        &Parser::join, &Parser::nick, &Parser::notice, &Parser::pong, &Parser::privmsg, &Parser::quit, \
         &Parser::whois, &Parser::mode, &Parser::user, &Parser::ping, &Parser::part, &Parser::kick, &Parser::pass, &Parser::topic};
 
     this->_mArguments->arg1 = this->_mArguments->arg2 = this->_mArguments->arg3 = this->_mArguments->arg4 = "";
