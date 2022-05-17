@@ -5,6 +5,8 @@
 # include "replies.hpp"
 # include "channel_topic.hpp"
 
+# include <list>
+
 /*
     opper(ator)_
     0 = o   4 = l
@@ -17,7 +19,7 @@ class Topic;
 
 class ChannelMode
 {
-    typedef std::set<std::pair<std::string, std::pair<unsigned int, std::string> > > ban_type;
+    typedef std::list<std::pair<std::string, std::pair<unsigned int, std::string> > > ban_type;
     public:
         ChannelMode();
         ~ChannelMode();
