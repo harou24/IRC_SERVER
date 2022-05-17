@@ -80,10 +80,7 @@ void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::stri
             break;
         case 'b':
             if (ss>>word && word.size() > 0)
-            {
                 setBan(word, cl.getNick());
-                // opper_ |= (1 << 5);
-            }
             else
                 getBan(cl.getNick(), reply);
             break;
