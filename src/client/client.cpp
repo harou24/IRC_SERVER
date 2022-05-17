@@ -1,7 +1,7 @@
 #include "client.hpp"
 
 Client::Client(const std::string& nick, TcpStream* stream) : _mNickName(nick), _mUserName(""), _mHostName(""), 
-_mServerName(""), _mRealName(""), _mStream(stream), _mHandShake(false), _mAway(false), _mAwayMsg("")
+_mServerName(""), _mRealName(""), _mStream(stream), _mHandShake(false), _mAway(false), _mAwayMsg(""), _passwordUsedToConnect("")
 {
 }
 
@@ -19,6 +19,7 @@ Client::~Client()
 
 
 void            Client::setNick(const std::string& s) {_mNickName = s;}
+void            Client::setPasswordUsedToConnect(const std::string& s) {_passwordUsedToConnect = s;}
 void            Client::setUser(const std::string& s) {_mUserName = s;}
 void            Client::setHost(const std::string& s) {_mHostName = s;}
 void            Client::setServer(const std::string& s) {_mServerName = s;}
@@ -36,6 +37,7 @@ TcpStream&      Client::getStream() const {return *_mStream;}
 bool            Client::getHandShake() const {return _mHandShake;}
 bool            Client::getAway() const {return _mAway;}
 std::string     Client::getAwayMsg() const {return _mAwayMsg;}
+std::string     Client::getPasswordUsedToConnect() const {return _passwordUsedToConnect;}
 
 std::ostream&   operator<<(std::ostream& o, const Client & src)
 {

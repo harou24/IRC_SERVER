@@ -77,9 +77,9 @@ add_library(ft_irc src/utils/Table/Row.cpp
 add_subdirectory(apps)
 
 # for unitests
-#if(TEST)
-#	message("running tests")
-#	include(CTest)
-#	include(FetchContent)
-#	add_subdirectory(tests)
-#endif()
+if(TEST)
+	message("running tests")
+	include(CTest)
+	include(FetchContent)
+	add_subdirectory(tests)
+endif()

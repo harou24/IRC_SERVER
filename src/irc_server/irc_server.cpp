@@ -158,3 +158,8 @@ bool        IrcServer::isPasswordOk(const std::string &password) const
     return _mServer->getPassword() == password;
 }
 size_t    IrcServer::getNbClients(void) const { return clients_.size(); }
+
+void        IrcServer::disconnect(int fd)
+{
+    _mServer->disconnect(fd);
+}
