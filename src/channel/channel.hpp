@@ -1,16 +1,16 @@
 #ifndef CHANNEL_HPP
 # define CHANNEL_HPP
 
-# include "client.hpp"
-# include "replies.hpp"
+# include "channel_mode.hpp"
 
 class Client;
+class ChannelMode;
 
 class Channel
 {
     public:
         Channel();
-        Channel(std::string name, Client& cl);
+        Channel(std::string name, Client& cl, unsigned int time);
         ~Channel();
 
         void                            addClient(Client& cl);
@@ -23,17 +23,22 @@ class Channel
         bool                            isInChannel(std::string nick);
         bool                            isOperator(Client& cl);
         bool                            isActive() const;
+        ChannelMode&                    getMode() const;
 
         std::string                     getNames();
         std::set<Client *>::iterator    getClientByName(std::set<Client *>& set, std::string name) const;
         std::string                     getChannelName() const;
 
-    private:
+        int                             NbrClients() const;
+        unsigned int                    getCreationTime() const;
 
+
+    private:
         std::string         name_;
         std::set<Client *>  clients_;
         std::set<Client *>  operators_;
-
+        ChannelMode        *mode_;
+        unsigned int        creationTime_;
 };
 
 #endif

@@ -1,17 +1,21 @@
 #include "channel.hpp"
 
-Channel::Channel() {}
+Channel::Channel() {mode_ = new ChannelMode();}
 
-Channel::Channel(std::string name, Client& cl) : name_(name)
+Channel::Channel(std::string name, Client& cl, unsigned int time) : name_(name)
 {
     clients_.insert(&cl);
     operators_.insert(&cl);
+    mode_ = new ChannelMode();
+    mode_->setChan(name);
+    creationTime_ = time;
 }
 
 Channel::~Channel()
 {
     clients_.clear();
     operators_.clear();
+    delete mode_;
 }
 
 std::set<Client *>::iterator    Channel::getClientByName(std::set<Client *>& set, std::string name) const
@@ -42,6 +46,7 @@ void        Channel::removeClient(Client& cl, std::string reply)
     }
     if (it_op != operators_.end())
         operators_.erase(*it_op);
+    this->getMode().removeInvite(cl);
 }
 
 void        Channel::addOperator(Client& cl)
@@ -112,4 +117,19 @@ void        Channel::sendMessage(Client& cl, std::string msg)
         if ((*it)->getNick() != cl.getNick())
             (*it)->getStream().send(msg, msg.length());
     }
+}
+
+ChannelMode&   Channel::getMode() const
+{
+    return *mode_;
+}
+
+int             Channel::NbrClients() const
+{
+    return clients_.size();
+}
+
+unsigned int    Channel::getCreationTime() const
+{
+    return creationTime_;
 }

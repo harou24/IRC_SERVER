@@ -20,6 +20,7 @@
     PART,
     KICK,
     PASS,
+    TOPIC,
     CAP_LS,
     UNKNOWN,
     SIZE

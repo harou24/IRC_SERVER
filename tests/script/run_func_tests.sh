@@ -23,3 +23,7 @@ wait $!
 #echo "------------------Running channel tests------------------"
 ./build/apps/irc_channel_test.out &
 wait $!
+
+echo "------------------Running topic tests------------------"
+./build/apps/irc_topic_test.out &
+wait $!

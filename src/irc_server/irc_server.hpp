@@ -27,7 +27,7 @@ class IrcServer {
         void        removeClient(Client *cl);
 
         bool        isChannel(std::string channel);
-        void        addChannel(std::string channel, Client& cl);
+        void        addChannel(std::string channel, Client& cl, unsigned int time);
         void        removeChannel(std::string channel);
         Channel&    getChannel(std::string channel);
         std::map<std::string, Channel*>&    getAllChannels();

@@ -22,7 +22,6 @@ void    Parser::invite(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-
 void    Parser::join(const std::string& str) 
 {
     std::istringstream  ss(str);
@@ -31,7 +30,6 @@ void    Parser::join(const std::string& str)
     if (this->_mArguments->arg1[0] != '#' || ss >> this->_mArguments->arg3)
         this->_mCommand = UNKNOWN;
 }
-
 
 void    Parser::me(const std::string& str) 
 {
@@ -55,7 +53,6 @@ void    Parser::msg(const std::string& str)
     if (this->_mArguments->arg2 == "" || this->_mArguments->arg2[0] != ':')
         this->_mCommand = UNKNOWN;
 }
-
 
 void    Parser::nick(const std::string& str) 
 {
@@ -85,7 +82,6 @@ void    Parser::notice(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-
 void    Parser::pong(const std::string& str) 
 {
     std::istringstream  ss(str);
@@ -104,7 +100,6 @@ void    Parser::privmsg(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-
 void    Parser::query(const std::string& str) 
 {
     std::istringstream  ss(str);
@@ -116,7 +111,6 @@ void    Parser::query(const std::string& str)
     if (this->_mArguments->arg2 == "" || this->_mArguments->arg2[0] != ':')
         this->_mCommand = UNKNOWN;
 }
-
 
 void    Parser::quit(const std::string& str) 
 {
@@ -137,17 +131,15 @@ void    Parser::whois(const std::string& str)
         this->_mCommand = UNKNOWN;
 }
 
-
 void    Parser::mode(const std::string& str) 
 {
     std::istringstream  ss(str);
+    std::string word;
     ss >> this->_mArguments->arg1;
     ss >> this->_mArguments->arg2;
     ss >> this->_mArguments->arg3;
-    ss >> this->_mArguments->arg4;
-
-    if (this->_mArguments->arg4 != "")
-        this->_mCommand = UNKNOWN;
+    while (ss>>word)
+        this->_mArguments->arg3 += " " + word;
 }
 
 void    Parser::part(const std::string& str) 
@@ -165,6 +157,16 @@ void    Parser::kick(const std::string& str)
 
     while (ss>>word)
         this->_mArguments->arg3 += " " + word;
+}
+
+void    Parser::topic(const std::string& str) 
+{
+    std::istringstream  ss(str);
+    std::string         word;
+    ss >> this->_mArguments->arg1;
+    ss>>this->_mArguments->arg2;
+    while (ss>>word)
+        this->_mArguments->arg2 += " " + word;
 }
 
 void    Parser::user(const std::string& str) 
@@ -214,7 +216,6 @@ std::string Parser::getRaw() const
     return this->_mRawText;
 }
 
-
 std::string Parser::find_command(const std::string& s)
 {
     std::string s1, s2 = "";
@@ -238,6 +239,7 @@ std::string Parser::find_command(const std::string& s)
     string_to_case.insert(std::make_pair<std::string,CommandType>("PART",PART));
     string_to_case.insert(std::make_pair<std::string,CommandType>("KICK",KICK));
     string_to_case.insert(std::make_pair<std::string,CommandType>("PASS",PASS));
+    string_to_case.insert(std::make_pair<std::string,CommandType>("TOPIC",TOPIC));
     
     ss >> s1;
     if (ss>>s2)
@@ -246,7 +248,7 @@ std::string Parser::find_command(const std::string& s)
     for (std::string::iterator p = s1.begin(); s1.end() != p; ++p)
         *p = toupper(*p);
 
-    if (s1 == "QUIT" || s1 == "AWAY" || (s1 == "PING" && s2 == ""))
+    if (s1 == "QUIT" || s1 == "AWAY" || s1 == "TOPIC" || (s1 == "PING" && s2 == ""))
         this->_mCommand = string_to_case.find(s1)->second;
     else if (string_to_case.find(s1) != string_to_case.end() && s2 != "")
         this->_mCommand = string_to_case.find(s1)->second;
@@ -264,7 +266,7 @@ void    Parser::parse(const std::string &inProgram)
     void    (Parser::*p2f[])(const std::string& x) = {&Parser::away, &Parser::invite, \
         &Parser::join, &Parser::me, &Parser::msg, &Parser::nick, &Parser::notice, \
         &Parser::pong, &Parser::privmsg, &Parser::query, &Parser::quit, \
-        &Parser::whois, &Parser::mode, &Parser::user, &Parser::ping, &Parser::part, &Parser::kick, &Parser::pass};
+        &Parser::whois, &Parser::mode, &Parser::user, &Parser::ping, &Parser::part, &Parser::kick, &Parser::pass, &Parser::topic};
 
     this->_mArguments->arg1 = this->_mArguments->arg2 = this->_mArguments->arg3 = this->_mArguments->arg4 = "";
     this->_mRawText = arg;
@@ -272,11 +274,6 @@ void    Parser::parse(const std::string &inProgram)
     
     if (arg != "CAP LS")
         arg = find_command(arg);
-    else if (arg == "CAP END"){
-        #if 1
-            print("DEBUG", "CAP END detected");
-        #endif
-    }
     else
         this->_mCommand = CAP_LS;
     if (this->_mCommand < CAP_LS)
@@ -298,4 +295,3 @@ std::ostream&   operator<<(std::ostream& o, Parser const& src){
 
     return o;
 }
-
