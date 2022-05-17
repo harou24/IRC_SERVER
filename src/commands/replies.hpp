@@ -60,4 +60,10 @@
 # define RPL_ENDOFBANLIST(nick, channel) ":" + std::string(HOST) + " 368 " + nick + " " + channel + " :End of channel ban list\n"
 # define RPL_CREATIONTIME(nick, channel, time) ":" + std::string(HOST) + " 329 " + nick + " " + channel + " :" + time + "\n"
 
+# define ERR_HELPTOPIC(nick, command) ": 650 " + nick + " " + command + " :<channel> [:<topic>]\n"
+# define RPL_NOTOPIC(nick, channel) ": 331 " + nick + " " + channel + " :No topic is set.\n"
+# define RPL_TOPIC(nick, channel, message) ": 332 " + nick + " " + channel + " " + message + "\n"
+# define RPL_TOPICWHOTIME(nick, channel, topic) ": 333 " + nick + " " + channel + " " + topic.topic_nick + "!~" + topic.writer->getHost() + "@" + topic.writer->getServer() + " :" + topic.creationTimeTopic + "\n" 
+# define RPL_TOPICSET(cl, channel, message) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " TOPIC " + channel + " " + message + "\n"
+
 #endif

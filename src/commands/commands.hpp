@@ -27,5 +27,6 @@ std::string    invite(const CmdController& controller);
 std::string    part(const CmdController& controller);
 std::string    kick(const CmdController& controller);
 std::string    pass(const CmdController& controller);
+std::string    topic(const CmdController& controller);
 
 #endif

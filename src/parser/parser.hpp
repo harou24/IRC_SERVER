@@ -51,6 +51,7 @@ class Parser {
         void    ping(const std::string& str);
         void    part(const std::string& str);
         void    kick(const std::string& str);
+        void    topic(const std::string& str);
 };
 
 std::ostream&   operator<<(std::ostream& o, Parser const& src);

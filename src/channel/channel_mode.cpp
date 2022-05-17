@@ -9,10 +9,12 @@ static std::string to_string(const T & value) {
 
 ChannelMode::ChannelMode() : opper_(0)
 {
+    topic_ = new Topic();
 }
 
 ChannelMode::~ChannelMode()
 {
+    delete topic_;
 }
 
 void    ChannelMode::setChan(std::string name)
@@ -235,4 +237,17 @@ std::string     ChannelMode::isModeOn()
     if (opper_ & (1<<6))
         reply += "k";
     return reply;
+}
+
+void        ChannelMode::setTopic(std::string msg, std::string nick, std::string time, Client& writer)
+{
+    topic_->creationTimeTopic = time;
+    topic_->topic = msg;
+    topic_->topic_nick = nick;
+    topic_->writer = &writer;
+}
+
+const Topic&      ChannelMode::getTopic() const
+{
+    return *topic_;
 }

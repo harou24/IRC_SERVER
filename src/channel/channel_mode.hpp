@@ -3,7 +3,7 @@
 
 # include "client.hpp"
 # include "replies.hpp"
-
+# include "channel_topic.hpp"
 
 /*
     opper(ator)_
@@ -13,6 +13,7 @@
     3 = n   
 */
 class Client;
+class Topic;
 
 class ChannelMode
 {
@@ -46,6 +47,9 @@ class ChannelMode
         std::string getPassword() const;
         void        setPassword(std::string str);
 
+        void            setTopic(std::string msg, std::string nick, std::string time, Client& writer);
+        const Topic&    getTopic() const;
+
     private:
         std::set<Client *>  inventation_;
         char                opper_;
@@ -53,6 +57,8 @@ class ChannelMode
         std::string         password_;
         std::string         channel_;
         ban_type            banList_;
+        Topic*              topic_;
+
 };
 
 
