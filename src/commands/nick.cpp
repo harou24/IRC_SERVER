@@ -16,9 +16,20 @@ std::string    execNick(const CmdController& controller, const std::string& nick
     {
         //create client
         std::cout << "CREATING CLIENT GO\n";
-        cl = new Client(nickname, stream);
+        cl = new Client("UNKNOWN", stream);
         controller.getServer().addClient(cl);
-        reply = welcome(nickname, controller.getParser().getArgument());
+        reply = ":127.0.0.1 NOTICE * :Password NEEDED\n";
+        cl->setPasswordUsedToConnect("");
+    }
+    if (cl->getNick() == "UNKNOWN")
+    {
+        //create client
+        std::cout << "CREATING CLIENT GO\n";
+        cl->setNick(nickname);
+        if (!controller.getServer().isPasswordOk(cl->getPasswordUsedToConnect()))
+            quit(controller);
+        else
+            reply = welcome(nickname, controller.getParser().getArgument());
     }
     else
     {
