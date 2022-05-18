@@ -23,7 +23,7 @@ static std::string  ChannelMode(const CmdController& controller)
     }
     if (channel->isOperator(*cl) || (arg.arg2 == "+b" && arg.arg3 == ""))
     {
-        channel->getMode().setMode(arg.arg2, arg.arg3, *cl, reply);
+        channel->getMode().setMode(controller, *cl, reply);
         if (!(arg.arg2 == "+b" && arg.arg3 == ""))
         {
             if (arg.arg2 == "+b")

@@ -49,7 +49,7 @@
 # define ERR_INVITEONLYCHAN(nick, channel) ":" + std::string(HOST) + " 473 " + nick + " " + channel + " :Cannot join channel (+i)\n"
 
 # define RPL_KICK(cl, channel, user, msg) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " KICK " + channel + " " + user + " " + msg + "\n"
-# define ERR_CHANOPRIVSNEEDED(nick, channel) ":" + std::string(HOST) + " 482 " + nick + " " + channel + " :You must be a channel half-operator\n"
+# define ERR_CHANOPRIVSNEEDED(nick, channel) ":" + std::string(HOST) + " 482 " + nick + " " + channel + " :You must be a channel operator\n"
 # define ERR_USERNOTINCHANNEL(nick, nick2, channel)  ":" + std::string(HOST) + " 441 " + nick + " " + nick2 + " " + channel + " :They are not on that channel\n"
 
 # define ERR_BADCHANNELKEY(nick, channel) ":" + std::string(HOST) + " 475 " + nick + " " + channel + " :Cannot join channel (+k)\n"
@@ -67,5 +67,6 @@
 # define RPL_TOPICSET(cl, channel, message) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " TOPIC " + channel + " " + message + "\n"
 
 # define ERR_CANNOTSENDTOCHAN(nick, channel)  ":" + std::string(HOST) + " 404 " + nick + " " + channel + " :You cannot send external messages to this channel whilst the +n (noextmsg) mode is set.\n"
+# define ERR_HELPOPERATOR(nick, channel) nick + " " + channel + " :You must specify a parameter for the op mode. Syntax: <nick>.\n"
 
 #endif
