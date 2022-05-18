@@ -9,8 +9,8 @@
 
 IrcServer g_server(8080, "");
 
-ConnectableClient g_client(8080, "127.0.0.1");
-ConnectableClient g_client_2(8080, "127.0.0.1");
+ConnectableClient g_client(8080, std::string(HOST));
+ConnectableClient g_client_2(8080, std::string(HOST));
 
 
 void serverJob()
@@ -45,7 +45,7 @@ void clientJob2()
     g_client_2.send("PRIVMSG NonExistingNick :hello\n");
     sleep(1);
     response = g_client_2.receive();
-    assert(response == ":127.0.0.1 401 User2 NonExistingNick :No such nick/channel\n");
+    assert(response == ":" + std::string(HOST) + " 401 User2 NonExistingNick :No such nick/channel\n");
 
 }
 

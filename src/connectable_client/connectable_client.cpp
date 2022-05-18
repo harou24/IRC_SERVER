@@ -7,7 +7,7 @@
 ConnectableClient::ConnectableClient()
 { 
     _port = 8080;
-    _host = "127.0.0.1";
+    _host = std::string(HOST);
     _connector = new TcpConnector();
     _client = NULL;
 }
