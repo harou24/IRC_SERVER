@@ -26,7 +26,7 @@ class Parser {
         std::string getRaw() const;
 
     private:
-        std::string find_command(const std::string& s);
+        std::string findCommand(const std::string& s);
         void    away(const std::string& str);
         void    invite(const std::string& str);
         void    join(const std::string& str);

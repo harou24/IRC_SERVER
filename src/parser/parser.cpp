@@ -182,7 +182,7 @@ std::string Parser::getRaw() const
     return this->rawText_;
 }
 
-std::string Parser::find_command(const std::string& s)
+std::string Parser::findCommand(const std::string& s)
 {
     std::string s1, s2 = "";
     std::istringstream  ss(s);
@@ -235,7 +235,7 @@ void    Parser::parse(const std::string &inProgram)
 
     
     if (arg != "CAP LS")
-        arg = find_command(arg);
+        arg = findCommand(arg);
     else
         this->command_ = CAP_LS;
     if (this->command_ < CAP_LS)

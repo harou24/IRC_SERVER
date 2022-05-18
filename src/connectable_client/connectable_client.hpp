@@ -20,11 +20,11 @@ class ConnectableClient {
         Client& getClient();
 
     private:
-        int             _port;
-        std::string     _host;
-        Client*         _client;
-        TcpConnector*   _connector;
-        TcpStream*      _stream;
+        int             port_;
+        std::string     host_;
+        Client*         client_;
+        TcpConnector*   connector_;
+        TcpStream*      stream_;
 };
 
 #endif
