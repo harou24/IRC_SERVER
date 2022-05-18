@@ -8,7 +8,7 @@
 #include <assert.h>
 
 IrcServer g_server(8080, "");
-ConnectableClient g_client(8080, "127.0.0.1");
+ConnectableClient g_client(8080, std::string(HOST));
 
 void serverJob()
 {
@@ -43,13 +43,13 @@ void clientJob()
     g_client.send("AWAY :I'm back in 20min\n");
     sleep(1);
     response = g_client.receive();
-    assert(!response.empty() && response == ":127.0.0.1 306 :You have been marked as being away\n");
+    assert(!response.empty() && response == ":" + std::string(HOST) + " 306 :You have been marked as being away\n");
     std::cout << response << "\n";
 
     g_client.send("AWAY\n");
     sleep(1);
     response = g_client.receive();
-    assert(!response.empty() && response == ":127.0.0.1 305 :You are no longer marked as being away\n");
+    assert(!response.empty() && response == ":" + std::string(HOST) + " 305 :You are no longer marked as being away\n");
     std::cout << response << "\n";
 }
 

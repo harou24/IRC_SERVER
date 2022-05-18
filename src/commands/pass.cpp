@@ -11,7 +11,7 @@ std::string    pass(const CmdController& controller)
     controller.getServer().addClient(cl);
     if (!controller.getServer().isPasswordOk(password))
     {
-        reply = ":127.0.0.1 NOTICE * :Password incorrect\n";
+        reply = ":" + std::string(HOST) + " NOTICE * :Password incorrect\n";
         std::cout << "---------PASSS INCORRECT-------------\n";
     }
     return reply;

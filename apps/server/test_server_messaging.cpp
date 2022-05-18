@@ -26,7 +26,7 @@ void connectClient()
 {
     connector = new TcpConnector();
     assert(serv.isRunning() == true);
-    stream = connector->connect(8080, "127.0.0.1");
+    stream = connector->connect(8080, std::string(HOST));
 }
 
 void sendMsg()
