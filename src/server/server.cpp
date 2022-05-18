@@ -4,12 +4,14 @@
 
 # define MAXclients_ 5
 
-Server::Server(int port, std::string password) : acceptor_(port, HOST), clients_ss_(), nbrClients_(0) {
+Server::Server(int port, std::string password) : acceptor_(port, HOST), clients_ss_(), nbrClients_(0)
+{
     isRunning_ = false;
     password_ = password;
 }
 
-Server::~Server(){
+Server::~Server()
+{
     std::map<int, TcpStream*>::iterator it = clients_ss_.begin();
     while (it != clients_ss_.end())
     {
@@ -25,17 +27,22 @@ Server::~Server(){
     }
 }
 
-void            Server::init(){
+void            Server::init()
+{
     acceptor_.init();
     MultiClientHandler::addFdToSet(acceptor_.getListenSd());
     isRunning_ = true;
 }
 
-void            Server::runOnce(){    
-    if(isRunning_){
-        for (size_t fd = 0; fd <= MultiClientHandler::getFdmax(); fd++){
+void            Server::runOnce()
+{    
+    if(isRunning_)
+    {
+        for (size_t fd = 0; fd <= MultiClientHandler::getFdmax(); fd++)
+        {
             try{
-                if (MultiClientHandler::isFdReadyToCommunicate(fd)){
+                if (MultiClientHandler::isFdReadyToCommunicate(fd))
+                {
 
                     if (isClientConnecting(fd) && nbrClients_ == MAXclients_)
                     {
@@ -49,7 +56,8 @@ void            Server::runOnce(){
                         handleData(fd);
                 }
             }
-            catch(std::exception &e){
+            catch(std::exception &e)
+            {
                 print("ERROR", e.what());
                 exit(1);
             }
@@ -67,7 +75,8 @@ void            Server::start(void)
     }
 }
 
-void            Server::stop(){
+void            Server::stop()
+{
     isRunning_ = false;
 }
 
@@ -83,8 +92,10 @@ Message& Server::getNextMsg(void)
     return *msg;
 }
 
-void            Server::addClient(){
-    if (nbrClients_ == MAXclients_){
+void            Server::addClient()
+{
+    if (nbrClients_ == MAXclients_)
+    {
         print("ERROR", "no space left for another client....");
         return;
     }
@@ -94,7 +105,8 @@ void            Server::addClient(){
     nbrClients_++;
 }
 
-void            Server::removeClient(int fd){
+void            Server::removeClient(int fd)
+{
     disconnect(fd);
     delete clients_ss_.at(fd);
     clients_ss_.erase(fd);
@@ -121,7 +133,8 @@ TcpStream*      Server::getStreamFromFd(int fd)
     return stream;
 }
 
-void            Server::handleData(int fd){
+void            Server::handleData(int fd)
+{
     std::string data = receiveData(fd);
     std::queue<std::string> splited = split(data);
     if (!splited.empty())
@@ -137,7 +150,8 @@ void            Server::handleData(int fd){
         removeClient(fd);
 }
 
-void            Server::sendData(int fd, char *buffer, size_t len){
+void            Server::sendData(int fd, char *buffer, size_t len)
+{
     if (clients_ss_[fd])
         clients_ss_[fd]->send(buffer, len);
 }
@@ -153,15 +167,18 @@ std::string          Server::receiveData(int fd)
     return std::string(buffer);
 }
 
-bool            Server::isClientConnecting(int fd){
+bool            Server::isClientConnecting(int fd)
+{
     return fd == acceptor_.getListenSd();
 }
 
-const std::map<int, TcpStream*>&     Server::getClients() const{
+const std::map<int, TcpStream*>&     Server::getClients() const
+{
     return clients_ss_;
 }
 
-std::queue<Message *>&     Server::getQueue(){
+std::queue<Message *>&     Server::getQueue()
+{
     return queue_;
 }
 
@@ -175,11 +192,13 @@ void Server::disconnect(int fd)
 
 bool Server::isRunning(void) const { return isRunning_; }
 
-int                     Server::getNbrClients() const{
+int                     Server::getNbrClients() const
+{
     return nbrClients_;
 }
 
-std::ostream&   operator<<(std::ostream& o, Server const& src){
+std::ostream&   operator<<(std::ostream& o, Server const& src)
+{
     for (std::map<int, TcpStream*>::const_iterator it = src.getClients().begin(); it != src.getClients().end(); it++)
         o << it->second << std::endl;
     o << "nbr " << src.getNbrClients() << std::endl;

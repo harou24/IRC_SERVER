@@ -9,30 +9,35 @@
 #include <cerrno>
 #include <csignal>
 
-void            stopSigHandler(int pid){
+void            stopSigHandler(int pid)
+{
     std::cout << "Stopping the server.... signal pid = " << pid << std::endl;
     exit(1);
 }
 
-void            SetupSignals(){
+void            SetupSignals()
+{
     signal(SIGQUIT, stopSigHandler);
     signal(SIGINT, stopSigHandler);
 }
 
-int         main(){
+int         main()
+{
     Server      s(8080, "lalala");
 
     SetupSignals();
     s.init();
     try{
            s.runOnce();
-           while (!s.getQueue().empty()){
+           while (!s.getQueue().empty())
+           {
                std::cout << "Message = " << s.getQueue().front()->getData() << std::endl;
                std::cout << (s.getQueue().front()->getStream()) << std::endl;
                s.getQueue().pop();
            }
     }
-    catch (std::exception &e){
+    catch (std::exception &e)
+    {
         std::cout << e.what() << std::endl;
     }
     return 0;

@@ -46,11 +46,13 @@ bool    MultiClientHandler::isFdReadyToCommunicate(int fd)
     return this->isFdInSet(fd);
 }
 
-size_t  MultiClientHandler::getFdmax() const{
+size_t  MultiClientHandler::getFdmax() const
+{
     return fdMax_;
 }
 
-std::ostream&   operator<<(std::ostream& o, MultiClientHandler const& src){
+std::ostream&   operator<<(std::ostream& o, MultiClientHandler const& src)
+{
     o << "fdmax = " << src.getFdmax();
     return o;
 }

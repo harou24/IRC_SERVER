@@ -142,7 +142,8 @@ void    Parser::user(const std::string& str)
     ss >> this->arguments_->arg2;
     ss >> this->arguments_->arg3;
     ss >> this->arguments_->arg4;
-    if (this->arguments_->arg4 != "" && this->arguments_->arg4[0] == ':'){
+    if (this->arguments_->arg4 != "" && this->arguments_->arg4[0] == ':')
+    {
         while (ss>>word)
             this->arguments_->arg4 += " " + word;
     }
@@ -246,7 +247,8 @@ void    Parser::parse(const std::string &inProgram)
     #endif
 }
 
-std::ostream&   operator<<(std::ostream& o, Parser const& src){
+std::ostream&   operator<<(std::ostream& o, Parser const& src)
+{
     o << "command = " << src.getCommand() << std::endl;
     o << "argument1 = " << src.getArgument().arg1 << std::endl;
     o << "argument2 = " << src.getArgument().arg2 << std::endl;

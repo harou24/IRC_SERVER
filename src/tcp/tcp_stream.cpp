@@ -4,36 +4,42 @@
 
 TcpStream::TcpStream(){}
 
-TcpStream::TcpStream(int sd, struct sockaddr_in* address){
+TcpStream::TcpStream(int sd, struct sockaddr_in* address)
+{
     peerIP_ = inet_ntoa(address->sin_addr);//converts host address in byte order to string
     peerPort_ = ntohs(address->sin_port);//converst network byte order to host byte order
     sd_ = sd; 
     fcntl(sd_, F_SETFL, O_NONBLOCK);
 }
 
-TcpStream::TcpStream(const TcpStream& src){
+TcpStream::TcpStream(const TcpStream& src)
+{
     peerPort_ = src.getPeerPort();
     peerIP_ = src.getPeerIP();
     sd_ = src.sd_;
     fcntl(sd_, F_SETFL, O_NONBLOCK);
 }
 
-TcpStream&      TcpStream::operator=(const TcpStream& src){
+TcpStream&      TcpStream::operator=(const TcpStream& src)
+{
     peerPort_ = src.getPeerPort();
     peerIP_ = src.getPeerIP();
     sd_ = src.sd_;
     return *this;
 }
 
-TcpStream::~TcpStream(){
+TcpStream::~TcpStream()
+{
     close(sd_);
 }
 
-ssize_t         TcpStream::send(std::string buffer, size_t len){
+ssize_t         TcpStream::send(std::string buffer, size_t len)
+{
     return write(getSd(), buffer.c_str(), len);
 }
 
-ssize_t         TcpStream::receive(char *buffer, size_t len){
+ssize_t         TcpStream::receive(char *buffer, size_t len)
+{
     return read(getSd(), buffer, len);
 }
 
@@ -43,7 +49,8 @@ int             TcpStream::getPeerPort()const {return peerPort_;}
 
 int             TcpStream::getSd()const {return sd_;}
 
-std::ostream&       operator<<(std::ostream& o , TcpStream const & src){
+std::ostream&       operator<<(std::ostream& o , TcpStream const & src)
+{
     o << "IP = " << src.getPeerIP() << std::endl;
     o << "Port = " << src.getPeerPort() << std::endl;
     o << "FD = " << src.getSd();

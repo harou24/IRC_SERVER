@@ -1,7 +1,8 @@
 #include "commands.hpp"
 
 template<typename T>
-static std::string to_string(const T & value) {
+static std::string to_string(const T & value)
+{
     std::ostringstream oss;
     oss << value;
     return oss.str();
