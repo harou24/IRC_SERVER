@@ -3,41 +3,41 @@
 MultiClientHandler::MultiClientHandler(void)
 {
     this->zeroFdSet();
-    this->fdMax = 0;
-    timer.tv_sec = 0;
-    timer.tv_usec = 500;
+    this->fdMax_ = 0;
+    timer_.tv_sec = 0;
+    timer_.tv_usec = 500;
 }
 
 MultiClientHandler::~MultiClientHandler(void) { }
 
 void    MultiClientHandler::zeroFdSet(void)
 {
-    FD_ZERO(&this->mainFds);
-    FD_ZERO(&this->tmpFds);
+    FD_ZERO(&this->mainFds_);
+    FD_ZERO(&this->tmpFds_);
 }
 
 void    MultiClientHandler::addFdToSet(int fd)
 {
-    FD_SET(fd, &this->mainFds);
-    if (size_t(fd) > fdMax)
-        this->fdMax = fd;
+    FD_SET(fd, &this->mainFds_);
+    if (size_t(fd) > fdMax_)
+        this->fdMax_ = fd;
 }
 
 void    MultiClientHandler::clearFd(int fd)
 {
-    FD_CLR(fd, &this->mainFds);
+    FD_CLR(fd, &this->mainFds_);
 }
 
 bool    MultiClientHandler::isFdInSet(int fd)
 {
     this->updateFdSet();
-    return (FD_ISSET(fd, &this->tmpFds) != 0);
+    return (FD_ISSET(fd, &this->tmpFds_) != 0);
 }
 
 void    MultiClientHandler::updateFdSet(void)
 {
-    this->tmpFds = this->mainFds;
-    if (select(this->fdMax + 1, &this->tmpFds, NULL, NULL, &timer) == - 1)
+    this->tmpFds_ = this->mainFds_;
+    if (select(this->fdMax_ + 1, &this->tmpFds_, NULL, NULL, &timer_) == - 1)
         throw std::runtime_error("select " + std::string(strerror(errno)));
 }
 
@@ -47,7 +47,7 @@ bool    MultiClientHandler::isFdReadyToCommunicate(int fd)
 }
 
 size_t  MultiClientHandler::getFdmax() const{
-    return fdMax;
+    return fdMax_;
 }
 
 std::ostream&   operator<<(std::ostream& o, MultiClientHandler const& src){

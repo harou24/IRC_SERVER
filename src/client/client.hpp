@@ -34,15 +34,15 @@ class Client
         bool hasSetIncorrectPassword(const std::string serverPassword) const;
 
     private:
-        std::string _mNickName;
-        std::string _mUserName;
-        std::string _mHostName;
-        std::string _mServerName;
-        std::string _mRealName;
-        TcpStream   *_mStream;
-        bool        _mAway;
-        std::string _mAwayMsg;
-        std::string _passwordUsedToConnect;
+        std::string nickname_;
+        std::string username_;
+        std::string hostname_;
+        std::string servername_;
+        std::string realname_;
+        TcpStream*  stream_;
+        bool        away_;
+        std::string awayMsg_;
+        std::string passwordUsedToConnect_;
 
         Client();
 };

@@ -4,9 +4,6 @@
 #include "tcp_stream.hpp"
 
 class Message {
-    private:
-        std::string data_;
-        TcpStream *stream_;
 
     public:
         Message();
@@ -17,6 +14,9 @@ class Message {
         TcpStream&  getStream() const;
         TcpStream*  getStreamPtr();
 
+    private:
+        std::string data_;
+        TcpStream*  stream_;
 };
 
 #endif

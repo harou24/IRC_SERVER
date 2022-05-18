@@ -1,13 +1,13 @@
 #include "client.hpp"
 
-Client::Client(const std::string& nick, TcpStream* stream) : _mNickName(nick), _mUserName(""), _mHostName(""), 
-_mServerName(""), _mRealName(""), _mStream(stream), _mAway(false), _mAwayMsg(""), _passwordUsedToConnect("")
+Client::Client(const std::string& nick, TcpStream* stream) : nickname_(nick), username_(""), hostname_(""), 
+servername_(""), realname_(""), stream_(stream), away_(false), awayMsg_(""), passwordUsedToConnect_("")
 {
 }
 
 Client::Client(const Client& src) 
-: _mNickName(src.getNick()), _mUserName(src.getUser()), _mHostName(src.getHost()),
-_mServerName(src.getServer()), _mRealName(src.getReal()), _mStream(src._mStream)
+: nickname_(src.getNick()), username_(src.getUser()), hostname_(src.getHost()),
+servername_(src.getServer()), realname_(src.getReal()), stream_(src.stream_)
 {
 }
 
@@ -18,24 +18,24 @@ Client::~Client()
 }
 
 
-void            Client::setNick(const std::string& s) {_mNickName = s;}
-void            Client::setPasswordUsedToConnect(const std::string& s) {_passwordUsedToConnect = s;}
-void            Client::setUser(const std::string& s) {_mUserName = s;}
-void            Client::setHost(const std::string& s) {_mHostName = s;}
-void            Client::setServer(const std::string& s) {_mServerName = s;}
-void            Client::setReal(const std::string& s) {_mRealName = s;}
-void            Client::setAwayMsg(std::string msg) {_mAwayMsg = msg;}
-void            Client::setAway(bool status) {_mAway = status;}
+void            Client::setNick(const std::string& s) {nickname_ = s;}
+void            Client::setPasswordUsedToConnect(const std::string& s) {passwordUsedToConnect_ = s;}
+void            Client::setUser(const std::string& s) {username_ = s;}
+void            Client::setHost(const std::string& s) {hostname_ = s;}
+void            Client::setServer(const std::string& s) {servername_ = s;}
+void            Client::setReal(const std::string& s) {realname_ = s;}
+void            Client::setAwayMsg(std::string msg) {awayMsg_ = msg;}
+void            Client::setAway(bool status) {away_ = status;}
 
-std::string     Client::getNick() const {return _mNickName;}
-std::string     Client::getUser() const {return _mUserName;}
-std::string     Client::getHost() const {return _mHostName;}
-std::string     Client::getServer() const {return _mServerName;}
-std::string     Client::getReal() const {return _mRealName;}
-TcpStream&      Client::getStream() const {return *_mStream;}
-bool            Client::getAway() const {return _mAway;}
-std::string     Client::getAwayMsg() const {return _mAwayMsg;}
-std::string     Client::getPasswordUsedToConnect() const {return _passwordUsedToConnect;}
+std::string     Client::getNick() const {return nickname_;}
+std::string     Client::getUser() const {return username_;}
+std::string     Client::getHost() const {return hostname_;}
+std::string     Client::getServer() const {return servername_;}
+std::string     Client::getReal() const {return realname_;}
+TcpStream&      Client::getStream() const {return *stream_;}
+bool            Client::getAway() const {return away_;}
+std::string     Client::getAwayMsg() const {return awayMsg_;}
+std::string     Client::getPasswordUsedToConnect() const {return passwordUsedToConnect_;}
 
 std::ostream&   operator<<(std::ostream& o, const Client & src)
 {

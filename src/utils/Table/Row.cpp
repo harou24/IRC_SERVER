@@ -4,32 +4,32 @@
 #include <iostream>
 Row::Row(void) { }
 
-Row::Row(std::vector<std::string> elements, std::size_t length): elements(elements), cell_length(length) { }
+Row::Row(std::vector<std::string> elements, std::size_t length): elements_(elements), cell_length_(length) { }
 
 Row::~Row(void) { }
 
 const std::vector<std::string>&    Row::getWords(void) const
 {
-    return this->elements;
+    return this->elements_;
 }
 
 std::size_t                        Row::getCellLength(void) const
 {
-    return this->cell_length;
+    return this->cell_length_;
 }
 
 std::string                        Row::getCellAtIndexAsStr(std::size_t index) const
 {
     std::string str("");
 
-    if (index < this->elements.size())
+    if (index < this->elements_.size())
     {
-        str = this->elements[index];
-        if (str.length() < this->cell_length)
-            str.append(this->cell_length - str.length(), ' ');
+        str = this->elements_[index];
+        if (str.length() < this->cell_length_)
+            str.append(this->cell_length_ - str.length(), ' ');
         else
         {
-            str = std::string(str, 0, this->cell_length);
+            str = std::string(str, 0, this->cell_length_);
             str = str.replace(str.length(), 1, ".");
         }
     }
@@ -41,10 +41,10 @@ std::string                        Row::getRowAsStr(void) const
     std::string str("");
     str += RED;
 
-    for (std::size_t i = 0; i < this->elements.size(); i++)
+    for (std::size_t i = 0; i < this->elements_.size(); i++)
     {
         str += this->getCellAtIndexAsStr(i);
-        if (i != this->elements.size() - 1)
+        if (i != this->elements_.size() - 1)
             str += " | ";
     }
     str += RESET;

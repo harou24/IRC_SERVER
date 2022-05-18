@@ -14,7 +14,6 @@ class TcpConnector{
 
     private:
         int             resolveHost(std::string host, struct in_addr* addr);
-
 };
 
 #endif

@@ -39,12 +39,10 @@ class IrcServer {
         void        disconnect(int fd);
         
     private:
-        Server                                          *_mServer;
-        int                                             _mNbclients;
-        std::vector<Client *>                           clients_;
-        std::map<std::string, Channel*>                 channels_;
+        Server*                         server_;
+        std::vector<Client *>           clients_;
+        std::map<std::string, Channel*> channels_;
     
-        IrcServer(const IrcServer &server);
         IrcServer();
 };
 
