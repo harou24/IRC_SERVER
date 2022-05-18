@@ -19,16 +19,6 @@
 
 class Server : public MultiClientHandler
 {
-    private:
-        TcpAcceptor                 _mAcceptor;
-        std::map<int, TcpStream*>   clients_ss;
-        int                         _mNbrClients;
-        bool                        _mIsRunning;
-        std::string                 _mPassword;
-        std::queue<Message*>         _mQueue;
-
-        Server(void);
-        
     public:
         Server(int port, std::string password);
         ~Server(void);
@@ -61,6 +51,16 @@ class Server : public MultiClientHandler
         TcpStream *getStreamFromFd(int fd);
 
         void    disconnect(int fd);
+    
+    private:
+        TcpAcceptor                 acceptor_;
+        std::map<int, TcpStream*>   clients_ss_;
+        int                         nbrClients_;
+        bool                        isRunning_;
+        std::string                 password_;
+        std::queue<Message*>        queue_;
+
+        Server(void);
 };
 
 std::ostream&   operator<<(std::ostream& o, Server const& src);

@@ -5,10 +5,6 @@
 # include <string>
 
 class Row {
-    private:
-        std::vector<std::string> elements;
-        std::size_t cell_length;
-
 
     public:
         Row();
@@ -21,6 +17,9 @@ class Row {
         std::string getCellAtIndexAsStr(std::size_t index) const;
         std::string getRowAsStr(void) const;
 
+    private:
+        std::vector<std::string> elements_;
+        std::size_t cell_length_;
 };
 
 std::ostream &operator << (std::ostream &output, const Row &row);

@@ -4,40 +4,47 @@
 
 # define MAXclients_ 5
 
-Server::Server(int port, std::string password) : _mAcceptor(port, HOST), clients_ss(), _mNbrClients(0) {
-    _mIsRunning = false;
-    _mPassword = password;
+Server::Server(int port, std::string password) : acceptor_(port, HOST), clients_ss_(), nbrClients_(0)
+{
+    isRunning_ = false;
+    password_ = password;
 }
 
-Server::~Server(){
-    std::map<int, TcpStream*>::iterator it = clients_ss.begin();
-    while (it != clients_ss.end())
+Server::~Server()
+{
+    std::map<int, TcpStream*>::iterator it = clients_ss_.begin();
+    while (it != clients_ss_.end())
     {
         delete it->second;
         it++;
     }
-    clients_ss.clear();
-    while (!_mQueue.empty())
+    clients_ss_.clear();
+    while (!queue_.empty())
     {
-        Message *m = _mQueue.front();
+        Message *m = queue_.front();
         delete m;
-        _mQueue.pop();
+        queue_.pop();
     }
 }
 
-void            Server::init(){
-    _mAcceptor.init();
-    MultiClientHandler::addFdToSet(_mAcceptor.getListenSd());
-    _mIsRunning = true;
+void            Server::init()
+{
+    acceptor_.init();
+    MultiClientHandler::addFdToSet(acceptor_.getListenSd());
+    isRunning_ = true;
 }
 
-void            Server::runOnce(){    
-    if(_mIsRunning){
-        for (size_t fd = 0; fd <= MultiClientHandler::getFdmax(); fd++){
+void            Server::runOnce()
+{    
+    if(isRunning_)
+    {
+        for (size_t fd = 0; fd <= MultiClientHandler::getFdmax(); fd++)
+        {
             try{
-                if (MultiClientHandler::isFdReadyToCommunicate(fd)){
+                if (MultiClientHandler::isFdReadyToCommunicate(fd))
+                {
 
-                    if (isClientConnecting(fd) && _mNbrClients == MAXclients_)
+                    if (isClientConnecting(fd) && nbrClients_ == MAXclients_)
                     {
                         disconnect(fd);
                         continue;
@@ -49,7 +56,8 @@ void            Server::runOnce(){
                         handleData(fd);
                 }
             }
-            catch(std::exception &e){
+            catch(std::exception &e)
+            {
                 print("ERROR", e.what());
                 exit(1);
             }
@@ -62,43 +70,47 @@ void            Server::start(void)
     init();
     while (1)
     {
-        if (!_mIsRunning) break;
+        if (!isRunning_) break;
         runOnce();
     }
 }
 
-void            Server::stop(){
-    _mIsRunning = false;
+void            Server::stop()
+{
+    isRunning_ = false;
 }
 
 Message& Server::getNextMsg(void)
 {
     Message *msg = NULL;
     
-    if (!_mQueue.empty())
+    if (!queue_.empty())
     {
-        msg = _mQueue.front();
-        _mQueue.pop();
+        msg = queue_.front();
+        queue_.pop();
     }
     return *msg;
 }
 
-void            Server::addClient(){
-    if (_mNbrClients == MAXclients_){
+void            Server::addClient()
+{
+    if (nbrClients_ == MAXclients_)
+    {
         print("ERROR", "no space left for another client....");
         return;
     }
-    TcpStream *newStream = _mAcceptor.accept();
+    TcpStream *newStream = acceptor_.accept();
     MultiClientHandler::addFdToSet(newStream->getSd());
-    clients_ss.insert(std::make_pair(newStream->getSd(), newStream));
-    _mNbrClients++;
+    clients_ss_.insert(std::make_pair(newStream->getSd(), newStream));
+    nbrClients_++;
 }
 
-void            Server::removeClient(int fd){
+void            Server::removeClient(int fd)
+{
     disconnect(fd);
-    delete clients_ss.at(fd);
-    clients_ss.erase(fd);
-    _mNbrClients--;
+    delete clients_ss_.at(fd);
+    clients_ss_.erase(fd);
+    nbrClients_--;
 }
 
 std::queue<std::string> Server::split(const std::string &data)
@@ -115,13 +127,14 @@ std::queue<std::string> Server::split(const std::string &data)
 TcpStream*      Server::getStreamFromFd(int fd)
 {
     TcpStream *stream  = NULL;
-    std::map<int, TcpStream *>::iterator it = clients_ss.find(fd);
-    if (it != clients_ss.end())
+    std::map<int, TcpStream *>::iterator it = clients_ss_.find(fd);
+    if (it != clients_ss_.end())
         stream = it->second;
     return stream;
 }
 
-void            Server::handleData(int fd){
+void            Server::handleData(int fd)
+{
     std::string data = receiveData(fd);
     std::queue<std::string> splited = split(data);
     if (!splited.empty())
@@ -129,7 +142,7 @@ void            Server::handleData(int fd){
         while (!splited.empty())
         {
             std::string cmd = splited.front();
-            _mQueue.push(new Message(cmd, getStreamFromFd(fd)));
+            queue_.push(new Message(cmd, getStreamFromFd(fd)));
             splited.pop();
         }
     }
@@ -137,35 +150,39 @@ void            Server::handleData(int fd){
         removeClient(fd);
 }
 
-void            Server::sendData(int fd, char *buffer, size_t len){
-    if (clients_ss[fd])
-        clients_ss[fd]->send(buffer, len);
+void            Server::sendData(int fd, char *buffer, size_t len)
+{
+    if (clients_ss_[fd])
+        clients_ss_[fd]->send(buffer, len);
 }
 
 std::string          Server::receiveData(int fd)
 {
-    if (!clients_ss[fd])
+    if (!clients_ss_[fd])
         return std::string("");
 
     char    buffer[512];
-    size_t len = clients_ss[fd]->receive(buffer, 512);
+    size_t len = clients_ss_[fd]->receive(buffer, 512);
     buffer[len] = '\0';
     return std::string(buffer);
 }
 
-bool            Server::isClientConnecting(int fd){
-    return fd == _mAcceptor.getListenSd();
+bool            Server::isClientConnecting(int fd)
+{
+    return fd == acceptor_.getListenSd();
 }
 
-const std::map<int, TcpStream*>&     Server::getClients() const{
-    return clients_ss;
+const std::map<int, TcpStream*>&     Server::getClients() const
+{
+    return clients_ss_;
 }
 
-std::queue<Message *>&     Server::getQueue(){
-    return _mQueue;
+std::queue<Message *>&     Server::getQueue()
+{
+    return queue_;
 }
 
-std::string Server::getPassword(void) const { return _mPassword; }
+std::string Server::getPassword(void) const { return password_; }
 
 void Server::disconnect(int fd)
 {
@@ -173,13 +190,15 @@ void Server::disconnect(int fd)
     MultiClientHandler::clearFd(fd);
 }
 
-bool Server::isRunning(void) const { return _mIsRunning; }
+bool Server::isRunning(void) const { return isRunning_; }
 
-int                     Server::getNbrClients() const{
-    return _mNbrClients;
+int                     Server::getNbrClients() const
+{
+    return nbrClients_;
 }
 
-std::ostream&   operator<<(std::ostream& o, Server const& src){
+std::ostream&   operator<<(std::ostream& o, Server const& src)
+{
     for (std::map<int, TcpStream*>::const_iterator it = src.getClients().begin(); it != src.getClients().end(); it++)
         o << it->second << std::endl;
     o << "nbr " << src.getNbrClients() << std::endl;

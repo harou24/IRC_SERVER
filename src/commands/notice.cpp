@@ -3,7 +3,7 @@
 static std::string userNotice(const CmdController& controller, Client &sender, Client &receiver)
 {
     std::string msg = controller.getParser().getArgument().arg2;
-    std::string s = RPL_NOTICE(sender.getNick(), receiver.getNick(), sender.getUser(), sender.getHost(), msg);
+    std::string s = NOTICE_MESSAGE(sender.getNick(), receiver.getNick(), sender.getUser(), sender.getHost(), msg);
     receiver.getStream().send(s, s.length());
     return "";
 }
@@ -15,8 +15,8 @@ static std::string channelNotice(const CmdController& controller, std::string ch
     Channel *channel = &controller.getServer().getChannel(channel_name);
     if (channel->getMode().getModus() & (1<<3) && !channel->isInChannel(sender.getNick()))
         return "";
-    std::string full_msg = RPL_NOTICE(sender.getNick(), channel_name, sender.getUser(), sender.getHost(), msg);
-    channel->sendMessage(sender, std::string(RPL_NOTICE(sender.getNick(), channel_name, sender.getUser(), sender.getHost(), msg)));
+    std::string full_msg = NOTICE_MESSAGE(sender.getNick(), channel_name, sender.getUser(), sender.getHost(), msg);
+    channel->sendMessage(sender, std::string(NOTICE_MESSAGE(sender.getNick(), channel_name, sender.getUser(), sender.getHost(), msg)));
     return "";
 }
 

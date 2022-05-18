@@ -1,15 +1,19 @@
 #include "print.hpp"
 
-void    print(const char *level, std::string msg){
+void    print(const char *level, std::string msg)
+{
     const char *levels[3] = {"ERROR", "INFO", "DEBUG"};
     Levels current = static_cast<Levels>(4);
-    for(size_t idx = 0; idx < sizeof(levels); idx++){
-        if (strcmp(level, levels[idx]) == 0){
+    for(size_t idx = 0; idx < sizeof(levels); idx++)
+    {
+        if (strcmp(level, levels[idx]) == 0)
+        {
             current = static_cast<Levels>(idx);
             break;
         }
     }
-    if (current <= USE) {
+    if (current <= USE)
+    {
         switch (current)
         {
             case ERROR:

@@ -41,7 +41,8 @@ void CmdController::execute(Message *m)
     std::string reply = cmds_[parser_->getCommand()](*this);
     TcpStream *s = m->getStreamPtr();
     #if 1
-        if (s){
+        if (s)
+        {
             std::stringstream ss;
             ss << "STREAM:\n" << *s;
             print("DEBUG", ss.str());
