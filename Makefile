@@ -17,6 +17,9 @@ clean:
 			@git clean -d -f -X
 			@rm -rf build
 
+fclean: clean
+			@rm -rf $(NAME)
+
 test:
 			@mkdir -p build
 			@cmake -S . -B build -DTEST=ON
@@ -29,7 +32,7 @@ func:
 			@cmake --build build
 			bash ./tests/script/run_func_tests.sh
 			
-re: clean all
+re: fclean all
 
 .PHONY = clean re $(NAME)
 

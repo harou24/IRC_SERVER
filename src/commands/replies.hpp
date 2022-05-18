@@ -68,4 +68,6 @@
 
 # define ERR_CANNOTSENDTOCHAN(nick, channel)  ":" + std::string(HOST) + " 404 " + nick + " " + channel + " :You cannot send external messages to this channel whilst the +n (noextmsg) mode is set.\n"
 
+# define RPL_NOTICE(nick, nick2, user, host, message) ":" + nick + "!" + user + "@" + host + " NOTICE " + nick2 + " " + message + "\n"
+
 #endif
