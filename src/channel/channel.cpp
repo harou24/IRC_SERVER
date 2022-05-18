@@ -22,7 +22,7 @@ std::set<Client *>::iterator    Channel::getClientByName(std::set<Client *>& set
 {
     for (std::set<Client *>::iterator it = set.begin(); it != set.end(); it++)
     {
-        if (std::strcmp((*it)->getNick().c_str(), name.c_str()) == 0)
+        if ((*it)->getNick() == name)
             return it;
     }
     return set.end();
@@ -30,7 +30,6 @@ std::set<Client *>::iterator    Channel::getClientByName(std::set<Client *>& set
 
 void        Channel::addClient(Client& cl)
 {
-    std::cout << "adding " << cl.getNick() << " to channel\n";
     clients_.insert(&cl);
 }
 
@@ -73,10 +72,21 @@ bool        Channel::isInChannel(std::string nick)
 
 bool        Channel::isOperator(Client& cl)
 {
-    std::set<Client *>::iterator it = getClientByName(operators_, cl.getNick());
+    std::set<Client *>::iterator it = operators_.begin();
+    for (; it != operators_.end(); it++)
+    {
+        if ((*it)->getNick() == cl.getNick())
+            break;
+    }
     if (it != operators_.end())
         return true;
     return false;
+}
+
+void        Channel::printOps()
+{
+    for (std::set<Client *>::iterator it = operators_.begin(); it != operators_.end(); it++)
+        std::cout << (*it)->getNick() << std::endl;
 }
 
 bool        Channel::isActive() const

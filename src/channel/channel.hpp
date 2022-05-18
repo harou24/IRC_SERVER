@@ -32,6 +32,8 @@ class Channel
         int                             NbrClients() const;
         unsigned int                    getCreationTime() const;
 
+        void                            printOps();
+
 
     private:
         std::string         name_;
