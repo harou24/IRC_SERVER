@@ -66,6 +66,7 @@ void    IrcServer::start()
             else
             {
                 std::cout << "BREAKING...\n";
+                std::cout << "nick = " << getClientByStream(msg->getStreamPtr())->getNick() << std::endl;
                 removeClient(getClientByStream(msg->getStreamPtr()), RPL_QUIT(getClientByStream(msg->getStreamPtr()), ":Connection closed"));
                 break;
             }
