@@ -20,6 +20,7 @@ CmdController::CmdController(IrcServer &server): server_(&server)
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(KICK, t_ft_ptr (kick)));
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(PASS, t_ft_ptr (pass)));
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(TOPIC, t_ft_ptr (topic)));
+    cmds_.insert(std::pair<CommandType, t_ft_ptr>(NOTICE, t_ft_ptr (notice)));
     cmds_.insert(std::pair<CommandType, t_ft_ptr>(UNKNOWN, t_ft_ptr (unknown)));
 }
 
@@ -40,7 +41,8 @@ void CmdController::execute(Message *m)
     std::string reply = cmds_[parser_->getCommand()](*this);
     TcpStream *s = m->getStreamPtr();
     #if 1
-        if (s){
+        if (s)
+        {
             std::stringstream ss;
             ss << "STREAM:\n" << *s;
             print("DEBUG", ss.str());

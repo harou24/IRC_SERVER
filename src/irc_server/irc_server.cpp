@@ -5,12 +5,7 @@
 IrcServer::IrcServer(int port, std::string password)
 {
     std::cout << "CALL CONSTRUCTOR...\n";
-    _mServer = new Server(port, password);
-}
-
-IrcServer::IrcServer(const IrcServer &server)
-{
-    std::cout << server._mNbclients<< "COPY CONSTRUCTOR...";
+    server_ = new Server(port, password);
 }
 
 IrcServer::~IrcServer()
@@ -29,13 +24,13 @@ IrcServer::~IrcServer()
 
 void    IrcServer::start()
 {
-    _mServer->init();
+    server_->init();
     print("INFO", "starting server...");
     CmdController cmd(*this);
-    while (_mServer->isRunning())
+    while (server_->isRunning())
     {
-        _mServer->runOnce();
-        while (Message *msg = &_mServer->getNextMsg())
+        server_->runOnce();
+        while (Message *msg = &server_->getNextMsg())
         {
             if (msg)
             {
@@ -148,18 +143,18 @@ std::map<std::string, Channel*>&    IrcServer::getAllChannels()
 void IrcServer::stop(void)
 {
     std::cout << "Stopping server...\n";
-     _mServer->stop();
+     server_->stop();
 }
 
-bool IrcServer::isRunning(void) const { return _mServer->isRunning(); }
+bool IrcServer::isRunning(void) const { return server_->isRunning(); }
 
 bool        IrcServer::isPasswordOk(const std::string &password) const
 {
-    return _mServer->getPassword() == password;
+    return server_->getPassword() == password;
 }
 size_t    IrcServer::getNbClients(void) const { return clients_.size(); }
 
 void        IrcServer::disconnect(int fd)
 {
-    _mServer->disconnect(fd);
+    server_->disconnect(fd);
 }

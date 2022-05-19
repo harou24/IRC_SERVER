@@ -36,7 +36,7 @@ class Channel
         std::string         name_;
         std::set<Client *>  clients_;
         std::set<Client *>  operators_;
-        ChannelMode        *mode_;
+        ChannelMode*        mode_;
         unsigned int        creationTime_;
 };
 

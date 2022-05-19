@@ -12,23 +12,28 @@
 
 #define PORT 8080
 
-void    validArguments(int argc){
-    if (argc != 3){
+void    validArguments(int argc)
+{
+    if (argc != 3)
+    {
         std::cout << "usage: server <port> <ip-addres>\n";
         exit(1);
     }
 }
 
-void    printException(std::exception &e){
+void    printException(std::exception &e)
+{
     std::cout << e.what() << std::endl;
     exit(1);
 }
 
-void    setupServer(TcpAcceptor &server){
+void    setupServer(TcpAcceptor &server)
+{
     try{
         server.init();
     }
-    catch(std::exception &e){
+    catch(std::exception &e)
+    {
         printException(e);
     }
 }
@@ -50,13 +55,16 @@ int     main(int argc, char **argv)
 
     signal(SIGQUIT, sig_handler);
     setupServer(server);
-    while (running){
+    while (running)
+    {
         try{
             stream = server.accept();
-            if (stream){
+            if (stream)
+            {
                 size_t          len;
                 char     buffer[256];
-                while ((len = stream->receive(buffer, sizeof(buffer))) > 0){
+                while ((len = stream->receive(buffer, sizeof(buffer))) > 0)
+                {
                     buffer[len] = '\0';
                     std::cout << "received: " << buffer << std::endl;
                     stream->send(buffer, len);
@@ -64,7 +72,8 @@ int     main(int argc, char **argv)
                 delete stream;
             }
         }
-        catch(std::exception &e){
+        catch(std::exception &e)
+        {
             printException(e);
         }
     }

@@ -16,11 +16,6 @@ class TcpAcceptor{
         TcpStream*      accept();
         int             getListenSd() const;
 
-    private:
-        int             _mListenSd;
-        std::string     _mAddress;
-        int             _mPort;
-        bool            _mListening;
 
     private:
         TcpAcceptor();
@@ -30,6 +25,12 @@ class TcpAcceptor{
         void            inetSocketAddress(struct sockaddr_in *address);
         int             setSocketListen();
         void            setSocketOptions();
+
+    private:
+        int             listenSd_;
+        std::string     address_;
+        int             port_;
+        bool            listening_;
 };
 
 std::ostream&           operator<<(std::ostream& o, TcpAcceptor const& src);

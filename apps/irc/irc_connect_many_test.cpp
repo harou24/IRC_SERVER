@@ -18,7 +18,7 @@ void serverJob()
 void connectClients(void)
 {
 
-        ConnectableClient client(8080, "127.0.0.1");
+        ConnectableClient client(8080, std::string(HOST));
         client.connect("user1");
         sleep(1);
         client.send("CAP LS\nNICK User1\nUSER user user user :user\n");
@@ -26,7 +26,7 @@ void connectClients(void)
         std::string response = client.receive();
         assert(!response.empty());
 
-        ConnectableClient client2(8080, "127.0.0.1");
+        ConnectableClient client2(8080, std::string(HOST));
         client2.connect("user2");
         sleep(1);
         client2.send("CAP LS\nNICK User2\nUSER user2 user2 user2 :user2\n");
@@ -35,7 +35,7 @@ void connectClients(void)
         assert(!response.empty());
 
 
-        ConnectableClient client3(8080, "127.0.0.1");
+        ConnectableClient client3(8080, std::string(HOST));
         client3.connect("user3");
         sleep(1);
         client3.send("CAP LS\nNICK user3\nUSER user3 user3 user3 :user3\n");
@@ -43,7 +43,7 @@ void connectClients(void)
         response = client3.receive();
         assert(!response.empty());
 
-        ConnectableClient client4(8080, "127.0.0.1");
+        ConnectableClient client4(8080, std::string(HOST));
         client4.connect("user4");
         sleep(1);
         client4.send("CAP LS\nNICK user4\nUSER user4 user4 user4 :user4\n");
@@ -51,7 +51,7 @@ void connectClients(void)
         response = client4.receive();
         assert(!response.empty());
 
-        ConnectableClient client5(8080, "127.0.0.1");
+        ConnectableClient client5(8080, std::string(HOST));
         client5.connect("user5");
         sleep(1);
         client5.send("CAP LS\nNICK user5\nUSER user5 user5 user5 :user5\n");
@@ -60,7 +60,7 @@ void connectClients(void)
         assert(!response.empty());
 
         //trying to connect client 6 but the MAX is 5
-        ConnectableClient client6(8080, "127.0.0.1");
+        ConnectableClient client6(8080, std::string(HOST));
         client6.connect("user6");
         sleep(1);
         client6.send("CAP LS\nNICK user6\nUSER user6 user6 user6 :user6\n");

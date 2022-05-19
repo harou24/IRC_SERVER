@@ -16,7 +16,6 @@ struct Args {
 };
 
 class Parser {
-    private:
 
     public:
         Parser();
@@ -27,12 +26,7 @@ class Parser {
         std::string getRaw() const;
 
     private:
-        int         _mCommand;
-        Args        *_mArguments;
-        std::string _mRawText;
-
-    private:
-        std::string find_command(const std::string& s);
+        std::string findCommand(const std::string& s);
         void    away(const std::string& str);
         void    invite(const std::string& str);
         void    join(const std::string& str);
@@ -49,6 +43,11 @@ class Parser {
         void    part(const std::string& str);
         void    kick(const std::string& str);
         void    topic(const std::string& str);
+
+    private:
+        int         command_;
+        Args*       arguments_;
+        std::string rawText_;
 };
 
 std::ostream&   operator<<(std::ostream& o, Parser const& src);

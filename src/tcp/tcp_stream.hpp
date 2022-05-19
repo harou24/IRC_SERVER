@@ -22,10 +22,6 @@ class TcpStream
         bool    operator==(TcpStream& rhs);
         bool    operator!=(TcpStream& rhs);
 
-    private:
-        int             _mSd;
-        std::string     _mPeerIP;
-        int             _mPeerPort;
 
     public:
         TcpStream();
@@ -34,6 +30,10 @@ class TcpStream
 
         TcpStream&      operator=(const TcpStream& src);
 
+    private:
+        int             sd_;
+        std::string     peerIP_;
+        int             peerPort_;
 };
 
 std::ostream&       operator<<(std::ostream& o , TcpStream const & src);

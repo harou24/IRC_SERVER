@@ -4,8 +4,6 @@
 # include "Row.hpp"
 
 class Table {
-    private:
-        std::vector<Row> rows;
 
     public:
         Table(void);
@@ -14,6 +12,8 @@ class Table {
 
         void    print(void);
 
+    private:
+        std::vector<Row> rows_;
 };
 
 #endif

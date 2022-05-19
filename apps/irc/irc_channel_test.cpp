@@ -9,8 +9,8 @@
 
 IrcServer g_server(8080, "");
 
-ConnectableClient g_client(8080, "127.0.0.1");
-ConnectableClient g_client_2(8080, "127.0.0.1");
+ConnectableClient g_client(8080, std::string(HOST));
+ConnectableClient g_client_2(8080, std::string(HOST));
 
 
 void serverJob()

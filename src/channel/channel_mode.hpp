@@ -62,7 +62,6 @@ class ChannelMode
         std::string         channel_;
         ban_type            banList_;
         Topic*              topic_;
-
 };
 
 

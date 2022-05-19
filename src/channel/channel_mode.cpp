@@ -1,7 +1,8 @@
 #include "channel_mode.hpp"
 
 template<typename T>
-static std::string to_string(const T & value) {
+static std::string to_string(const T & value) 
+{
     std::ostringstream oss;
     oss << value;
     return oss.str();
@@ -21,7 +22,6 @@ void    ChannelMode::setChan(std::string name)
 {
     channel_ = name;
 }
-
 
 bool    ChannelMode::Invite() const
 {
@@ -210,9 +210,6 @@ void    ChannelMode::offBan(std::string name)
         }
     }
 }
-
-
-
 
 std::string ChannelMode::getBan(std::string nick, std::string& reply)
 {

@@ -6,43 +6,43 @@
 
 ConnectableClient::ConnectableClient()
 { 
-    _port = 8080;
-    _host = "127.0.0.1";
-    _connector = new TcpConnector();
-    _client = NULL;
+    port_ = 8080;
+    host_ = std::string(HOST);
+    connector_ = new TcpConnector();
+    client_ = NULL;
 }
 
 ConnectableClient::ConnectableClient(int port, std::string host)
 {
-    _port = port;
-    _host = host;
-    _connector = new TcpConnector();
-    _client = NULL;
+    port_ = port;
+    host_ = host;
+    connector_ = new TcpConnector();
+    client_ = NULL;
 }
 
 ConnectableClient::~ConnectableClient()
 {
-    delete _stream;
-    delete _client;
-    delete _connector;
+    delete stream_;
+    delete client_;
+    delete connector_;
 }
 
 void    ConnectableClient::connect(const std::string &nick)
 {
     try
     {
-        _stream = _connector->connect(_port, _host);
+        stream_ = connector_->connect(port_, host_);
     }
     catch(std::exception &e)
     {
         std::cout << e.what() << "\n";
     }
-    _client = new Client(nick, _stream);
+    client_ = new Client(nick, stream_);
 }
 
 void    ConnectableClient::send(const std::string &message)
 {
-    _stream->send(message.c_str(), message.size());
+    stream_->send(message.c_str(), message.size());
     std::cout << "sent - " << message << std::endl;
 }
 
@@ -51,9 +51,9 @@ std::string ConnectableClient::receive()
     int     length;
     char    data[MAX_RECEIVE];
 
-    length = _stream->receive(data, sizeof(data));
+    length = stream_->receive(data, sizeof(data));
     data[length] = '\0';
     return std::string(data);
 }
 
-Client& ConnectableClient::getClient() { return *_client; }
+Client& ConnectableClient::getClient() { return *client_; }
