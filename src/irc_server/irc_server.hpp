@@ -29,6 +29,7 @@ class IrcServer {
         void                                ConnectClient(Client* cl);
         void                                removeClientWaitList(Client* cl);
         void                                removeClient(Client* cl, std::string reply);
+        void                                removeStream(TcpStream *stream);
 
         bool                                isChannel(std::string channel);
         void                                addChannel(std::string channel, Client& cl, unsigned int time);

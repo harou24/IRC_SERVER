@@ -136,11 +136,14 @@ void    IrcServer::addClientToWaitList(Client* cl)
 
 void IrcServer::removeClient(Client *cl, std::string reply)
 {
-    for(std::map<std::string, Channel*>::iterator it = channels_.begin(); it != channels_.end(); it++)
+    for(std::map<std::string, Channel*>::iterator it = channels_.begin(); it != channels_.end();)
     {
+        std::map<std::string, Channel*>::iterator next = it;
+        ++next;
         it->second->removeClient(*cl, reply);
         if (!it->second->isActive())
             removeChannel(it->first);
+        it = next;
     }
 
     std::vector<Client *>::iterator it = clients_.begin();
@@ -152,10 +155,15 @@ void IrcServer::removeClient(Client *cl, std::string reply)
     }
     if (it != clients_.end())
     {
-        disconnect(cl->getStream().getSd());
+        server_->removeClient(cl->getStream().getSd());
         delete *it;
         clients_.erase(it);
     }
+}
+
+void    IrcServer::removeStream(TcpStream *stream)
+{
+    server_->removeClient(stream->getSd());
 }
 
 void    IrcServer::removeClientWaitList(Client* cl)

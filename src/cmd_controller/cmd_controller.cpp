@@ -45,7 +45,7 @@ void CmdController::execute(Message *m)
     if (parser_->getCommand() < AWAY || parser_->getCommand() == CAP_LS ||\
      cl != NULL)
         reply = cmds_[parser_->getCommand()](*this);
-    #if 1
+    #if 0
         TcpStream *s = m->getStreamPtr();
         if (s)
         {

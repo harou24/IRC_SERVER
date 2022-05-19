@@ -16,5 +16,9 @@ std::string    user(const CmdController& controller)
         controller.getServer().ConnectClient(cl);
         reply = welcome(cl->getNick(), args);
     }
+    else if (controller.getServer().getClientByStream(stream) == NULL)
+    {
+        controller.getServer().removeStream(stream);
+    }
     return reply;
 }

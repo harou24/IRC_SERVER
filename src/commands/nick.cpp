@@ -59,6 +59,5 @@ std::string    nick(const CmdController& controller)
         controller.getServer().removeClientWaitList(clwait);
         return std::string(ERR_NICKNAMEINUSE(nickname));
     }
-
     return execNick(controller, nickname);
 }
