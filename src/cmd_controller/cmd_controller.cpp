@@ -36,8 +36,8 @@ void CmdController::execute(Message *m)
     #endif
 
     std::string reply = "";
-    TcpStream *s = m->getStreamPtr();
     Client *cl = getServer().getClientByStream(m->getStreamPtr());
+    
     currentMsg_ = m;
     parser_->parse(m->getData());
     if (parser_->getCommand() == UNKNOWN)
@@ -46,6 +46,7 @@ void CmdController::execute(Message *m)
      cl != NULL)
         reply = cmds_[parser_->getCommand()](*this);
     #if 1
+        TcpStream *s = m->getStreamPtr();
         if (s)
         {
             std::stringstream ss;

@@ -53,7 +53,12 @@ std::string    nick(const CmdController& controller)
 
     IrcServer *server = &controller.getServer();
     if (server->isNickInUse(nickname))
+    {
+        TcpStream *stream = controller.getCurrentMsg().getStreamPtr();
+        Client *clwait = controller.getServer().getClientWaitListByStream(stream);
+        controller.getServer().removeClientWaitList(clwait);
         return std::string(ERR_NICKNAMEINUSE(nickname));
+    }
 
     return execNick(controller, nickname);
 }
