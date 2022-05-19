@@ -24,7 +24,7 @@ class IrcServer {
         Client*     getClientByName(std::string name) const;
 
         void        addClient(Client* cl);
-        void        removeClient(Client *cl);
+        void        removeClient(Client *cl, std::string reply);
 
         bool        isChannel(std::string channel);
         void        addChannel(std::string channel, Client& cl, unsigned int time);
@@ -37,6 +37,8 @@ class IrcServer {
         bool        isPasswordOk(const std::string &password) const;
         size_t      getNbClients(void) const;
         void        disconnect(int fd);
+
+        void        sendPing();
         
     private:
         Server*                         server_;

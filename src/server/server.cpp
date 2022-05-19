@@ -145,6 +145,7 @@ void            Server::handleData(int fd)
             queue_.push(new Message(cmd, getStreamFromFd(fd)));
             splited.pop();
         }
+        getStreamFromFd(fd)->setTimeStamp((unsigned)time(NULL));
     }
     else
         removeClient(fd);

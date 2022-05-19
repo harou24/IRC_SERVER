@@ -30,4 +30,7 @@ std::string    pass(const CmdController& controller);
 std::string    topic(const CmdController& controller);
 std::string    notice(const CmdController& controller);
 
+std::string    generateRandom(const int len);
+
+
 #endif

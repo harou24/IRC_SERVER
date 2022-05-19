@@ -22,6 +22,28 @@ IrcServer::~IrcServer()
     channels_.clear();
 }
 
+void  IrcServer::sendPing()
+{
+    unsigned int t = (unsigned)time(NULL);
+    for (size_t i = 0; i < clients_.size(); i++)
+    {
+        if (t - clients_[i]->getStream().getTimeStamp() >= 20 && clients_[i]->getStream().getPing().empty())
+        {
+            std::string ping = generateRandom(rand() % 10 + 5);
+            std::string ping_reply = "PING :" + ping + "\n";
+            clients_[i]->getStream().send(ping_reply, ping_reply.length());
+            clients_[i]->getStream().setTimeStamp(t);
+            clients_[i]->getStream().setPing(ping);
+        }
+        else if (t - clients_[i]->getStream().getTimeStamp() >= 20)
+        {
+            std::string error = "Error: closing connection because of ping timeout: 120seconds\n";
+            clients_[i]->getStream().send(error, error.length());
+            removeClient(clients_[i], std::string(RPL_QUIT(clients_[i], ":ping timout")));
+        }
+    }
+}
+
 void    IrcServer::start()
 {
     server_->init();
@@ -48,6 +70,7 @@ void    IrcServer::start()
             }
             std::cout << "msg\n";
         }
+        sendPing();
     }
 }
 
@@ -92,8 +115,15 @@ void IrcServer::addClient(Client *cl)
     clients_.push_back(cl);
 }
 
-void IrcServer::removeClient(Client *cl)
+void IrcServer::removeClient(Client *cl, std::string reply)
 {
+    for(std::map<std::string, Channel*>::iterator it = channels_.begin(); it != channels_.end(); it++)
+    {
+        it->second->removeClient(*cl, reply);
+        if (!it->second->isActive())
+            removeChannel(it->first);
+    }
+
     std::vector<Client *>::iterator it = clients_.begin();
     while (it != clients_.end())
     {
@@ -103,6 +133,7 @@ void IrcServer::removeClient(Client *cl)
     }
     if (it != clients_.end())
     {
+        disconnect(cl->getStream().getSd());
         delete *it;
         clients_.erase(it);
     }

@@ -26,5 +26,5 @@ std::string    cap_ls(const CmdController& controller)
     #if 1
             print("DEBUG", "CAP LS cmd! " + controller.getCurrentMsg().getData());
     #endif
-    return std::string(NOTICE(std::string(HOST)) + "CAP * LS :\nPING : " + generateRandom(rand() % 10 + 5) + "\n");
+    return std::string(NOTICE(std::string(HOST)) + "CAP * LS :\n");
 }
