@@ -4,6 +4,7 @@
 # include "client.hpp"
 # include "replies.hpp"
 # include "channel_topic.hpp"
+# include "cmd_controller.hpp"
 
 # include <list>
 
@@ -16,6 +17,7 @@
 */
 class Client;
 class Topic;
+class CmdController;
 
 class ChannelMode
 {
@@ -30,9 +32,9 @@ class ChannelMode
         void        removeInvite(const Client& cl);
         bool        Invite() const;
         void        addInvite(Client& cl);
-        void        setMode(std::string str, std::string arg, Client& cl, std::string& reply);
-        void        seton(char c, std::istringstream& ss, Client& cl, std::string& reply);
-        void        setoff(char c, std::istringstream& ss);
+        void        setMode(const CmdController& controller, Client& cl, std::string& reply);
+        void        seton(char c, std::istringstream& ss, Client& cl, std::string& reply, const CmdController& controller);
+        void        setoff(char c, std::istringstream& ss, Client& cl, std::string& reply, const CmdController& controller);
         char        getModus() const;
         std::string isModeOn();
 

@@ -56,12 +56,22 @@ void    ChannelMode::addInvite(Client& cl)
     inventation_.insert(&cl);
 }
 
-void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::string& reply)
+void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::string& reply, const CmdController& controller)
 {
     std::string word;
     switch (c)
     {
-        case 'o': opper_ |= (1 << 0);
+        case 'o':
+            if (ss>>word && word.size() > 0)
+            {
+                Channel *channel = &controller.getServer().getChannel(channel_);
+                if (channel->isInChannel(&word[1]))
+                    channel->addOperator(*controller.getServer().getClientByName(&word[1]));
+                else
+                    reply = "";
+            }
+            else
+                reply = std::string(ERR_HELPOPERATOR(cl.getNick(), channel_));
             break;
         case 'i': opper_ |= (1 << 1);
             break;
@@ -96,12 +106,22 @@ void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::stri
     }
 }
 
-void    ChannelMode::setoff(char c, std::istringstream& ss)
+void    ChannelMode::setoff(char c, std::istringstream& ss, Client& cl, std::string& reply, const CmdController& controller)
 {
     std::string word;
     switch (c)
     {
-        case 'o': opper_ &= ~(1 << 0);
+        case 'o': 
+            if (ss>>word && word.size() > 0)
+            {
+                Channel *channel = &controller.getServer().getChannel(channel_);
+                if (channel->isInChannel(&word[1]))
+                    channel->removeOperator(*controller.getServer().getClientByName(&word[1]));
+                else
+                    reply = "";
+            }
+            else
+                reply = std::string(ERR_HELPOPERATOR(cl.getNick(), channel_));
             break;
         case 'i': opper_ &= ~(1 << 1);
             break;
@@ -122,22 +142,23 @@ void    ChannelMode::setoff(char c, std::istringstream& ss)
     }
 }
 
-void    ChannelMode::setMode(std::string str, std::string arg, Client& cl, std::string& reply)
+void    ChannelMode::setMode(const CmdController& controller, Client& cl, std::string& reply)
 {
-    std::istringstream  ss(arg);
+    std::string str = controller.getParser().getArgument().arg2;
+    std::istringstream  ss(controller.getParser().getArgument().arg3);
     for (size_t i = 0; i < str.length(); i++)
     {
         if (str[i] == '-')
         {
             i++;
             while(i < str.length() && str[i] != '+')
-                setoff(str[i++], ss);
+                setoff(str[i++], ss, cl, reply, controller);
         }
         if (i < str.length() && str[i] == '+')
         {
             i++;
             while(i < str.length() && str[i] != '-')
-                seton(str[i++], ss, cl, reply);
+                seton(str[i++], ss, cl, reply, controller);
         }
     }
 }

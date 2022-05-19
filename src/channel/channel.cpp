@@ -22,7 +22,7 @@ std::set<Client *>::iterator    Channel::getClientByName(std::set<Client *>& set
 {
     for (std::set<Client *>::iterator it = set.begin(); it != set.end(); it++)
     {
-        if (std::strcmp((*it)->getNick().c_str(), name.c_str()) == 0)
+        if ((*it)->getNick() == name)
             return it;
     }
     return set.end();
@@ -30,7 +30,6 @@ std::set<Client *>::iterator    Channel::getClientByName(std::set<Client *>& set
 
 void        Channel::addClient(Client& cl)
 {
-    std::cout << "adding " << cl.getNick() << " to channel\n";
     clients_.insert(&cl);
 }
 

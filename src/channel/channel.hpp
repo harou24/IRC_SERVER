@@ -32,7 +32,6 @@ class Channel
         int                             NbrClients() const;
         unsigned int                    getCreationTime() const;
 
-
     private:
         std::string         name_;
         std::set<Client *>  clients_;

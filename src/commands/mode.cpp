@@ -24,7 +24,7 @@ static std::string  ChannelMode(const CmdController& controller)
     }
     if (channel->isOperator(*cl) || (arg.arg2 == "+b" && arg.arg3 == ""))
     {
-        channel->getMode().setMode(arg.arg2, arg.arg3, *cl, reply);
+        channel->getMode().setMode(controller, *cl, reply);
         if (!(arg.arg2 == "+b" && arg.arg3 == ""))
         {
             if (arg.arg2 == "+b")
@@ -41,18 +41,6 @@ static std::string  ChannelMode(const CmdController& controller)
         reply = ERR_NOTONCHANNEL(cl->getNick(), arg.arg1);
     return reply;
 }
-
-// mode #asd +b
-// :*.freenode.net 368 eu_ #asd :End of channel ban list^M$
-// mode #asd +b asdf
-// :eu_!~eu_@freenode-294.9bv.f3us7q.IP MODE #asd +b :asdf!*@*^M$
-// mode #asd +b evi  
-// :eu_!~eu_@freenode-294.9bv.f3us7q.IP MODE #asd +b :evi!*@*^M$
-// :eutje!~eovertoo@freenode-294.9bv.f3us7q.IP JOIN :#asd^M$
-// mode #asd +b
-// :*.freenode.net 367 eu_ #asd asdf!*@* eu_ :1652712026^M$
-// :*.freenode.net 367 eu_ #asd evi!*@* eu_ :1652712038^M$
-// :*.freenode.net 368 eu_ #asd :End of channel ban list^M$
 
 std::string         mode(const CmdController& controller)
 {

@@ -18,7 +18,7 @@ void    serverJob()
     g_server.start();
 }
 
-void    topicJob()
+void    operatorJob()
 {
     assert(g_server.isRunning());
     g_client.connect("User1");
@@ -29,27 +29,20 @@ void    topicJob()
     assert(!response.empty());
     std::cout << response << "\n";
 
-    g_client.send("TOPIC\n");
-    sleep(1);
-    response = g_client.receive();
-    assert(!response.empty());
-    std::cout << response << "\n";
-
     g_client.send("JOIN #channel\n");
     sleep(1);
     response = g_client.receive();
     assert(!response.empty());
     std::cout << response << "\n";
 
-    g_client.send("TOPIC #channel :testTopictest\n");
+    g_client.send("MODE #channel +o");
     sleep(1);
     response = g_client.receive();
     assert(!response.empty());
     std::cout << response << "\n";
 
-    Topic topic = g_server.getChannel("#channel").getMode().getTopic();
-    assert(topic.topic == ":testTopictest");
-    assert(topic.topic_nick == "User1");
+    g_client.send("MODE #channel +o :lala");
+    sleep(1);
 
     g_client_2.connect("User2");
     g_client_2.send("CAP LS\nNICK User2\nUSER usr2 usr2 usr2 :usr2\n");
@@ -58,13 +51,7 @@ void    topicJob()
     assert(!response.empty());
     std::cout << response << "\n";
 
-    g_client_2.send("TOPIC #channel\n");
-    sleep(1);
-    response = g_client_2.receive();
-    assert(!response.empty());
-    std::cout << response << "\n";
-
-    g_client_2.send("TOPIC #channel :not possible\n");
+    g_client_2.send("MODE #channel +o :lala\n");
     sleep(1);
     response = g_client_2.receive();
     assert(!response.empty());
@@ -76,36 +63,21 @@ void    topicJob()
     assert(!response.empty());
     std::cout << response << "\n";
 
-    g_client.send("MODE #channel +t\n");
+    g_client.send("MODE #channel +o :User2\n");
     sleep(1);
     response = g_client.receive();
     assert(!response.empty());
     std::cout << response << "\n";
 
-    g_client_2.send("TOPIC #channel :invalid\n");
+    assert(g_server.getChannel("#channel").isOperator(*g_server.getClientByName("User2")) == true);
+
+    g_client_2.send("MODE #channel -o :User1\n");
     sleep(1);
     response = g_client_2.receive();
     assert(!response.empty());
     std::cout << response << "\n";
 
-    topic = g_server.getChannel("#channel").getMode().getTopic();
-    assert(topic.topic != ":invalid");
-
-    g_client.send("MODE #channel -t\n");
-    sleep(1);
-    response = g_client.receive();
-    assert(!response.empty());
-    std::cout << response << "\n";
-
-    g_client_2.send("TOPIC #channel :valid\n");
-    sleep(1);
-    response = g_client_2.receive();
-    assert(!response.empty());
-    std::cout << response << "\n";
-
-    topic = g_server.getChannel("#channel").getMode().getTopic();
-    assert(topic.topic == ":valid");
-    assert(topic.topic_nick == "User2");
+    assert(g_server.getChannel("#channel").isOperator(g_client.getClient()) == false);
 }
 
 int     main(void)
@@ -113,7 +85,7 @@ int     main(void)
     std::thread server_thread(serverJob);
     sleep(3);
 
-    std::thread client_thread(topicJob);
+    std::thread client_thread(operatorJob);
 
     client_thread.join();
 

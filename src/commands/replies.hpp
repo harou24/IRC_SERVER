@@ -69,10 +69,6 @@
 # define ERR_USERSDONTMATCH(nick) ":" + std::string(HOST) + " 502 " + nick + " :Can't change mode for other users\n"
 # define ERR_HELPTOPIC(nick, command) ": 650 " + nick + " " + command + " :<channel> [:<topic>]\n"
 
-
-
-
-
-
+# define ERR_HELPOPERATOR(nick, channel) nick + " " + channel + " :You must specify a parameter for the op mode. Syntax: <nick>.\n"
 
 #endif

@@ -27,3 +27,7 @@ wait $!
 echo "------------------Running topic tests------------------"
 ./build/apps/irc_topic_test.out &
 wait $!
+
+echo "------------------Running mode operator flag tests------------------"
+./build/apps/irc_mode_operator_test.out &
+wait $!

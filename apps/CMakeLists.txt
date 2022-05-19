@@ -39,6 +39,9 @@ if(TEST)
     add_executable(irc_topic_test.out ./irc/irc_topic_test.cpp)
     target_link_libraries(irc_topic_test.out PRIVATE ft_irc)
 
+    add_executable(irc_mode_operator_test.out ./irc/irc_mode_operator_test.cpp)
+    target_link_libraries(irc_mode_operator_test.out PRIVATE ft_irc)
+
     add_executable(irc_password_test.out ./irc/irc_password_test.cpp)
     target_link_libraries(irc_password_test.out PRIVATE ft_irc)
     
