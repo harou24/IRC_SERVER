@@ -72,21 +72,10 @@ bool        Channel::isInChannel(std::string nick)
 
 bool        Channel::isOperator(Client& cl)
 {
-    std::set<Client *>::iterator it = operators_.begin();
-    for (; it != operators_.end(); it++)
-    {
-        if ((*it)->getNick() == cl.getNick())
-            break;
-    }
+    std::set<Client *>::iterator it = getClientByName(operators_, cl.getNick());
     if (it != operators_.end())
         return true;
     return false;
-}
-
-void        Channel::printOps()
-{
-    for (std::set<Client *>::iterator it = operators_.begin(); it != operators_.end(); it++)
-        std::cout << (*it)->getNick() << std::endl;
 }
 
 bool        Channel::isActive() const

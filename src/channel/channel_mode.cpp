@@ -66,10 +66,7 @@ void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::stri
             {
                 Channel *channel = &controller.getServer().getChannel(channel_);
                 if (channel->isInChannel(&word[1]))
-                {
                     channel->addOperator(*controller.getServer().getClientByName(&word[1]));
-                    channel->printOps();
-                }
                 else
                     reply = "";
             }
