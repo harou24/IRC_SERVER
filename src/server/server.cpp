@@ -148,7 +148,8 @@ void            Server::handleData(int fd)
         getStreamFromFd(fd)->setTimeStamp((unsigned)time(NULL));
     }
     else
-        removeClient(fd);
+        queue_.push(new Message("", getStreamFromFd(fd)));
+        // removeClient(fd);
 }
 
 void            Server::sendData(int fd, char *buffer, size_t len)
@@ -164,6 +165,8 @@ std::string          Server::receiveData(int fd)
 
     char    buffer[512];
     size_t len = clients_ss_[fd]->receive(buffer, 512);
+    if (len == 0)
+        std::cout << "EOF\n";
     buffer[len] = '\0';
     return std::string(buffer);
 }

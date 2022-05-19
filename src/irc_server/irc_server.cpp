@@ -54,7 +54,7 @@ void    IrcServer::start()
         server_->runOnce();
         while (Message *msg = &server_->getNextMsg())
         {
-            if (msg)
+            if (!msg->getData().empty())
             {
                 #if 1
                     print("DEBUG", "incoming msg - " + msg->getData());
@@ -66,6 +66,7 @@ void    IrcServer::start()
             else
             {
                 std::cout << "BREAKING...\n";
+                removeClient(getClientByStream(msg->getStreamPtr()), RPL_QUIT(getClientByStream(msg->getStreamPtr()), ":Connection closed"));
                 break;
             }
             std::cout << "msg\n";
@@ -117,17 +118,20 @@ void IrcServer::addClient(Client *cl)
 
 void IrcServer::removeClient(Client *cl, std::string reply)
 {
-    for(std::map<std::string, Channel*>::iterator it = channels_.begin(); it != channels_.end(); it++)
+    for(std::map<std::string, Channel*>::iterator it = channels_.begin(); it != channels_.end();)
     {
+        std::map<std::string, Channel*>::iterator next = it;
+        ++next;
         it->second->removeClient(*cl, reply);
         if (!it->second->isActive())
             removeChannel(it->first);
+        it = next;
     }
 
     std::vector<Client *>::iterator it = clients_.begin();
     while (it != clients_.end())
     {
-        if (*it == cl)
+        if ((*it)->getNick() == cl->getNick())
             break;
         it++;
     }

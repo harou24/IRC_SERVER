@@ -80,7 +80,7 @@ bool        Channel::isOperator(Client& cl)
 
 bool        Channel::isActive() const
 {
-    if (clients_.size() > 0)
+    if (clients_.size() > 1)
         return true;
     return false;
 }
