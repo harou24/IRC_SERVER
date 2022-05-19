@@ -40,7 +40,7 @@ ssize_t         TcpStream::send(std::string buffer, size_t len)
 
 ssize_t         TcpStream::receive(char *buffer, size_t len)
 {
-    return read(getSd(), buffer, len);
+    return read(getSd(), buffer, len - 1);
 }
 
 std::string     TcpStream::getPeerIP()const {return peerIP_;}
