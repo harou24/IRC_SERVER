@@ -92,6 +92,7 @@ void    Parser::whois(const std::string& str)
 {
     std::istringstream  ss(str);
     ss >> this->arguments_->arg1;
+    this->command_ = UNKNOWN;
     if (ss >> this->arguments_->arg1)
         this->command_ = UNKNOWN;
 }
@@ -226,9 +227,11 @@ void    Parser::parse(const std::string &inProgram)
 
     arg.erase(std::remove(arg.begin(), arg.end(), '\r'), arg.end());
 
-    void    (Parser::*p2f[])(const std::string& x) = {&Parser::away, &Parser::invite, \
-        &Parser::join, &Parser::nick, &Parser::notice, &Parser::pong, &Parser::privmsg, &Parser::quit, \
-        &Parser::whois, &Parser::mode, &Parser::user, &Parser::ping, &Parser::part, &Parser::kick, &Parser::pass, &Parser::topic};
+    void    (Parser::*p2f[])(const std::string& x) = {&Parser::pass, \
+        &Parser::nick, &Parser::user, &Parser::away, &Parser::invite, \
+        &Parser::join, &Parser::notice, &Parser::pong, &Parser::privmsg, \
+        &Parser::quit, &Parser::whois, &Parser::mode, &Parser::ping, \
+        &Parser::part, &Parser::kick, &Parser::topic};
 
     this->arguments_->arg1 = this->arguments_->arg2 = this->arguments_->arg3 = this->arguments_->arg4 = "";
     this->rawText_ = arg;

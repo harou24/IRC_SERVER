@@ -74,7 +74,7 @@ void    IrcServer::start()
     }
 }
 
-bool IrcServer::isNickInUse(const std::string &nickname)
+bool IrcServer::isNickInUse(const std::string &nickname)    //
 {
     std::vector<Client *>::const_iterator it = clients_.begin();
     while (it != clients_.end())
@@ -110,10 +110,29 @@ Client* IrcServer::getClientByStream(TcpStream *stream) const
     return NULL;
 }
 
-void IrcServer::addClient(Client *cl)
+Client* IrcServer::getClientWaitListByStream(TcpStream *stream) const
+{
+    std::vector<Client *>::const_iterator it = clientsWaitList_.begin();
+    while (it != clientsWaitList_.end())
+    {
+        if ((*it)->getStream() == *stream)
+            return *it;
+        it++;
+    }
+    return NULL;
+}
+
+void    IrcServer::addClient(Client *cl)
 {
     clients_.push_back(cl);
 }
+
+
+void    IrcServer::addClientToWaitList(Client* cl)
+{
+    clientsWaitList_.push_back(cl);
+}
+
 
 void IrcServer::removeClient(Client *cl, std::string reply)
 {
@@ -139,6 +158,38 @@ void IrcServer::removeClient(Client *cl, std::string reply)
     }
 }
 
+void    IrcServer::removeClientWaitList(Client* cl)
+{
+    std::vector<Client *>::iterator it = clientsWaitList_.begin();
+    while (it != clientsWaitList_.end())
+    {
+        if (*it == cl)
+            break;
+        it++;
+    }
+    if (it != clientsWaitList_.end())
+    {
+        delete *it;
+        clientsWaitList_.erase(it);
+    }
+}
+
+void    IrcServer::ConnectClient(Client* cl)
+{
+    std::vector<Client *>::iterator it = clientsWaitList_.begin();
+    while (it != clientsWaitList_.end())
+    {
+        if (*it == cl)
+        {
+            clientsWaitList_.erase(it);
+            addClient(cl);
+            break;
+        }    
+        it++;
+    }
+}
+
+
 bool    IrcServer::isChannel(std::string channel)
 {
     if (channels_.find(channel) != channels_.end())
@@ -154,7 +205,6 @@ void    IrcServer::addChannel(std::string channel, Client &cl, unsigned int time
 
 void    IrcServer::removeChannel(std::string channel)
 {
-    //LEAK
     Channel *tmp = &this->getChannel(channel);
     channels_.erase(channel);
     delete tmp;
