@@ -2,8 +2,9 @@
 
 std::string    user(const CmdController& controller)
 {
+    std::string reply = "";
     TcpStream *stream = controller.getCurrentMsg().getStreamPtr();
-    Client *cl = controller.getServer().getClientByStream(stream);
+    Client *cl = controller.getServer().getClientWaitListByStream(stream);
 
     if (cl)
     {
@@ -12,13 +13,8 @@ std::string    user(const CmdController& controller)
         cl->setHost(args.arg2);
         cl->setServer(args.arg3);
         cl->setReal(args.arg4);
-
-        /*
-        std::string password = controller.getParser().getArgument().arg1;
-
-        if (!controller.getServer().isPasswordOk(password))
-            return quit(controller);
-*/
+        controller.getServer().ConnectClient(cl);
+        reply = welcome(cl->getNick(), args);
     }
-    return ("");
+    return reply;
 }

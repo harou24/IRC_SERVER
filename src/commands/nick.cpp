@@ -11,27 +11,31 @@ std::string    execNick(const CmdController& controller, const std::string& nick
 
     TcpStream *stream = controller.getCurrentMsg().getStreamPtr();
     Client *cl = controller.getServer().getClientByStream(stream);
+    Client *clwait = controller.getServer().getClientWaitListByStream(stream);
 
-    if (!cl)
+    if (!cl && !clwait)
     {
         //create client
         std::cout << "CREATING CLIENT GO\n";
-        cl = new Client("UNKNOWN", stream);
-        controller.getServer().addClient(cl);
+        clwait = new Client("UNKNOWN", stream);
+        controller.getServer().addClientToWaitList(clwait);
         reply = ":" + std::string(HOST) + " NOTICE * :Password NEEDED\n";
-        cl->setPasswordUsedToConnect("");
+        clwait->setPasswordUsedToConnect("");
     }
-    if (cl->getNick() == "UNKNOWN")
+    if (clwait && clwait->getNick() == "UNKNOWN")
     {
-        //create client
-        std::cout << "CREATING CLIENT GO\n";
-        cl->setNick(nickname);
-        if (!controller.getServer().isPasswordOk(cl->getPasswordUsedToConnect()))
-            quit(controller);
-        else
-            reply = welcome(nickname, controller.getParser().getArgument());
+        clwait->setNick(nickname);
+        if (!controller.getServer().isPasswordOk(clwait->getPasswordUsedToConnect()))
+        {
+            if (reply.size() > 0)
+                controller.getCurrentMsg().getStream().send(reply, reply.length());
+            reply = "";
+            controller.getServer().removeClientWaitList(clwait);
+        }
+        else 
+            reply = "";
     }
-    else
+    else if (cl)
     {
         //update client
         reply = ":" + cl->getNick() + " NICK " + nickname + "\n";

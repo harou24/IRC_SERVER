@@ -92,6 +92,7 @@ void    Parser::whois(const std::string& str)
 {
     std::istringstream  ss(str);
     ss >> this->arguments_->arg1;
+    this->command_ = UNKNOWN;
     if (ss >> this->arguments_->arg1)
         this->command_ = UNKNOWN;
 }
