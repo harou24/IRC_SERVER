@@ -74,14 +74,22 @@ void    IrcServer::start()
     }
 }
 
-bool IrcServer::isNickInUse(const std::string &nickname)    //
+bool IrcServer::isNickInUse(const std::string &nickname)
 {
     std::vector<Client *>::const_iterator it = clients_.begin();
+    std::vector<Client *>::const_iterator itWait = clientsWaitList_.begin();
+
     while (it != clients_.end())
     {
         if ((*it)->getNick() == nickname)
             return true;
         it++;
+    }
+    while (itWait != clientsWaitList_.end())
+    {
+        if ((*itWait)->getNick() == nickname)
+            return true;
+        itWait++;
     }
     return false;
 }
