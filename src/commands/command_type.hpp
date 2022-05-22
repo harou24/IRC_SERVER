@@ -12,7 +12,6 @@
     PONG,
     PRIVMSG,
     QUIT,
-    WHOIS, 
     MODE,
     PING,
     PART,

@@ -88,15 +88,6 @@ void    Parser::quit(const std::string& str)
         this->command_ = UNKNOWN;
 }
 
-void    Parser::whois(const std::string& str) 
-{
-    std::istringstream  ss(str);
-    ss >> this->arguments_->arg1;
-    this->command_ = UNKNOWN;
-    if (ss >> this->arguments_->arg1)
-        this->command_ = UNKNOWN;
-}
-
 void    Parser::mode(const std::string& str) 
 {
     std::istringstream  ss(str);
@@ -196,7 +187,6 @@ std::string Parser::findCommand(const std::string& s)
     string_to_case.insert(std::make_pair<std::string,CommandType>("PONG",PONG));
     string_to_case.insert(std::make_pair<std::string,CommandType>("PRIVMSG",PRIVMSG));
     string_to_case.insert(std::make_pair<std::string,CommandType>("QUIT",QUIT));
-    string_to_case.insert(std::make_pair<std::string,CommandType>("WHOIS",WHOIS));
     string_to_case.insert(std::make_pair<std::string,CommandType>("MODE",MODE));
     string_to_case.insert(std::make_pair<std::string,CommandType>("USER",USER));
     string_to_case.insert(std::make_pair<std::string,CommandType>("PING",PING));
@@ -230,7 +220,7 @@ void    Parser::parse(const std::string &inProgram)
     void    (Parser::*p2f[])(const std::string& x) = {&Parser::pass, \
         &Parser::nick, &Parser::user, &Parser::away, &Parser::invite, \
         &Parser::join, &Parser::notice, &Parser::pong, &Parser::privmsg, \
-        &Parser::quit, &Parser::whois, &Parser::mode, &Parser::ping, \
+        &Parser::quit, &Parser::mode, &Parser::ping, \
         &Parser::part, &Parser::kick, &Parser::topic};
 
     this->arguments_->arg1 = this->arguments_->arg2 = this->arguments_->arg3 = this->arguments_->arg4 = "";

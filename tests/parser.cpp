@@ -166,22 +166,6 @@ TEST_CASE("Parsing command QUIT2")
     REQUIRE(A.arg4 == "");
 }
 
-TEST_CASE("Parsing command WHOIS")
-{
-    Parser   parser;
-    
-    parser.parse("WHOIS name");
-
-    Args A = parser.getArgument();
-
-    REQUIRE(parser.getCommand() == WHOIS);
-    REQUIRE(parser.getRaw() == "WHOIS name");
-    REQUIRE(A.arg1 == "name");
-    REQUIRE(A.arg2 == "");
-    REQUIRE(A.arg3 == "");
-    REQUIRE(A.arg4 == "");
-}
-
 TEST_CASE("Parsing command MODE1")
 {
     Parser   parser;
