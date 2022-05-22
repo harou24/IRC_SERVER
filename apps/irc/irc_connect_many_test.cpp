@@ -81,6 +81,8 @@ int main(void)
     sleep(1); 
     assert(g_server.isRunning() == false);
     server_thread.join();
+    server_thread.detach();
+
 
     return (0);
 }
