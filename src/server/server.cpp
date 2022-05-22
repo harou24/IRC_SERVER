@@ -107,10 +107,9 @@ void            Server::addClient()
 
 void            Server::removeClient(int fd)
 {
-    TcpStream* tmp = clients_ss_.at(fd);
     disconnect(fd);
+    delete clients_ss_.at(fd);
     clients_ss_.erase(fd);
-    delete tmp;
     nbrClients_--;
 }
 

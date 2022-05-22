@@ -64,7 +64,9 @@ void connectClients(void)
         client6.connect("user6");
         sleep(1);
         client6.send("CAP LS\nNICK user6\nUSER user6 user6 user6 :user6\n");
-
+        sleep(1);
+        response = client6.receive();
+        assert(!response.empty());
 }
 
 int main(void)
@@ -81,8 +83,6 @@ int main(void)
     sleep(1); 
     assert(g_server.isRunning() == false);
     server_thread.join();
-    server_thread.detach();
-
 
     return (0);
 }
