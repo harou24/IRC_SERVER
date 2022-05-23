@@ -54,7 +54,7 @@ void    IrcServer::start()
         server_->runOnce();
         while (Message *msg = &server_->getNextMsg())
         {
-            if (msg)
+            if (msg->getData() != "EXIT")
             {
                 #if 1
                     print("DEBUG", "incoming msg - " + msg->getData());
@@ -62,6 +62,14 @@ void    IrcServer::start()
                 cmd.execute(msg);
                 std::cout << "AFTER EXEC\n";
                 delete(msg);
+            }
+            else if (msg->getData() == "EXIT")
+            {
+                Client *cl = getClientByStream(msg->getStreamPtr());
+                if (cl != NULL)
+                    removeClient(cl, std::string(RPL_QUIT(cl, ":connection lost")));
+                else
+                    server_->removeClient(msg->getStream().getSd());
             }
             else
             {
