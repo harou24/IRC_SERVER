@@ -69,7 +69,11 @@ void    IrcServer::start()
                 if (cl != NULL)
                     removeClient(cl, std::string(RPL_QUIT(cl, ":connection lost")));
                 else
+                {
+                    Client *cl = getClientWaitListByStream(msg->getStreamPtr());
+                    removeClientWaitList(cl);
                     server_->removeClient(msg->getStream().getSd());
+                }
             }
             else
             {
