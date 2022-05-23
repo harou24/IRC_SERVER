@@ -220,6 +220,9 @@ void    IrcServer::ConnectClient(Client* cl)
 
 bool    IrcServer::isChannel(std::string channel)
 {
+    for (std::string::iterator it = channel.begin(); channel.end() != it; ++it)
+        *it = toupper(*it);
+
     if (channels_.find(channel) != channels_.end())
         return true;
     return false;
@@ -227,12 +230,18 @@ bool    IrcServer::isChannel(std::string channel)
 
 void    IrcServer::addChannel(std::string channel, Client &cl, unsigned int time)
 {
+    for (std::string::iterator it = channel.begin(); channel.end() != it; ++it)
+        *it = toupper(*it);
+
     Channel *c = new Channel(channel, cl, time);
     channels_.insert(std::make_pair(channel, c));
 }
 
 void    IrcServer::removeChannel(std::string channel)
 {
+    for (std::string::iterator it = channel.begin(); channel.end() != it; ++it)
+        *it = toupper(*it);
+
     Channel *tmp = &this->getChannel(channel);
     channels_.erase(channel);
     delete tmp;
@@ -240,14 +249,10 @@ void    IrcServer::removeChannel(std::string channel)
 
 Channel&    IrcServer::getChannel(std::string channel)
 {
+    for (std::string::iterator it = channel.begin(); channel.end() != it; ++it)
+        *it = toupper(*it);
     return *channels_[channel];
 }
-
-std::map<std::string, Channel*>&    IrcServer::getAllChannels()
-{
-    return channels_;
-}
-
 
 void IrcServer::stop(void)
 {

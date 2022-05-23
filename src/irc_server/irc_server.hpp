@@ -6,6 +6,7 @@
 
 # include "server.hpp"
 # include "channel.hpp"
+# include <cctype>
 
 class Client;
 class Channel;
@@ -35,7 +36,6 @@ class IrcServer {
         void                                addChannel(std::string channel, Client& cl, unsigned int time);
         void                                removeChannel(std::string channel);
         Channel&                            getChannel(std::string channel);
-        std::map<std::string, Channel*>&    getAllChannels();
         
         bool                                isRunning(void) const;
 
