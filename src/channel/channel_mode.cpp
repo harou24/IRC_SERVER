@@ -65,8 +65,8 @@ void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::stri
             if (ss>>word && word.size() > 0)
             {
                 Channel *channel = &controller.getServer().getChannel(channel_);
-                if (channel->isInChannel(&word[1]))
-                    channel->addOperator(*controller.getServer().getClientByName(&word[1]));
+                if (channel->isInChannel(word))
+                    channel->addOperator(*controller.getServer().getClientByName(word));
                 else
                     reply = "";
             }
@@ -115,8 +115,8 @@ void    ChannelMode::setoff(char c, std::istringstream& ss, Client& cl, std::str
             if (ss>>word && word.size() > 0)
             {
                 Channel *channel = &controller.getServer().getChannel(channel_);
-                if (channel->isInChannel(&word[1]))
-                    channel->removeOperator(*controller.getServer().getClientByName(&word[1]));
+                if (channel->isInChannel(word))
+                    channel->removeOperator(*controller.getServer().getClientByName(word));
                 else
                     reply = "";
             }
