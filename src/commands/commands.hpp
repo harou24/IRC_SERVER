@@ -5,6 +5,7 @@
 # include "command_type.hpp"
 # include "replies.hpp"
 # include <string>
+# include <cstring>
 
 struct Args;
 class CmdController;
@@ -29,5 +30,8 @@ std::string    kick(const CmdController& controller);
 std::string    pass(const CmdController& controller);
 std::string    topic(const CmdController& controller);
 std::string    notice(const CmdController& controller);
+
+std::string    generateRandom(const int len);
+
 
 #endif

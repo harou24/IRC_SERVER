@@ -34,13 +34,19 @@ void CmdController::execute(Message *m)
     #if 1
         print("DEBUG", "execute...");
     #endif
+
+    std::string reply = "";
+    Client *cl = getServer().getClientByStream(m->getStreamPtr());
+    
     currentMsg_ = m;
     parser_->parse(m->getData());
     if (parser_->getCommand() == UNKNOWN)
         return ;
-    std::string reply = cmds_[parser_->getCommand()](*this);
-    TcpStream *s = m->getStreamPtr();
-    #if 1
+    if (parser_->getCommand() < AWAY || parser_->getCommand() == CAP_LS ||\
+     cl != NULL)
+        reply = cmds_[parser_->getCommand()](*this);
+    #if 0
+        TcpStream *s = m->getStreamPtr();
         if (s)
         {
             std::stringstream ss;
@@ -54,11 +60,6 @@ void CmdController::execute(Message *m)
         std::cout << "REPLY------------------------>" << reply << "\n";
         m->getStream().send(reply, reply.length());
     }
-    /*
-    if (reply == ":Password incorrect\n")
-        sleep(2);
-        server_->disconnect(m->getStream().getSd());
-        */
 }
 
 Message& CmdController::getCurrentMsg() const

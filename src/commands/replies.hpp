@@ -42,7 +42,7 @@
 # define RPL_AWAY(nick, nick2, msg) ":" + std::string(HOST) + " 301 " + nick2 + " " + nick + " " + msg + "\n"
 # define RPL_UNAWAY() ":" + std::string(HOST) + " 305 :You are no longer marked as being away\n"
 # define RPL_NOAWAY() ":" + std::string(HOST) + " 306 :You have been marked as being away\n"
-# define RPL_UMODEIS(cl, args) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " MODE " + args.arg1 + " " + args.arg2 + " :" + args.arg3 + "\n"    /*  221  */
+# define RPL_UMODEIS(cl, args) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " MODE " + args.arg1 + " " + args.arg2 + " :" + args.arg4 + "\n"    /*  221  */
 # define RPL_UMODEIS2(cl, args) ": 324 " + cl->getNick() + " " + args.arg1 + " :" + args.arg3 + "\n"
 # define RPL_CREATIONTIME(nick, channel, time) ":" + std::string(HOST) + " 329 " + nick + " " + channel + " :" + time + "\n"
 # define RPL_NOTOPIC(nick, channel) ": 331 " + nick + " " + channel + " :No topic is set.\n"
@@ -57,6 +57,7 @@
 # define ERR_NOSUCHNICK(nick, nick2) ":" + std::string(HOST) + " 401 " + nick + " " + nick2 + " :No such nick/channel\n"
 # define ERR_NOSUCHCHANNEL(nick, channel) ":" + std::string(HOST) + " 403 " + nick + " " + channel + " :No such channel\n"
 # define ERR_CANNOTSENDTOCHAN(nick, channel)  ":" + std::string(HOST) + " 404 " + nick + " " + channel + " :You cannot send external messages to this channel whilst the +n (noextmsg) mode is set.\n"
+# define ERR_CANNOTSENDTOCHANBAN(nick, channel)  ":" + std::string(HOST) + " 404 " + nick + " " + channel + " :You cannot send messages to this channel whilst banned.\n"
 # define ERR_NOTONCHANNEL(nick, channel) ":" + nick + " " + channel + " You're not on that channel\n"
 # define ERR_USERNOTINCHANNEL(nick, nick2, channel)  ":" + std::string(HOST) + " 441 " + nick + " " + nick2 + " " + channel + " :They are not on that channel\n"
 # define ERR_NEEDMOREPARAMS(nick, channel) ":" + std::string(HOST) + " 461 " + nick + " " + channel + " :Not enough parameters\n"

@@ -41,7 +41,7 @@ void    operatorJob()
     assert(!response.empty());
     std::cout << response << "\n";
 
-    g_client.send("MODE #channel +o :lala");
+    g_client.send("MODE #channel +o lala");
     sleep(1);
 
     g_client_2.connect("User2");
@@ -51,7 +51,7 @@ void    operatorJob()
     assert(!response.empty());
     std::cout << response << "\n";
 
-    g_client_2.send("MODE #channel +o :lala\n");
+    g_client_2.send("MODE #channel +o lala\n");
     sleep(1);
     response = g_client_2.receive();
     assert(!response.empty());
@@ -63,7 +63,7 @@ void    operatorJob()
     assert(!response.empty());
     std::cout << response << "\n";
 
-    g_client.send("MODE #channel +o :User2\n");
+    g_client.send("MODE #channel +o User2\n");
     sleep(1);
     response = g_client.receive();
     assert(!response.empty());
@@ -71,7 +71,7 @@ void    operatorJob()
 
     assert(g_server.getChannel("#channel").isOperator(*g_server.getClientByName("User2")) == true);
 
-    g_client_2.send("MODE #channel -o :User1\n");
+    g_client_2.send("MODE #channel -o User1\n");
     sleep(1);
     response = g_client_2.receive();
     assert(!response.empty());

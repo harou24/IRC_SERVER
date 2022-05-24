@@ -36,7 +36,6 @@ class Parser {
         void    pong(const std::string& str);
         void    privmsg(const std::string& str);
         void    quit(const std::string& str);
-        void    whois(const std::string& str);
         void    mode(const std::string& str);
         void    user(const std::string& str);
         void    ping(const std::string& str);
