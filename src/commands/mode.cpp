@@ -22,6 +22,8 @@ static std::string  ChannelMode(const CmdController& controller)
         reply += RPL_CREATIONTIME(cl->getNick(), channel->getChannelName(), to_string(channel->getCreationTime()));
         return reply;
     }
+    if (arg.arg2.find("+") == std::string::npos && arg.arg2.find("-") == std::string::npos)
+        return "";
     if (channel->isOperator(*cl) || (arg.arg2 == "+b" && arg.arg3 == ""))
     {
         channel->getMode().setMode(controller, *cl, reply);
