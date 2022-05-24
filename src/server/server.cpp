@@ -165,6 +165,7 @@ void            Server::handleData(int fd)
             }
             getStreamFromFd(fd)->setTimeStamp((unsigned)time(NULL));
         }
+        getStreamFromFd(fd)->setTimeStamp((unsigned)time(NULL));
     }
 }
 
