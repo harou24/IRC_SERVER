@@ -35,13 +35,13 @@ void    operatorJob()
     assert(!response.empty());
     std::cout << response << "\n";
 
-    g_client.send("MODE #channel +o");
+    g_client.send("MODE #channel +o\n");
     sleep(1);
     response = g_client.receive();
     assert(!response.empty());
     std::cout << response << "\n";
 
-    g_client.send("MODE #channel +o lala");
+    g_client.send("MODE #channel +o lala\n");
     sleep(1);
 
     g_client_2.connect("User2");

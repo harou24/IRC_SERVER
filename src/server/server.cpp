@@ -136,20 +136,32 @@ TcpStream*      Server::getStreamFromFd(int fd)
 void            Server::handleData(int fd)
 {
     std::string data = receiveData(fd);
-    std::queue<std::string> splited = split(data);
-    if (!splited.empty())
+    if (data.length() == 0)
+        queue_.push(new Message("EXIT", getStreamFromFd(fd)));
+    else if (data[data.length() - 1] != '\n')
     {
-        while (!splited.empty())
-        {
-            std::string cmd = splited.front();
-            queue_.push(new Message(cmd, getStreamFromFd(fd)));
-            splited.pop();
-        }
+        getStreamFromFd(fd)->addToBuffer(data);
         getStreamFromFd(fd)->setTimeStamp((unsigned)time(NULL));
     }
     else
-        queue_.push(new Message("EXIT", getStreamFromFd(fd)));
-        // removeClient(fd);
+    {
+        if (data[data.length() - 1] == '\n')
+        {
+            data = getStreamFromFd(fd)->getBuffer() + data;
+            getStreamFromFd(fd)->emptyBuffer();
+        }
+        std::queue<std::string> splited = split(data);
+        if (!splited.empty())
+        {
+            while (!splited.empty())
+            {
+                std::string cmd = splited.front();
+                queue_.push(new Message(cmd, getStreamFromFd(fd)));
+                splited.pop();
+            }
+            getStreamFromFd(fd)->setTimeStamp((unsigned)time(NULL));
+        }
+    }
 }
 
 void            Server::sendData(int fd, char *buffer, size_t len)

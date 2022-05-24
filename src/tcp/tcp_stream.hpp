@@ -20,9 +20,13 @@ class TcpStream
         int             getSd() const;
         unsigned int    getTimeStamp() const;
         std::string     getPing() const;
+        std::string     getBuffer() const;
 
         void            setTimeStamp(unsigned int time);
         void            setPing(std::string str);
+        void            addToBuffer(std::string str);
+
+        void            emptyBuffer();
 
         bool    operator==(TcpStream& rhs);
         bool    operator!=(TcpStream& rhs);
@@ -41,6 +45,7 @@ class TcpStream
         int             peerPort_;
         unsigned int    timeStamp_;
         std::string     ping_;
+        std::string     buffer_;
 };
 
 std::ostream&       operator<<(std::ostream& o , TcpStream const & src);
