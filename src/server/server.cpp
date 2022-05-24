@@ -4,10 +4,12 @@
 
 # define MAXclients_ 5
 
-Server::Server(int port, std::string password) : acceptor_(port, HOST), clients_ss_(), nbrClients_(0)
+Server::Server(int port, std::string password, std::string host) : acceptor_(port, host), clients_ss_(), nbrClients_(0)
 {
     isRunning_ = false;
     password_ = password;
+    #undef HOST
+    #define HOST host
 }
 
 Server::~Server()
@@ -102,6 +104,7 @@ void            Server::addClient()
     TcpStream *newStream = acceptor_.accept();
     MultiClientHandler::addFdToSet(newStream->getSd());
     clients_ss_.insert(std::make_pair(newStream->getSd(), newStream));
+    std::cout << YELLOW << "New client with fd: " << newStream->getSd() << RESET << std::endl;
     nbrClients_++;
 }
 
@@ -110,6 +113,7 @@ void            Server::removeClient(int fd)
     disconnect(fd);
     delete clients_ss_.at(fd);
     clients_ss_.erase(fd);
+    std::cout << YELLOW << "Removing client with fd: " << fd << RESET << std::endl;
     nbrClients_--;
 }
 

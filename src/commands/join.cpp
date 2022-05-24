@@ -33,7 +33,6 @@ std::string         join(const CmdController& controller)
     std::string reply = modeHandler(*channel, *cl, controller);
     if (!reply.empty())
         return reply;
-    std::cout << "NAMES = " << channel->getNames() << std::endl;
     channel->sendMessage(*cl, std::string(RPL_JOIN(cl, channel_name)));
     
     std::string topic_reply = "";

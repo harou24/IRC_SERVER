@@ -59,7 +59,7 @@ void        TcpAcceptor::inetSocketAddress(struct sockaddr_in *address)
     memset(address, 0, sizeof(*address));
     address->sin_family = AF_INET;
     address->sin_port = htons(port_);
-    address->sin_addr.s_addr = inet_addr(address_.c_str());
+    address->sin_addr.s_addr = INADDR_ANY;
 }
 
 int         TcpAcceptor::bindSocket(struct sockaddr_in *address)

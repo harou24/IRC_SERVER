@@ -31,7 +31,6 @@ void    ChannelMode::setChan(std::string name)
 
 bool    ChannelMode::Invite() const
 {
-    std::cout << opper_ << std::endl;
     return (opper_ & (1<<1));
 }
 
@@ -106,11 +105,8 @@ void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::stri
                 erasechar(*arg, 'l');
             break;
         case 'b':
-            std::cout << "A\n";
-            std::cout << ss.str() << std::endl;
             if (ss>>word && word.size() > 0)
             {
-                std::cout << "WORD=" << word << std::endl;
                 setBan(word, cl.getNick());
                 if (arg->arg4 == "")
                     arg->arg4 = word;

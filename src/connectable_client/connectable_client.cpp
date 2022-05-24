@@ -35,7 +35,7 @@ void    ConnectableClient::connect(const std::string &nick)
     }
     catch(std::exception &e)
     {
-        std::cout << e.what() << "\n";
+        print("ERROR", e.what());
     }
     client_ = new Client(nick, stream_);
 }
@@ -43,7 +43,7 @@ void    ConnectableClient::connect(const std::string &nick)
 void    ConnectableClient::send(const std::string &message)
 {
     stream_->send(message.c_str(), message.size());
-    std::cout << "sent - " << message << std::endl;
+    print("DEBUG", "send " + message);
 }
 
 std::string ConnectableClient::receive()

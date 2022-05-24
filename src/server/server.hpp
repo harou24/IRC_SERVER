@@ -6,6 +6,7 @@
 # include "tcp_stream.hpp"
 # include "message.hpp"
 # include "print.hpp"
+# include "colors.h"
 
 # include <map>
 # include <iostream>
@@ -20,7 +21,7 @@
 class Server : public MultiClientHandler
 {
     public:
-        Server(int port, std::string password);
+        Server(int port, std::string password, std::string host);
         ~Server(void);
 
         void runOnce(void);
