@@ -8,7 +8,7 @@
 #include <assert.h>
 
 
-IrcServer g_server(8080, "");
+IrcServer g_server(8080, "", HOST);
 
 void serverJob()
 {

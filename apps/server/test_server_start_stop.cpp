@@ -6,7 +6,7 @@
 #include <iostream>
 #include <thread>
 
-Server serv(8080, "password");
+Server serv(8080, "password", HOST);
 
 void  runServer()
 {

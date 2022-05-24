@@ -7,7 +7,7 @@
 
 #include <assert.h>
 
-IrcServer g_server(8080, "");
+IrcServer g_server(8080, "", HOST);
 ConnectableClient g_client(8080, std::string(HOST));
 
 void serverJob()
