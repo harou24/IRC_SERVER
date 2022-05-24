@@ -43,7 +43,7 @@ static std::string  ChannelMode(const CmdController& controller)
         {
             if (arg.arg2 == "+b")
             {
-                arg.arg4 += "!*@*";
+                arg.arg4 = arg.arg3 + "!*@*";
                 reply = RPL_UMODEIS(cl, arg);
             }
             channel->sendMessage(*cl, reply);
