@@ -42,7 +42,7 @@
 # define RPL_AWAY(nick, nick2, msg) ":" + std::string(HOST) + " 301 " + nick2 + " " + nick + " " + msg + "\n"
 # define RPL_UNAWAY() ":" + std::string(HOST) + " 305 :You are no longer marked as being away\n"
 # define RPL_NOAWAY() ":" + std::string(HOST) + " 306 :You have been marked as being away\n"
-# define RPL_UMODEIS(cl, args) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " MODE " + args.arg1 + " " + args.arg2 + " :" + args.arg3 + "\n"    /*  221  */
+# define RPL_UMODEIS(cl, args) ":" + cl->getNick() + "!~" + cl->getHost() + "@" + cl->getServer() + " MODE " + args.arg1 + " " + args.arg2 + " :" + args.arg4 + "\n"    /*  221  */
 # define RPL_UMODEIS2(cl, args) ": 324 " + cl->getNick() + " " + args.arg1 + " :" + args.arg3 + "\n"
 # define RPL_CREATIONTIME(nick, channel, time) ":" + std::string(HOST) + " 329 " + nick + " " + channel + " :" + time + "\n"
 # define RPL_NOTOPIC(nick, channel) ": 331 " + nick + " " + channel + " :No topic is set.\n"

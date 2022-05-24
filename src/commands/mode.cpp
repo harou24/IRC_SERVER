@@ -13,7 +13,7 @@ static std::string  ChannelMode(const CmdController& controller)
     Channel *channel = &controller.getServer().getChannel(controller.getParser().getArgument().arg1);
     Args    arg = controller.getParser().getArgument();
     Client *cl = controller.getServer().getClientByStream(controller.getCurrentMsg().getStreamPtr());
-    std::string reply = RPL_UMODEIS(cl, arg);
+    std::string reply = "";
 
     if (arg.arg2 == "")
     {
@@ -27,11 +27,13 @@ static std::string  ChannelMode(const CmdController& controller)
     if (channel->isOperator(*cl) || (arg.arg2 == "+b" && arg.arg3 == ""))
     {
         channel->getMode().setMode(controller, *cl, reply);
+        if (reply == "")
+            RPL_UMODEIS(cl, arg);
         if (!(arg.arg2 == "+b" && arg.arg3 == ""))
         {
             if (arg.arg2 == "+b")
             {
-                arg.arg3 += "!*@*";
+                arg.arg4 += "!*@*";
                 reply = RPL_UMODEIS(cl, arg);
             }
             channel->sendMessage(*cl, reply);

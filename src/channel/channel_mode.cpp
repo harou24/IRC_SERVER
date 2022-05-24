@@ -8,6 +8,12 @@ static std::string to_string(const T & value)
     return oss.str();
 }
 
+static void erasechar(Args& arg, char c)
+{
+    if (arg.arg2.find(c) != std::string::npos)
+        arg.arg2.erase(arg.arg2.begin() + arg.arg2.find(c));
+}
+
 ChannelMode::ChannelMode() : opper_(0)
 {
     topic_ = new Topic();
@@ -59,6 +65,7 @@ void    ChannelMode::addInvite(Client& cl)
 void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::string& reply, const CmdController& controller)
 {
     std::string word;
+    Args* arg = &controller.getParser().getArgument();
     switch (c)
     {
         case 'o':
@@ -66,12 +73,19 @@ void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::stri
             {
                 Channel *channel = &controller.getServer().getChannel(channel_);
                 if (channel->isInChannel(word))
+                {
                     channel->addOperator(*controller.getServer().getClientByName(word));
-                else
-                    reply = "";
+                    if (arg->arg4 == "")
+                        arg->arg4 = word;
+                    else
+                        arg->arg4 += " " + word;
+                }
             }
             else
+            {
                 reply = std::string(ERR_HELPOPERATOR(cl.getNick(), channel_));
+                // erasechar(*arg, 'o');
+            }
             break;
         case 'i': opper_ |= (1 << 1);
             break;
@@ -84,14 +98,26 @@ void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::stri
             {
                 opper_ |= (1 << 4);
                 setClientLimit(atoi(word.c_str()));
+                if (arg->arg4 == "")
+                    arg->arg4 = word;
+                else
+                    arg->arg4 += " " + word;
             }
-            else
-                std::cout << "invalid size\n";
+            else if (arg->arg2.length() > 2)
+                erasechar(*arg, 'l');
             break;
         case 'b':
             if (ss>>word && word.size() > 0)
+            {
                 setBan(word, cl.getNick());
-            else
+                if (arg->arg4 == "")
+                    arg->arg4 = word;
+                else
+                    arg->arg4 += " " + word;
+            }
+            else if (arg->arg2.length() > 2)
+                erasechar(*arg, 'b');
+            else if(reply == "" && arg->arg2.length() == 1)
                 getBan(cl.getNick(), reply);
             break;
         case 'k':
@@ -99,7 +125,13 @@ void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::stri
             {
                 opper_ |= (1 << 6);
                 setPassword(word);
-            }       
+                if (arg->arg4 == "")
+                    arg->arg4 = word;
+                else
+                    arg->arg4 += " " + word;
+            }
+            else if (arg->arg2.length() > 2)
+                erasechar(*arg, 'k');     
             break;
         default:
             break;
@@ -109,6 +141,7 @@ void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::stri
 void    ChannelMode::setoff(char c, std::istringstream& ss, Client& cl, std::string& reply, const CmdController& controller)
 {
     std::string word;
+    Args* arg = &controller.getParser().getArgument();
     switch (c)
     {
         case 'o': 
@@ -116,9 +149,15 @@ void    ChannelMode::setoff(char c, std::istringstream& ss, Client& cl, std::str
             {
                 Channel *channel = &controller.getServer().getChannel(channel_);
                 if (channel->isInChannel(word))
+                {
                     channel->removeOperator(*controller.getServer().getClientByName(word));
-                else
-                    reply = "";
+                    if (arg->arg4 == "")
+                        arg->arg4 = word;
+                    else
+                        arg->arg4 += " " + word;
+                }
+                // else
+                //     erasechar(*arg, 'o');
             }
             else
                 reply = std::string(ERR_HELPOPERATOR(cl.getNick(), channel_));
@@ -133,7 +172,15 @@ void    ChannelMode::setoff(char c, std::istringstream& ss, Client& cl, std::str
             break;
         case 'b':
             if (ss>>word && word.size() > 0)
-                offBan(word);
+            {
+                    offBan(word);
+                if (arg->arg4 == "")
+                    arg->arg4 = word;
+                else
+                    arg->arg4 += " " + word;
+            }
+            else if (arg->arg2.length() > 2)
+                erasechar(*arg, 'b');
             break;
         case 'k': opper_ &= ~(1 << 6);            
             break;
