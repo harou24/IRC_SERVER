@@ -82,10 +82,7 @@ void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::stri
                 }
             }
             else
-            {
                 reply = std::string(ERR_HELPOPERATOR(cl.getNick(), channel_));
-                // erasechar(*arg, 'o');
-            }
             break;
         case 'i': opper_ |= (1 << 1);
             break;
@@ -103,22 +100,25 @@ void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::stri
                 else
                     arg->arg4 += " " + word;
             }
-            else if (arg->arg2.length() > 2)
+            else
                 erasechar(*arg, 'l');
             break;
         case 'b':
+            std::cout << "A\n";
+            std::cout << ss.str() << std::endl;
             if (ss>>word && word.size() > 0)
             {
+                std::cout << "WORD=" << word << std::endl;
                 setBan(word, cl.getNick());
                 if (arg->arg4 == "")
                     arg->arg4 = word;
                 else
                     arg->arg4 += " " + word;
             }
-            else if (arg->arg2.length() > 2)
-                erasechar(*arg, 'b');
-            else if(reply == "" && arg->arg2.length() == 1)
+            else if(reply == "" && arg->arg2.length() == 2)
                 getBan(cl.getNick(), reply);
+            else
+                erasechar(*arg, 'b');
             break;
         case 'k':
             if (ss>>word && word.size() > 0)
@@ -130,10 +130,11 @@ void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::stri
                 else
                     arg->arg4 += " " + word;
             }
-            else if (arg->arg2.length() > 2)
+            else
                 erasechar(*arg, 'k');     
             break;
         default:
+            erasechar(*arg, c);
             break;
     }
 }
@@ -156,8 +157,6 @@ void    ChannelMode::setoff(char c, std::istringstream& ss, Client& cl, std::str
                     else
                         arg->arg4 += " " + word;
                 }
-                // else
-                //     erasechar(*arg, 'o');
             }
             else
                 reply = std::string(ERR_HELPOPERATOR(cl.getNick(), channel_));
@@ -179,12 +178,13 @@ void    ChannelMode::setoff(char c, std::istringstream& ss, Client& cl, std::str
                 else
                     arg->arg4 += " " + word;
             }
-            else if (arg->arg2.length() > 2)
+            else
                 erasechar(*arg, 'b');
             break;
         case 'k': opper_ &= ~(1 << 6);            
             break;
         default:
+            erasechar(*arg, c);
             break;
     }
 }

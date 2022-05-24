@@ -5,6 +5,7 @@
 # include "command_type.hpp"
 # include "replies.hpp"
 # include <string>
+# include <cstring>
 
 struct Args;
 class CmdController;

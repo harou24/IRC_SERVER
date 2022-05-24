@@ -8,6 +8,16 @@ static std::string to_string(const T & value)
     return oss.str();
 }
 
+static bool ValidFlags(std::string str)
+{
+    for (std::string::iterator p = str.begin(); str.end() != p; p++)
+    {
+        if (*p >= 97 && *p <= 122)
+            return true;
+    }
+    return false;
+}
+
 static std::string  ChannelMode(const CmdController& controller)
 {
     Channel *channel = &controller.getServer().getChannel(controller.getParser().getArgument().arg1);
@@ -27,8 +37,8 @@ static std::string  ChannelMode(const CmdController& controller)
     if (channel->isOperator(*cl) || (arg.arg2 == "+b" && arg.arg3 == ""))
     {
         channel->getMode().setMode(controller, *cl, reply);
-        if (reply == "")
-            RPL_UMODEIS(cl, arg);
+        if (reply == "" && ValidFlags(controller.getParser().getArgument().arg2))
+            reply = RPL_UMODEIS(cl, controller.getParser().getArgument());
         if (!(arg.arg2 == "+b" && arg.arg3 == ""))
         {
             if (arg.arg2 == "+b")
