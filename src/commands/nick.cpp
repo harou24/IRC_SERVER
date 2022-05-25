@@ -11,14 +11,14 @@ std::string    execNick(const CmdController& controller, const std::string& nick
 
     TcpStream *stream = controller.getCurrentMsg().getStreamPtr();
     Client *cl = controller.getServer().getClientByStream(stream);
-    Client *clwait = controller.getServer().getClientWaitListByStream(stream);
+    Client *clwait = controller.getServer().getClientWaitlistByStream(stream);
 
     if (!cl && !clwait)
     {
         //create client
         print("DEBUG", "CREATING CLIENT GO");
         clwait = new Client("UNKNOWN", stream);
-        controller.getServer().addClientToWaitList(clwait);
+        controller.getServer().addClientToWaitlist(clwait);
         reply = ":" + std::string(HOST) + " NOTICE * :Password NEEDED\n";
         clwait->setPasswordUsedToConnect("");
     }
@@ -29,7 +29,7 @@ std::string    execNick(const CmdController& controller, const std::string& nick
         {
             if (reply.size() > 0)
                 controller.getCurrentMsg().getStream().send(reply, reply.length());
-            controller.getServer().removeClientWaitList(clwait);
+            controller.getServer().removeClientWaitlist(clwait);
         } 
         reply = "";
     }
@@ -55,8 +55,8 @@ std::string    nick(const CmdController& controller)
     if (server->isNickInUse(nickname))
     {
         TcpStream *stream = controller.getCurrentMsg().getStreamPtr();
-        Client *clwait = controller.getServer().getClientWaitListByStream(stream);
-        controller.getServer().removeClientWaitList(clwait);
+        Client *clwait = controller.getServer().getClientWaitlistByStream(stream);
+        controller.getServer().removeClientWaitlist(clwait);
         return std::string(ERR_NICKNAMEINUSE(nickname));
     }
     return execNick(controller, nickname);

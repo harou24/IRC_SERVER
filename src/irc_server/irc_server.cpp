@@ -19,6 +19,27 @@ IrcServer::~IrcServer()
     channels_.clear();
 }
 
+void    IrcServer::WaitlistCheck()
+{
+    std::string error = "Error: closing connection because of registration timeout: 120seconds\n";
+    unsigned int t = (unsigned)time(NULL);
+    for (Waitlist::iterator it = clientsWaitlist_.begin(); it != clientsWaitlist_.end();)
+    {
+        Waitlist::iterator tmp = it;
+        ++tmp;
+        if (t - it->second >= 20)
+        {
+           int tmp = it->first->getStream().getSd();
+            it->first->getStream().send(error, error.length());
+            delete it->first;
+            clientsWaitlist_.erase(it);
+            server_->removeClient(tmp);
+        }
+        it = tmp;
+    }
+}
+
+
 void  IrcServer::sendPing()
 {
     unsigned int t = (unsigned)time(NULL);
@@ -66,8 +87,8 @@ void    IrcServer::start()
                     removeClient(cl, std::string(RPL_QUIT(cl, ":connection lost")));
                 else
                 {
-                    Client *cl = getClientWaitListByStream(msg->getStreamPtr());
-                    removeClientWaitList(cl);
+                    Client *cl = getClientWaitlistByStream(msg->getStreamPtr());
+                    removeClientWaitlist(cl);
                     server_->removeClient(msg->getStream().getSd());
                 }
             }
@@ -75,13 +96,14 @@ void    IrcServer::start()
                 break;
         }
         sendPing();
+        WaitlistCheck();
     }
 }
 
 bool IrcServer::isNickInUse(const std::string &nickname)
 {
     std::vector<Client *>::const_iterator it = clients_.begin();
-    std::vector<Client *>::const_iterator itWait = clientsWaitList_.begin();
+    Waitlist::const_iterator itWait = clientsWaitlist_.begin();
 
     while (it != clients_.end())
     {
@@ -89,9 +111,9 @@ bool IrcServer::isNickInUse(const std::string &nickname)
             return true;
         it++;
     }
-    while (itWait != clientsWaitList_.end())
+    while (itWait != clientsWaitlist_.end())
     {
-        if ((*itWait)->getNick() == nickname)
+        if (itWait->first->getNick() == nickname)
             return true;
         itWait++;
     }
@@ -122,13 +144,13 @@ Client* IrcServer::getClientByStream(TcpStream *stream) const
     return NULL;
 }
 
-Client* IrcServer::getClientWaitListByStream(TcpStream *stream) const
+Client* IrcServer::getClientWaitlistByStream(TcpStream *stream) const
 {
-    std::vector<Client *>::const_iterator it = clientsWaitList_.begin();
-    while (it != clientsWaitList_.end())
+    Waitlist::const_iterator it = clientsWaitlist_.begin();
+    while (it != clientsWaitlist_.end())
     {
-        if ((*it)->getStream() == *stream)
-            return *it;
+        if (it->first->getStream() == *stream)
+            return it->first;
         it++;
     }
     return NULL;
@@ -140,9 +162,9 @@ void    IrcServer::addClient(Client *cl)
 }
 
 
-void    IrcServer::addClientToWaitList(Client* cl)
+void    IrcServer::addClientToWaitlist(Client* cl)
 {
-    clientsWaitList_.push_back(cl);
+    clientsWaitlist_.insert(std::make_pair(cl, (unsigned)time(NULL)));
 }
 
 
@@ -178,30 +200,30 @@ void    IrcServer::removeStream(TcpStream *stream)
     server_->removeClient(stream->getSd());
 }
 
-void    IrcServer::removeClientWaitList(Client* cl)
+void    IrcServer::removeClientWaitlist(Client* cl)
 {
-    std::vector<Client *>::iterator it = clientsWaitList_.begin();
-    while (it != clientsWaitList_.end())
+    Waitlist::iterator it = clientsWaitlist_.begin();
+    while (it != clientsWaitlist_.end())
     {
-        if (*it == cl)
+        if (it->first == cl)
             break;
         it++;
     }
-    if (it != clientsWaitList_.end())
+    if (it != clientsWaitlist_.end())
     {
-        delete *it;
-        clientsWaitList_.erase(it);
+        delete it->first;
+        clientsWaitlist_.erase(it);
     }
 }
 
 void    IrcServer::ConnectClient(Client* cl)
 {
-    std::vector<Client *>::iterator it = clientsWaitList_.begin();
-    while (it != clientsWaitList_.end())
+   Waitlist::iterator it = clientsWaitlist_.begin();
+    while (it != clientsWaitlist_.end())
     {
-        if (*it == cl)
+        if (it->first == cl)
         {
-            clientsWaitList_.erase(it);
+            clientsWaitlist_.erase(it);
             addClient(cl);
             break;
         }    

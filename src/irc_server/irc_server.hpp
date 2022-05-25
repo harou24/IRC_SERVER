@@ -13,6 +13,8 @@ class Channel;
 
 class IrcServer {
 
+    typedef std::set<std::pair<Client *, unsigned int> >    Waitlist;
+
     public:
         IrcServer(int port, std::string password, std::string host);
         ~IrcServer();
@@ -22,13 +24,13 @@ class IrcServer {
 
         bool                                isNickInUse(const std::string &nickname);
         Client*                             getClientByStream(TcpStream *stream) const;
-        Client*                             getClientWaitListByStream(TcpStream *stream) const;
+        Client*                             getClientWaitlistByStream(TcpStream *stream) const;
         Client*                             getClientByName(std::string name) const;
 
         void                                addClient(Client* cl);
-        void                                addClientToWaitList(Client* cl);
+        void                                addClientToWaitlist(Client* cl);
         void                                ConnectClient(Client* cl);
-        void                                removeClientWaitList(Client* cl);
+        void                                removeClientWaitlist(Client* cl);
         void                                removeClient(Client* cl, std::string reply);
         void                                removeStream(TcpStream *stream);
 
@@ -44,10 +46,12 @@ class IrcServer {
         void                                disconnect(int fd);
 
         void                                sendPing();
+        void                                WaitlistCheck();
         
     private:
         Server*                         server_;
-        std::vector<Client *>           clientsWaitList_;
+        Waitlist                        clientsWaitlist_;
+        // std::vector<Client *>           clientsWaitlist_;
         std::vector<Client *>           clients_;
         std::map<std::string, Channel*> channels_;
     

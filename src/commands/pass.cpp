@@ -8,7 +8,7 @@ std::string    pass(const CmdController& controller)
 
     Client *cl = new Client("UNKNOWN", stream);
     cl->setPasswordUsedToConnect(password);
-    controller.getServer().addClientToWaitList(cl);
+    controller.getServer().addClientToWaitlist(cl);
     if (!controller.getServer().isPasswordOk(password))
     {
         reply = ":" + std::string(HOST) + " NOTICE * :Password incorrect\n";
