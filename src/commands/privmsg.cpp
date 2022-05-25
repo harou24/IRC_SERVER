@@ -12,7 +12,6 @@ static std::string userPrivmsg(const CmdController& controller, Client &sender, 
 
 static std::string channelPrivmsg(const CmdController& controller, std::string channel_name, Client &sender)
 {
-    std::cout << "PRIV CHAN MSG\n";
     std::string msg = controller.getParser().getArgument().arg2;
     Channel *channel = &controller.getServer().getChannel(channel_name);
     if (channel->getMode().isBan(sender.getNick()))
@@ -26,6 +25,7 @@ static std::string channelPrivmsg(const CmdController& controller, std::string c
 
 std::string    privmsg(const CmdController& controller)
 {
+    print("DEBUG", "PRIVMSG");
     std::string receiver_name = controller.getParser().getArgument().arg1;
     Client *sender = controller.getServer().getClientByStream(controller.getCurrentMsg().getStreamPtr());
     Client *receiver = controller.getServer().getClientByName(receiver_name);

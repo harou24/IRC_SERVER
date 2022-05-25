@@ -23,7 +23,7 @@ void            SetupSignals()
 
 int         main()
 {
-    Server      s(8080, "lalala");
+    Server      s(8080, "lalala", HOST);
 
     SetupSignals();
     s.init();

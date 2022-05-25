@@ -4,10 +4,12 @@
 
 # define MAXclients_ 5
 
-Server::Server(int port, std::string password) : acceptor_(port, HOST), clients_ss_(), nbrClients_(0)
+Server::Server(int port, std::string password, std::string host) : acceptor_(port, host), clients_ss_(), nbrClients_(0)
 {
     isRunning_ = false;
     password_ = password;
+    #undef HOST
+    #define HOST host
 }
 
 Server::~Server()
@@ -102,6 +104,7 @@ void            Server::addClient()
     TcpStream *newStream = acceptor_.accept();
     MultiClientHandler::addFdToSet(newStream->getSd());
     clients_ss_.insert(std::make_pair(newStream->getSd(), newStream));
+    std::cout << YELLOW << "New client with fd: " << newStream->getSd() << RESET << std::endl;
     nbrClients_++;
 }
 
@@ -110,6 +113,7 @@ void            Server::removeClient(int fd)
     disconnect(fd);
     delete clients_ss_.at(fd);
     clients_ss_.erase(fd);
+    std::cout << YELLOW << "Removing client with fd: " << fd << RESET << std::endl;
     nbrClients_--;
 }
 
@@ -136,20 +140,33 @@ TcpStream*      Server::getStreamFromFd(int fd)
 void            Server::handleData(int fd)
 {
     std::string data = receiveData(fd);
-    std::queue<std::string> splited = split(data);
-    if (!splited.empty())
+    if (data.length() == 0)
+        queue_.push(new Message("EXIT", getStreamFromFd(fd)));
+    else if (data[data.length() - 1] != '\n')
     {
-        while (!splited.empty())
-        {
-            std::string cmd = splited.front();
-            queue_.push(new Message(cmd, getStreamFromFd(fd)));
-            splited.pop();
-        }
+        getStreamFromFd(fd)->addToBuffer(data);
         getStreamFromFd(fd)->setTimeStamp((unsigned)time(NULL));
     }
     else
-        queue_.push(new Message("EXIT", getStreamFromFd(fd)));
-        // removeClient(fd);
+    {
+        if (data[data.length() - 1] == '\n')
+        {
+            data = getStreamFromFd(fd)->getBuffer() + data;
+            getStreamFromFd(fd)->emptyBuffer();
+        }
+        std::queue<std::string> splited = split(data);
+        if (!splited.empty())
+        {
+            while (!splited.empty())
+            {
+                std::string cmd = splited.front();
+                queue_.push(new Message(cmd, getStreamFromFd(fd)));
+                splited.pop();
+            }
+            getStreamFromFd(fd)->setTimeStamp((unsigned)time(NULL));
+        }
+        getStreamFromFd(fd)->setTimeStamp((unsigned)time(NULL));
+    }
 }
 
 void            Server::sendData(int fd, char *buffer, size_t len)

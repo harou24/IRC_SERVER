@@ -7,7 +7,7 @@
 
 #include <assert.h>
 
-IrcServer g_server(8080, "");
+IrcServer g_server(8080, "", HOST);
 ConnectableClient g_client(8080, std::string(HOST));
 
 void serverJob()
@@ -20,7 +20,7 @@ void clientJob()
     assert(g_server.isRunning());
     g_client.connect("Test");
 
-    g_client.send("CAP LS\nNICK Test\nUSER usr usr usr :usr");
+    g_client.send("CAP LS\nNICK Test\nUSER usr usr usr :usr\n");
     sleep(1);
     std::string response = g_client.receive();
     assert(!response.empty());

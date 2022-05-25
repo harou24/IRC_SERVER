@@ -11,6 +11,7 @@ TcpStream::TcpStream(int sd, struct sockaddr_in* address)
     sd_ = sd; 
     timeStamp_ = (unsigned)time(NULL);
     ping_ = "";
+    buffer_ = "";
     fcntl(sd_, F_SETFL, O_NONBLOCK);
 }
 
@@ -21,6 +22,7 @@ TcpStream::TcpStream(const TcpStream& src)
     sd_ = src.sd_;
     timeStamp_ = src.timeStamp_;
     ping_ = src.ping_;
+    buffer_ = src.buffer_;
     fcntl(sd_, F_SETFL, O_NONBLOCK);
 }
 
@@ -31,6 +33,7 @@ TcpStream&      TcpStream::operator=(const TcpStream& src)
     sd_ = src.sd_;
     timeStamp_ = src.getTimeStamp();
     ping_ = src.ping_;
+    buffer_ = src.buffer_;
     return *this;
 }
 
@@ -59,9 +62,15 @@ unsigned int    TcpStream::getTimeStamp() const {return timeStamp_;}
 
 std::string     TcpStream::getPing() const {return ping_;}
 
+std::string     TcpStream::getBuffer() const {return buffer_;}
+
 void            TcpStream::setTimeStamp(unsigned int time) {timeStamp_ = time;}
 
 void            TcpStream::setPing(std::string str) {ping_ = str;}
+
+void            TcpStream::addToBuffer(std::string str) {buffer_ += str;}
+
+void            TcpStream::emptyBuffer() {buffer_ = "";}
 
 std::ostream&       operator<<(std::ostream& o , TcpStream const & src)
 {
@@ -70,13 +79,14 @@ std::ostream&       operator<<(std::ostream& o , TcpStream const & src)
     o << "FD = " << src.getSd();
     o << "TimeStamp = " << src.getTimeStamp();
     o << "PING = " << src.getPing();
+    o << "BUFFEr= " << src.getBuffer();
 
     return o;
 }
 
 bool    TcpStream::operator==(TcpStream& rhs)
 {
-    if (rhs.sd_ == this->sd_ && rhs.peerPort_ == this->peerPort_ && rhs.peerIP_ == this->peerIP_ && rhs.timeStamp_ == this->timeStamp_ && rhs.ping_ == this->ping_)
+    if (rhs.sd_ == this->sd_ && rhs.peerPort_ == this->peerPort_ && rhs.peerIP_ == this->peerIP_ && rhs.timeStamp_ == this->timeStamp_ && rhs.ping_ == this->ping_ && rhs.buffer_ == this->buffer_)
         return true;
     return false;
 }

@@ -2,19 +2,16 @@
 #include "cmd_controller.hpp"
 #include "print.hpp"
 
-IrcServer::IrcServer(int port, std::string password)
+IrcServer::IrcServer(int port, std::string password, std::string host)
 {
-    std::cout << "CALL CONSTRUCTOR...\n";
-    server_ = new Server(port, password);
+    server_ = new Server(port, password, host);
 }
 
 IrcServer::~IrcServer()
 {
+    print("DEBUG", "IrcServer Destructor");
     for(std::vector<Client *>::iterator it = clients_.begin(); it != clients_.end(); it++)
-    {
-        std::cout << "REMOVING->" << *it << "\n";
         delete *it;
-    }
     clients_.clear();
 
     for (std::map<std::string, Channel*>::iterator it = channels_.begin(); it != channels_.end(); it++)
@@ -60,7 +57,6 @@ void    IrcServer::start()
                     print("DEBUG", "incoming msg - " + msg->getData());
                 #endif
                 cmd.execute(msg);
-                std::cout << "AFTER EXEC\n";
                 delete(msg);
             }
             else if (msg->getData() == "EXIT")
@@ -76,11 +72,7 @@ void    IrcServer::start()
                 }
             }
             else
-            {
-                std::cout << "BREAKING...\n";
                 break;
-            }
-            std::cout << "msg\n";
         }
         sendPing();
     }
@@ -256,8 +248,8 @@ Channel&    IrcServer::getChannel(std::string channel)
 
 void IrcServer::stop(void)
 {
-    std::cout << "Stopping server...\n";
-     server_->stop();
+    print("DEBUG", "Stopping server");
+    server_->stop();
 }
 
 bool IrcServer::isRunning(void) const { return server_->isRunning(); }

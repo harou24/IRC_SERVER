@@ -57,7 +57,7 @@ void CmdController::execute(Message *m)
 
     if (!reply.empty())
     {
-        std::cout << "REPLY------------------------>" << reply << "\n";
+        print("DEBUG", reply);
         m->getStream().send(reply, reply.length());
     }
 }

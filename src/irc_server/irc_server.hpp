@@ -14,7 +14,7 @@ class Channel;
 class IrcServer {
 
     public:
-        IrcServer(int port, std::string password);
+        IrcServer(int port, std::string password, std::string host);
         ~IrcServer();
 
         void                                start(void);

@@ -12,7 +12,7 @@ std::string    pass(const CmdController& controller)
     if (!controller.getServer().isPasswordOk(password))
     {
         reply = ":" + std::string(HOST) + " NOTICE * :Password incorrect\n";
-        std::cout << "---------PASSS INCORRECT-------------\n";
+        print("DEBUG", reply);
     }
     return reply;
 }

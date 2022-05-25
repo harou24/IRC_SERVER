@@ -10,7 +10,6 @@ static std::string userNotice(const CmdController& controller, Client &sender, C
 
 static std::string channelNotice(const CmdController& controller, std::string channel_name, Client &sender)
 {
-    std::cout << "NOTICE CHAN MSG\n";
     std::string msg = controller.getParser().getArgument().arg2;
     Channel *channel = &controller.getServer().getChannel(channel_name);
     if (channel->getMode().getModus() & (1<<3) && !channel->isInChannel(sender.getNick()))
@@ -22,6 +21,7 @@ static std::string channelNotice(const CmdController& controller, std::string ch
 
 std::string    notice(const CmdController& controller)
 {
+    print("DEBUG", "NOTICE");
     std::string receiver_name = controller.getParser().getArgument().arg1;
     Client *sender = controller.getServer().getClientByStream(controller.getCurrentMsg().getStreamPtr());
     Client *receiver = controller.getServer().getClientByName(receiver_name);

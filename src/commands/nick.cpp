@@ -16,7 +16,7 @@ std::string    execNick(const CmdController& controller, const std::string& nick
     if (!cl && !clwait)
     {
         //create client
-        std::cout << "CREATING CLIENT GO\n";
+        print("DEBUG", "CREATING CLIENT GO");
         clwait = new Client("UNKNOWN", stream);
         controller.getServer().addClientToWaitList(clwait);
         reply = ":" + std::string(HOST) + " NOTICE * :Password NEEDED\n";

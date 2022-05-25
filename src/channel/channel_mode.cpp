@@ -31,7 +31,6 @@ void    ChannelMode::setChan(std::string name)
 
 bool    ChannelMode::Invite() const
 {
-    std::cout << opper_ << std::endl;
     return (opper_ & (1<<1));
 }
 
@@ -80,6 +79,8 @@ void    ChannelMode::seton(char c, std::istringstream& ss, Client& cl, std::stri
                     else
                         arg->arg4 += " " + word;
                 }
+                else
+                    erasechar(*arg, 'o');
             }
             else
                 reply = std::string(ERR_HELPOPERATOR(cl.getNick(), channel_));
@@ -154,6 +155,8 @@ void    ChannelMode::setoff(char c, std::istringstream& ss, Client& cl, std::str
                     else
                         arg->arg4 += " " + word;
                 }
+                else
+                    erasechar(*arg, 'o');
             }
             else
                 reply = std::string(ERR_HELPOPERATOR(cl.getNick(), channel_));

@@ -10,7 +10,7 @@
 #include <thread>
 
 
-Server serv(8080, "");
+Server serv(8080, "", HOST);
 
 std::string msgToSend("");
 TcpConnector* connector;
