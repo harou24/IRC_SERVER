@@ -27,7 +27,7 @@ void    IrcServer::WaitlistCheck()
     {
         Waitlist::iterator tmp = it;
         ++tmp;
-        if (t - it->second >= 20)
+        if (t - it->second >= TIMEOUT)
         {
            int tmp = it->first->getStream().getSd();
             it->first->getStream().send(error, error.length());
@@ -45,7 +45,7 @@ void  IrcServer::sendPing()
     unsigned int t = (unsigned)time(NULL);
     for (size_t i = 0; i < clients_.size(); i++)
     {
-        if (t - clients_[i]->getStream().getTimeStamp() >= 20 && clients_[i]->getStream().getPing().empty())
+        if (t - clients_[i]->getStream().getTimeStamp() >= TIMEOUT && clients_[i]->getStream().getPing().empty())
         {
             std::string ping = generateRandom(rand() % 10 + 5);
             std::string ping_reply = "PING :" + ping + "\n";
@@ -53,7 +53,7 @@ void  IrcServer::sendPing()
             clients_[i]->getStream().setTimeStamp(t);
             clients_[i]->getStream().setPing(ping);
         }
-        else if (t - clients_[i]->getStream().getTimeStamp() >= 20)
+        else if (t - clients_[i]->getStream().getTimeStamp() >= TIMEOUT)
         {
             std::string error = "Error: closing connection because of ping timeout: 120seconds\n";
             clients_[i]->getStream().send(error, error.length());

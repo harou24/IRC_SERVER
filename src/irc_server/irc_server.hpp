@@ -8,6 +8,8 @@
 # include "channel.hpp"
 # include <cctype>
 
+# define TIMEOUT 120
+
 class Client;
 class Channel;
 
