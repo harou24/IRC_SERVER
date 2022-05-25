@@ -8,6 +8,17 @@ static std::string to_string(const T & value)
     return oss.str();
 }
 
+std::string change_semicollum(std::string reply)
+{
+    reply.erase(reply.begin() + reply.rfind(':'));
+    
+    int i = reply.length() - 2;
+    while (i != 0 && !isspace(reply[i]))
+      --i;
+    reply = reply.insert(i+1, ":");
+    return reply;
+}
+
 static bool ValidFlags(std::string str)
 {
     for (std::string::iterator p = str.begin(); str.end() != p; p++)
@@ -38,7 +49,11 @@ static std::string  ChannelMode(const CmdController& controller)
     {
         channel->getMode().setMode(controller, *cl, reply);
         if (reply == "" && ValidFlags(controller.getParser().getArgument().arg2))
+        {
             reply = RPL_UMODEIS(cl, controller.getParser().getArgument());
+            if (!controller.getParser().getArgument().arg4.empty())
+                reply = change_semicollum(reply);
+        }
         if (!(arg.arg2 == "+b" && arg.arg3 == ""))
         {
             if (arg.arg2 == "+b")
