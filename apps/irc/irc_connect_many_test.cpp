@@ -66,6 +66,7 @@ void connectClients(void)
         client6.send("CAP LS\nNICK user6\nUSER user6 user6 user6 :user6\n");
         sleep(1);
         response = client6.receive();
+        std::cout << response << std::endl;
         assert(!response.empty());
 }
 
