@@ -45,13 +45,6 @@ void            Server::runOnce()
             try{
                 if (MultiClientHandler::isFdReadyToCommunicate(fd))
                 {
-
-                    if (isClientConnecting(fd) && nbrClients_ == MAXclients_)
-                    {
-                        disconnect(fd);
-                        continue;
-
-                    }
                     if (isClientConnecting(fd))
                         addClient();
                     else
@@ -96,12 +89,13 @@ Message& Server::getNextMsg(void)
 
 void            Server::addClient()
 {
+    TcpStream *newStream = acceptor_.accept();
     if (nbrClients_ == MAXclients_)
     {
-        print("ERROR", "no space left for another client....");
+        print("ERROR", "no space left for another client");
+        disconnect(newStream->getSd());
         return;
     }
-    TcpStream *newStream = acceptor_.accept();
     MultiClientHandler::addFdToSet(newStream->getSd());
     clients_ss_.insert(std::make_pair(newStream->getSd(), newStream));
     std::cout << YELLOW << "New client with fd: " << newStream->getSd() << RESET << std::endl;
