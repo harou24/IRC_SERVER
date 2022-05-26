@@ -1,9 +1,5 @@
 #include "server.hpp"
 
-#include <sstream>
-
-# define MAXclients_ 5
-
 Server::Server(int port, std::string password, std::string host) : acceptor_(port, host), clients_ss_(), nbrClients_(0)
 {
     isRunning_ = false;
@@ -45,13 +41,6 @@ void            Server::runOnce()
             try{
                 if (MultiClientHandler::isFdReadyToCommunicate(fd))
                 {
-
-                    if (isClientConnecting(fd) && nbrClients_ == MAXclients_)
-                    {
-                        disconnect(fd);
-                        continue;
-
-                    }
                     if (isClientConnecting(fd))
                         addClient();
                     else
@@ -96,12 +85,16 @@ Message& Server::getNextMsg(void)
 
 void            Server::addClient()
 {
+    TcpStream *newStream = acceptor_.accept();
     if (nbrClients_ == MAXclients_)
     {
-        print("ERROR", "no space left for another client....");
+        std::string nospace = "no space left for another client";
+        print("INFO", nospace);
+        newStream->send(nospace, nospace.length());
+        close(newStream->getSd());
+        delete newStream;
         return;
     }
-    TcpStream *newStream = acceptor_.accept();
     MultiClientHandler::addFdToSet(newStream->getSd());
     clients_ss_.insert(std::make_pair(newStream->getSd(), newStream));
     std::cout << YELLOW << "New client with fd: " << newStream->getSd() << RESET << std::endl;

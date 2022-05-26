@@ -14,9 +14,10 @@
 # include <cstdlib>
 # include <queue>
 # include <cerrno>
+# include <sstream>
 
 # define HOST "127.0.0.1"
-# define FD_CORRECTION 4
+# define MAXclients_ 5
 
 class Server : public MultiClientHandler
 {

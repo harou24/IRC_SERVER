@@ -53,7 +53,6 @@ class IrcServer {
     private:
         Server*                         server_;
         Waitlist                        clientsWaitlist_;
-        // std::vector<Client *>           clientsWaitlist_;
         std::vector<Client *>           clients_;
         std::map<std::string, Channel*> channels_;
     
