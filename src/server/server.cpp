@@ -1,9 +1,5 @@
 #include "server.hpp"
 
-#include <sstream>
-
-# define MAXclients_ 5
-
 Server::Server(int port, std::string password, std::string host) : acceptor_(port, host), clients_ss_(), nbrClients_(0)
 {
     isRunning_ = false;
