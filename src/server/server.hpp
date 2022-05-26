@@ -16,7 +16,6 @@
 # include <cerrno>
 
 # define HOST "127.0.0.1"
-# define FD_CORRECTION 4
 
 class Server : public MultiClientHandler
 {

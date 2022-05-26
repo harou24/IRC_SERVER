@@ -92,7 +92,9 @@ void            Server::addClient()
     TcpStream *newStream = acceptor_.accept();
     if (nbrClients_ == MAXclients_)
     {
-        print("ERROR", "no space left for another client");
+        std::string nospace = "no space left for another client";
+        print("INFO", nospace);
+        newStream->send(nospace, nospace.length());
         disconnect(newStream->getSd());
         return;
     }
