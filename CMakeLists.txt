@@ -5,6 +5,7 @@ cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
 project(ft_irc LANGUAGES CXX)
 
 option(TEST "TEST" OFF)
+option(DEBUG "DEBUG" OFF)
 
 # require C++ 98
 if(TEST)
@@ -16,7 +17,12 @@ endif()
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -g -fsanitize=address")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
+
+if(DEBUG)
+    message("DEBUG mode activated")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fsanitize=address")
+endif()
 
 # include header files
 include_directories(include)
