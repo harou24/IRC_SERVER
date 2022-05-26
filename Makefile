@@ -28,8 +28,9 @@ test:
 			
 debug:
 			@mkdir -p build
-			@cmake -S . -B build -DDEBUG=ON
+			@cmake -S . -B build -DTEST=ON -DDEBUG=ON
 			@cmake --build build
+			@ctest --output-on-failure --test-dir build 
 
 func:
 			@mkdir -p build
