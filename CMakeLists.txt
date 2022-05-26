@@ -6,17 +6,18 @@ project(ft_irc LANGUAGES CXX)
 
 option(TEST "TEST" OFF)
 
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
+
 # require C++ 98
 if(TEST)
     set(CMAKE_CXX_STANDARD 11)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fsanitize=address")
     message("TEST ENABLED c++ version is 11")
 else()
     set(CMAKE_CXX_STANDARD 98)
 endif()
-
-set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -g -fsanitize=address")
 
 # include header files
 include_directories(include)
