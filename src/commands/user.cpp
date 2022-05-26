@@ -4,7 +4,7 @@ std::string    user(const CmdController& controller)
 {
     std::string reply = "";
     TcpStream *stream = controller.getCurrentMsg().getStreamPtr();
-    Client *cl = controller.getServer().getClientWaitListByStream(stream);
+    Client *cl = controller.getServer().getClientWaitlistByStream(stream);
 
     if (cl)
     {
