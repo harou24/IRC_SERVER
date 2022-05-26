@@ -91,7 +91,8 @@ void            Server::addClient()
         std::string nospace = "no space left for another client";
         print("INFO", nospace);
         newStream->send(nospace, nospace.length());
-        disconnect(newStream->getSd());
+        close(newStream->getSd());
+        delete newStream;
         return;
     }
     MultiClientHandler::addFdToSet(newStream->getSd());
