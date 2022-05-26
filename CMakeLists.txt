@@ -20,7 +20,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -g -fsanitize=addr
 
 # include header files
 include_directories(include)
-include_directories(src/utils/Table)
 
 include_directories(src/tcp)
 include_directories(src/server)
@@ -37,9 +36,7 @@ include_directories(src/channel)
 
 
 # example library
-add_library(ft_irc src/utils/Table/Row.cpp
-                    src/utils/Table/Table.cpp
-                    src/tcp/tcp_acceptor.cpp
+add_library(ft_irc src/tcp/tcp_acceptor.cpp
                     src/tcp/tcp_connector.cpp
                     src/tcp/tcp_stream.cpp
                     src/multi_client_handler/multi_client_handler.cpp
