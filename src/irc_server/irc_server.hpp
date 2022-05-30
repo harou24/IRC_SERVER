@@ -1,11 +1,11 @@
 #ifndef IRC_SERVER_HPP
 # define IRC_SERVER_HPP
 
-# include <vector>
 # include <set>
 
 # include "server.hpp"
 # include "channel.hpp"
+
 # include <cctype>
 
 # define TIMEOUT 120
@@ -53,11 +53,10 @@ class IrcServer {
     private:
         Server*                         server_;
         Waitlist                        clientsWaitlist_;
-        std::vector<Client *>           clients_;
+        std::set<Client *>              clients_;
         std::map<std::string, Channel*> channels_;
     
         IrcServer();
 };
 
 #endif
-

@@ -10,7 +10,7 @@ IrcServer::IrcServer(int port, std::string password, std::string host)
 IrcServer::~IrcServer()
 {
     print("DEBUG", "IrcServer Destructor");
-    for(std::vector<Client *>::iterator it = clients_.begin(); it != clients_.end(); it++)
+    for(std::set<Client *>::iterator it = clients_.begin(); it != clients_.end(); it++)
         delete *it;
     clients_.clear();
 
@@ -42,21 +42,21 @@ void    IrcServer::WaitlistCheck()
 void  IrcServer::sendPing()
 {
     unsigned int t = (unsigned)time(NULL);
-    for (size_t i = 0; i < clients_.size(); i++)
+    for(std::set<Client *>::iterator it = clients_.begin(); it != clients_.end(); it++)
     {
-        if (t - clients_[i]->getStream().getTimeStamp() >= TIMEOUT && clients_[i]->getStream().getPing().empty())
+        if (t - (*it)->getStream().getTimeStamp() >= TIMEOUT && (*it)->getStream().getPing().empty())
         {
             std::string ping = generateRandom(rand() % 10 + 5);
             std::string ping_reply = "PING :" + ping + "\n";
-            clients_[i]->getStream().send(ping_reply, ping_reply.length());
-            clients_[i]->getStream().setTimeStamp(t);
-            clients_[i]->getStream().setPing(ping);
+            (*it)->getStream().send(ping_reply, ping_reply.length());
+            (*it)->getStream().setTimeStamp(t);
+            (*it)->getStream().setPing(ping);
         }
-        else if (t - clients_[i]->getStream().getTimeStamp() >= TIMEOUT)
+        else if (t - (*it)->getStream().getTimeStamp() >= TIMEOUT)
         {
             std::string error = "Error: closing connection because of ping timeout: 120seconds\n";
-            clients_[i]->getStream().send(error, error.length());
-            removeClient(clients_[i], std::string(RPL_QUIT(clients_[i], ":ping timout")));
+            (*it)->getStream().send(error, error.length());
+            removeClient(*it, std::string(RPL_QUIT((*it), ":ping timout")));
         }
     }
 }
@@ -101,7 +101,7 @@ void    IrcServer::start()
 
 bool IrcServer::isNickInUse(const std::string &nickname)
 {
-    std::vector<Client *>::const_iterator it = clients_.begin();
+    std::set<Client *>::const_iterator it = clients_.begin();
     Waitlist::const_iterator itWait = clientsWaitlist_.begin();
 
     while (it != clients_.end())
@@ -121,7 +121,7 @@ bool IrcServer::isNickInUse(const std::string &nickname)
 
 Client* IrcServer::getClientByName(std::string name) const
 {
-    std::vector<Client *>::const_iterator it = clients_.begin();
+    std::set<Client *>::const_iterator it = clients_.begin();
     while (it != clients_.end())
     {
         if ((*it)->getNick() == name)
@@ -133,7 +133,7 @@ Client* IrcServer::getClientByName(std::string name) const
 
 Client* IrcServer::getClientByStream(TcpStream *stream) const
 {
-    std::vector<Client *>::const_iterator it = clients_.begin();
+    std::set<Client *>::const_iterator it = clients_.begin();
     while (it != clients_.end())
     {
         if ((*it)->getStream() == *stream)
@@ -157,7 +157,7 @@ Client* IrcServer::getClientWaitlistByStream(TcpStream *stream) const
 
 void    IrcServer::addClient(Client *cl)
 {
-    clients_.push_back(cl);
+    clients_.insert(cl);
 }
 
 void    IrcServer::addClientToWaitlist(Client* cl)
@@ -177,7 +177,7 @@ void IrcServer::removeClient(Client *cl, std::string reply)
         it = next;
     }
 
-    std::vector<Client *>::iterator it = clients_.begin();
+    std::set<Client *>::iterator it = clients_.begin();
     while (it != clients_.end())
     {
         if (*it == cl)

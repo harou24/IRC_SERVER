@@ -29,8 +29,8 @@ Put all Continuous Integration related stuff here.
 
 ## Unit Tests
 
-[![macOS](https://github.com/harou24/IRC_SERVER/actions/workflows/macos.yml/badge.svg)](https://github.com/harou24/IRC_SERVER/actions/workflows/macos.yml)
-[![ubuntu](https://github.com/harou24/IRC_SERVER/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/harou24/IRC_SERVER/actions/workflows/ubuntu.yml)
+[![macOS](https://github.com/Eutienne/IRC_SERVER/actions/workflows/macos.yml/badge.svg)](https://github.com/Eutienne/IRC_SERVER/actions/workflows/macos.yml)
+[![ubuntu](https://github.com/Eutienne/IRC_SERVER/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/Eutienne/IRC_SERVER/actions/workflows/ubuntu.yml)
 
 
 # Workflow
