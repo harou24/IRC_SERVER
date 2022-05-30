@@ -3,7 +3,6 @@
 
 #define MAX_RECEIVE 2048
 
-
 ConnectableClient::ConnectableClient()
 { 
     port_ = 8080;

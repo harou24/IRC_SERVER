@@ -108,7 +108,6 @@ std::string Channel::getChannelName() const
     return name_;
 }
 
-
 void        Channel::sendMessage(Client& cl, std::string msg)
 {
     for(std::set<Client *>::const_iterator it = clients_.begin(); it != clients_.end(); it++)

@@ -11,12 +11,9 @@ servername_(src.getServer()), realname_(src.getReal()), stream_(src.stream_)
 {
 }
 
-
-
 Client::~Client()
 {
 }
-
 
 void            Client::setNick(const std::string& s) {nickname_ = s;}
 void            Client::setPasswordUsedToConnect(const std::string& s) {passwordUsedToConnect_ = s;}

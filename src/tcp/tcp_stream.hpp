@@ -31,7 +31,6 @@ class TcpStream
         bool    operator==(TcpStream& rhs);
         bool    operator!=(TcpStream& rhs);
 
-
     public:
         TcpStream();
         TcpStream(int sd, struct sockaddr_in* address);

@@ -2,6 +2,7 @@
 # define TCPACCEPTOR_HPP
 
 #include "tcp_stream.hpp"
+
 #include <cstring>
 #include <stdexcept>
 #include <iostream>
@@ -15,7 +16,6 @@ class TcpAcceptor{
         int             init();
         TcpStream*      accept();
         int             getListenSd() const;
-
 
     private:
         TcpAcceptor();

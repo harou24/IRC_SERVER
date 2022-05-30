@@ -39,7 +39,6 @@ void    IrcServer::WaitlistCheck()
     }
 }
 
-
 void  IrcServer::sendPing()
 {
     unsigned int t = (unsigned)time(NULL);
@@ -161,12 +160,10 @@ void    IrcServer::addClient(Client *cl)
     clients_.push_back(cl);
 }
 
-
 void    IrcServer::addClientToWaitlist(Client* cl)
 {
     clientsWaitlist_.insert(std::make_pair(cl, (unsigned)time(NULL)));
 }
-
 
 void IrcServer::removeClient(Client *cl, std::string reply)
 {
@@ -230,7 +227,6 @@ void    IrcServer::ConnectClient(Client* cl)
         it++;
     }
 }
-
 
 bool    IrcServer::isChannel(std::string channel)
 {

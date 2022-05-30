@@ -15,6 +15,7 @@
     2 = t   6 = k
     3 = n   
 */
+
 class Client;
 class Topic;
 class CmdController;
@@ -63,6 +64,5 @@ class ChannelMode
         ban_type            banList_;
         Topic*              topic_;
 };
-
 
 #endif

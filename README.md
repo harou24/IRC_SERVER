@@ -12,7 +12,7 @@ Build the project and run the program :
 ```
 make
 cd build/apps
-./ircserv
+./ircserv <port> <password>
 ```
 Run unitests : 
 ```

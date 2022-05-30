@@ -4,7 +4,6 @@
 #include "parser.hpp"
 #include "tcp_stream.hpp"
 
-
 class Client
 {
     public:
@@ -48,6 +47,5 @@ class Client
 };
 
 std::ostream&   operator << (std::ostream& o, const Client& src);
-
 
 #endif

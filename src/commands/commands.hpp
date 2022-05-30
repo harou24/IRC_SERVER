@@ -33,5 +33,4 @@ std::string    notice(const CmdController& controller);
 
 std::string    generateRandom(const int len);
 
-
 #endif

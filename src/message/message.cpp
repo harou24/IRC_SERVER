@@ -11,4 +11,3 @@ std::string Message::getData() const { return data_; }
 TcpStream&  Message::getStream() const { return *stream_; }
 
 TcpStream*  Message::getStreamPtr() { return stream_; }
-
